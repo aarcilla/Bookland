@@ -1,0 +1,17 @@
+﻿@model string
+@{
+    ViewBag.Title = "Log Out";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>Are you sure you want to log out?</p>
+
+<span style="float: left">
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Yes" />
+    }
+</span>
+
+<a class="actions-link" href="@Model">No</a>

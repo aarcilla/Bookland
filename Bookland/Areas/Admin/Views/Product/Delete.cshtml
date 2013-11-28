@@ -1,0 +1,68 @@
+﻿@model Bookland.Models.Product
+
+@{
+    ViewBag.Title = "Delete Product";
+}
+
+<h2>Delete Product</h2>
+
+@if (TempData["message"] != null) {
+    <div class="message">@TempData["message"]</div>
+}
+
+<h3>Are you sure you want to delete <i>@Model.Name</i>?</h3>
+
+<div class="form-row">
+    @Html.LabelFor(p => p.ProductID)
+    @Html.DisplayFor(p => p.ProductID)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(p => p.Year)
+    @Html.DisplayFor(p => p.Year)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(p => p.Price)
+    @Html.DisplayFor(p => p.Price)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(p => p.Description)
+    @if (!String.IsNullOrWhiteSpace(Model.Description)) {
+        @Html.DisplayFor(p => p.Description)
+    } else {
+        @:N/A
+    }
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(p => p.DateAdded)
+    @Html.DisplayFor(p => p.DateAdded)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(p => p.Category)
+    @if (Model.Category != null) {
+        @Html.DisplayFor(p => p.Category.CategoryName)
+    } else {
+        @:N/A
+    }
+</div>
+@if (!Model.IsImageInformationNullOrEmpty) {
+    string getImage = Url.Action("GetImage", "Home", new { area = "", productID = Model.ProductID});
+    <img src="@getImage" alt="IMG" height="100" />
+}
+<div>
+    <span style="float: left">
+        @using(Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(p => p.ProductID)
+            @Html.HiddenFor(p => p.Name)
+
+            <input type="submit" value="Yes" />
+        }
+    </span>
+    @Html.ActionLink("No", "Index", "Product", null, new { @class = "actions-link" })
+</div>

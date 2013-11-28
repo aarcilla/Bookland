@@ -1,0 +1,67 @@
+﻿@using Bookland.Helpers
+@model Bookland.Areas.Admin.Models.ProductEditorViewModel
+
+@{
+    string action = Model.Action;
+    ViewBag.Title = action + " Product";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm(action, "Product", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    if (action != "Create") {
+        @Html.HiddenFor(p => p.Product.ProductID)
+    }
+    
+    <div class="form-row">
+        @Html.LabelFor(p => p.Product.Name)
+        @Html.TextBoxFor(p => p.Product.Name, new { autofocus = "", @class = "text-box single-line" })
+        @Html.ValidationMessageFor(p => p.Product.Name)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(p => p.Product.Description)
+        @Html.EditorFor(p => p.Product.Description)
+        @Html.ValidationMessageFor(p => p.Product.Description)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(p => p.Product.Year)
+        @Html.EditorFor(p => p.Product.Year)
+        @Html.ValidationMessageFor(p => p.Product.Year)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(p => p.Product.Price)
+        @Html.EditorFor(p => p.Product.Price)
+        @Html.ValidationMessageFor(p => p.Product.Price)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(p => p.Product.Category)
+        @Html.DropDownList("categoryID", Model.CategoryOptions, new { @class = "editor-select" })
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(p => p.Product.ImageData)
+        <table>
+            @if (action != "Create" && !Model.Product.IsImageInformationNullOrEmpty) {
+                string getImage = Url.Action("GetImage", "Home", new { area = "", productID = Model.Product.ProductID });
+                <tr><td>
+                    <img src="@getImage" alt="productImage" height="100" />
+                </td></tr>
+            }
+            <tr><td><input type="file" name="productImage" accept="image/*" /></td></tr>
+        </table>
+    </div>
+    
+    <input type="submit" value="@action" />
+}
+

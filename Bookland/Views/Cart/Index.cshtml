@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Bookland.Models.CartItem>
+
+@{
+    ViewBag.Title = "Cart";
+}
+
+<h2>Your Cart</h2>
+
+@if (Model != null && Model.Count() > 0) {
+    <table>
+        <colgroup>
+            <col span="1" style="width: 15%" />
+            <col span="1" style="width: 55%" />
+            <col span="3" style="width: 10%" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th class="image-col"><!-- Image column --></th>
+                <th class="product-col"><!-- Product column --></th>
+                <th class="quantity-col">Quantity</th>
+                <th class="price-col">Price</th>
+                <th class="actions-col"><!-- Remove item/checkout column --></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model) {
+            <tr>
+                <td class="image-col">
+                    @if (!item.Product.IsImageInformationNullOrEmpty) {
+                        string getImage = Url.Action("GetImage", "Home", new { area = "", productID = item.Product.ProductID });
+                        <img src="@getImage" alt="IMG" height="120" />
+                    } else {
+                        <img src="/Content/Images/placeholder.gif" height="120" />
+                    }
+                </td>
+                <td>
+                    <b>@item.Product.Name</b> <br />
+                    @item.Product.Description <br />
+                    @item.Product.Year
+                </td>
+                <td>
+                    @using(Html.BeginForm("CartItemQuantity", "Cart")) {
+                        @Html.AntiForgeryToken()
+
+                        @Html.Hidden("productID", item.Product.ProductID)
+                        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                        @Html.DropDownList("Quantity", 
+                            new SelectList(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, item.Quantity), 
+                            new { onchange = "submit()" })
+                        <noscript><input type="submit" value="Go" /></noscript>
+                    }
+                </td>   
+                <td>@String.Format("{0:c}", item.Product.Price)</td>
+                <td class="actions-col">
+                    @using(Html.BeginForm("CartItemRemove", "Cart")) {
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("ProductID", item.Product.ProductID)
+                        <input type="submit" value="Remove" />
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td><b>Total:</b></td>
+                <td>@String.Format("{0:c}", Model.Sum(i => i.Product.Price * i.Quantity))</td>
+                <td class="actions-col">
+                    @using (Html.BeginForm("ClearCart", "Cart", FormMethod.Post)) {
+                        @Html.AntiForgeryToken()
+                        <input type="submit" value="Clear" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td class="actions-col"><input type="submit" value="Checkout" /></td></tr>
+        </tfoot>
+    </table>
+} else {
+    <p>There is nothing in your cart.</p>
+}

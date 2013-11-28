@@ -1,0 +1,18 @@
+﻿@model Bookland.Models.Product
+
+@if (!Model.IsImageInformationNullOrEmpty) {
+    <img src="@Url.Action("GetImage", "Home", new { productID = Model.ProductID })" height="200" title="@Model.Description" alt="@Model.ProductID"/>
+    <br />
+} else {
+    <img src="/Content/Images/placeholder.gif" height="200" title="@Model.Description" alt="@Model.ProductID"/> <br />
+}
+<b>@Model.Name</b> <br />
+@String.Format("{0:c}", Model.Price) <br />
+@using(Html.BeginForm("CartItemAdd", "Cart")) {
+    @Html.AntiForgeryToken()
+    
+    @Html.HiddenFor(m => m.ProductID)
+    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+
+    <input type="submit" value="Add to cart" />
+}

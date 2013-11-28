@@ -1,0 +1,101 @@
+﻿@using Bookland.Helpers
+@model Bookland.Data_Structures.TreeNode<Bookland.Models.Category>
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<script type="text/javascript">
+    $(function () {
+        // Click event handler intended for the toggling of hiding and showing a 
+        // specific category's children categories
+        $("a.category-link").on("click", function (event) {
+            var categoryLink = $(event.target);
+            var children = categoryLink.parent().siblings(".children");
+
+            if (children.css("display") === "none") {
+                categoryLink.text("[-]");
+                children.slideDown("fast");
+            } else {
+                categoryLink.text("[+]");
+                children.slideUp("fast");
+            }
+
+            event.preventDefault();
+        });
+
+        // Click event handler that captures clicks on a category to update the
+        // user-selected category, which also reveals that category's action (e.g. Update) links
+        $("div.parent").on("click", function (event) {
+            var selectedParent = $(event.target);
+            var selectedParentActions = selectedParent.children("a.actions-link");
+            var prevSelectedParent = $(".selected-category");
+            var prevSelectedParentActions = prevSelectedParent.children("a.actions-link");
+
+            if (selectedParentActions.css("display") === "none") {
+                prevSelectedParentActions.hide();
+                prevSelectedParent.removeClass("selected-category");
+
+                selectedParent.addClass("selected-category");
+                selectedParentActions.show();
+            }
+        });
+    });
+</script>
+
+<noscript>
+    <!-- If JavaScript is disabled, allow displaying of category actions with CSS -->
+    <style>
+        /* When user's cursor hovers over a category, display editing options */
+        div.parent:hover a.actions-link {
+            display: inline-block;
+        }
+    </style>
+</noscript>
+
+<h2>Categories</h2>
+
+@if (TempData["message"] != null) {
+    <div class="message">@TempData["message"]</div>
+}
+
+@Html.ActionLink("Create", "Create", "Category", null, new { @class = "actions-link create" })
+
+@if (Model != null) {
+    <p>Click on a category to reveal its editing options.</p>
+    @Html.DisplayCategoryTree(Model, true)
+} else {
+    <p>There are no categories.</p>
+}
+
+@*
+@{
+    ViewBag.Title = "Categories";
+    AjaxOptions ajaxOpts = new AjaxOptions
+    {
+        Url = Url.Action("GetChildCategoriesJson"),
+        OnSuccess = "processChildData"
+    };
+}
+@if (Model.Categories != null && Model.Categories.Count() > 0) {
+    foreach (var category in Model.Categories) {
+        if (category.CategoryLevel > 0) {
+            string marginLevel = String.Format("{0}em", category.CategoryLevel - 1);
+        <div class="category" id="@category.CategoryID" style="margin-left: @marginLevel">
+            <span class="category-link">
+                @if (category.ChildCategories != null && category.ChildCategories.Count() > 0)
+                {
+                    @Ajax.ActionLink("+", "Update", "Category", new { categoryID = category.CategoryID },
+                        new AjaxOptions {
+                            Url = Url.Action("GetChildCategoriesJson", new { categoryID = category.CategoryID }),
+                            OnSuccess = "processChildData"
+                        })
+                }
+            </span>
+            @category.CategoryName
+        </div>
+        }
+    }
+} else {
+    @: There are no categories.
+}*@

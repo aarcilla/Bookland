@@ -1,0 +1,92 @@
+﻿@model Bookland.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<h2>@ViewBag.Title</h2>
+<p>Create a new account.</p>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-row">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName, new { autofocus = "", @class = "text-box single-line" })
+        @Html.ValidationMessageFor(m => m.UserName)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(m => m.Password)
+        @Html.EditorFor(m => m.Password)
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(m => m.ConfirmPassword)
+        @Html.EditorFor(m => m.ConfirmPassword)
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(m => m.Email)
+        @Html.EditorFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(m => m.FirstName)
+        @Html.EditorFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(m => m.LastName)
+        @Html.EditorFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    
+    <h3>Address</h3>
+        
+    <div class="form-row">
+        @Html.LabelFor(m => m.StreetLine1)
+        @Html.EditorFor(m => m.StreetLine1)
+        @Html.ValidationMessageFor(m => m.StreetLine1)
+    </div>
+
+    <div class="form-row">
+        @Html.LabelFor(m => m.StreetLine2)
+        @Html.EditorFor(m => m.StreetLine2)
+        @Html.ValidationMessageFor(m => m.StreetLine2)
+    </div>
+
+    <div class="form-row">
+        @Html.LabelFor(m => m.City)
+        @Html.EditorFor(m => m.City)
+        @Html.ValidationMessageFor(m => m.City)
+    </div>
+
+    <div class="form-row">
+        @Html.LabelFor(m => m.State)
+        @Html.EditorFor(m => m.State)
+        @Html.ValidationMessageFor(m => m.State)
+    </div>
+
+    <div class="form-row">
+        @Html.LabelFor(m => m.Country)
+        @Html.EditorFor(m => m.Country)
+        @Html.ValidationMessageFor(m => m.Country)
+    </div>
+
+    <div class="form-row">
+        @Html.LabelFor(m => m.Postcode)
+        @Html.EditorFor(m => m.Postcode)
+        @Html.ValidationMessageFor(m => m.Postcode)
+    </div>
+    
+    <input type="submit" value="Register" />
+}

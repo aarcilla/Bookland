@@ -1,0 +1,13 @@
+﻿using Bookland.Models;
+using System.Collections.Generic;
+using System.Web.Mvc;
+
+namespace Bookland.Areas.Admin.Models
+{
+    public class CategoryEditorViewModel
+    {
+        public Category Category { get; set; }
+        public string Action { get; set; }
+        public IEnumerable<SelectListItem> ParentCategoryOptions { get; set; }
+    }
+}

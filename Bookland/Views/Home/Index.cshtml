@@ -1,0 +1,48 @@
+﻿@using Bookland.Helpers;
+@model Bookland.Models.ProductsViewModel
+
+@{
+    ViewBag.Title = "Store";
+}
+
+@{
+    int currColumn = 0;
+    decimal columnWidth = Math.Round(100M / (decimal)Model.NumColumns, 4);
+}
+
+<style>
+    .item {
+        width: @columnWidth%;
+    }
+</style>
+
+<span style="float: right">
+    Order by: 
+    @using(Html.BeginForm("Index", "Home", FormMethod.Get)) {
+        @Html.DropDownList("Order", Model.OrderOptions, new { onchange = "submit()" })
+        <noscript><input type="submit" value="Go" /></noscript>
+    }
+</span>
+
+@if (Model.Heading != null) {
+    <h2>@Model.Heading</h2>
+}
+
+@if (Model.Products != null && Model.Products.Count() > 0) {
+    <div id="items">
+        <div class="row">
+        @foreach (var item in Model.Products) {
+            if (currColumn % Model.NumColumns == 0 && currColumn > 0) {
+                @:</div><div class="row">
+            }
+            <span class="item">
+                @{ Html.RenderPartial("ViewProduct", item); }
+            </span>
+    
+            currColumn++;
+        }
+        </div>
+    </div>
+} else {
+    <p>There are no products available.</p>
+}

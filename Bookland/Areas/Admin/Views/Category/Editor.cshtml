@@ -1,0 +1,40 @@
+﻿@model Bookland.Areas.Admin.Models.CategoryEditorViewModel
+
+@{
+    string action = Model.Action;
+    ViewBag.Title = action + " Category";
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using(Html.BeginForm(action, "Category", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    if (action != "Create") {
+        @Html.HiddenFor(c => c.Category.CategoryID)
+    }
+    
+    <div class="form-row">
+        @Html.LabelFor(c => c.Category.CategoryName)
+        @Html.TextBoxFor(c => c.Category.CategoryName, new { autofocus = "", @class = "text-box single-line" })
+        @Html.ValidationMessageFor(c => c.Category.CategoryName)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(c => c.Category.CategoryDescription)
+        @Html.EditorFor(c => c.Category.CategoryDescription)
+        @Html.ValidationMessageFor(c => c.Category.CategoryDescription)
+    </div>
+    
+    <div class="form-row">
+        @Html.Label("Parent category")
+        @Html.DropDownList("parentCategoryID", Model.ParentCategoryOptions, new { @class = "editor-select" })
+    </div>
+    
+    <input type="submit" value="@action" />
+}

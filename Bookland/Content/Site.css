@@ -1,0 +1,302 @@
+﻿body {
+    font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header, footer, nav, section {
+    display: block;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 8em;
+    font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+}
+
+label {
+    width: 10em;
+    font-weight: bold;
+    float: left;
+    display: block;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+.text-box, select.editor-select {
+    width: 20em;
+    vertical-align: middle;
+}
+
+.form-row {
+    height: auto;
+    padding-bottom: 5px;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+    font-size: 0.9em;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+    font-size: 0.9em;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Styles for main/horizontal navigation bars
+-----------------------------------------------------------*/
+nav.horizontal {
+    height: 3em;
+    background-color: #7F0101;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    position: relative;
+}
+
+    nav.horizontal:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+
+    nav.horizontal a {
+        text-align: right;
+        padding: 5px;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: white;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+        nav.horizontal a:link, nav.horizontal a:visited {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav.horizontal a:hover {
+            color: #7F0101;
+            background-color: white;
+        }
+
+        nav.horizontal a:active {
+            background-color: #EBEBEB;
+        }
+
+nav.account {
+    float: right;
+}
+
+/* Styles for vertical  menu
+-----------------------------------------------------------*/
+
+nav.vertical {
+    width: 15%;
+    float: left;
+    font-size: 0.7em;
+    color: white;
+}
+
+    nav.vertical ul {
+        list-style: none;
+        padding-left: 0.1em;
+    }
+    
+    nav.vertical li {
+        background-color: #7F0101;
+        margin-bottom: 0.1em;
+        width: 145px;
+    }
+
+        nav.vertical li:hover {
+            background-color: #590000;
+        }
+
+        nav.vertical li a {
+            display: block;
+            padding: 0.5em;
+            text-decoration: none;
+            color: white;
+            width: 100%;
+        }
+
+    nav.vertical ul li {
+        position: relative;
+    }
+
+    nav.vertical ul ul {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: 0;
+    }
+
+    nav.vertical li:hover > ul {
+        display: block;
+    }
+
+/* Styles for tables
+-----------------------------------------------------------*/
+
+th {
+    text-align: left;
+    padding-right: 3em;
+}
+
+td {
+    font-size: 0.8em;
+}
+
+td.image-col, td.actions-col {
+    text-align: center;
+}
+
+
+/* Styles for page
+-----------------------------------------------------------*/
+
+#wrapper {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#main {
+    margin: 1em;
+    width: 80%;
+    display: inline-block;
+}
+
+#items {
+    display: block;
+}
+
+.row {
+    display: inline-block;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1em;
+}
+
+.item {
+    float: left;
+    text-align: center;
+    font-size: 0.7em;
+}
+
+
+header {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #7F0101;
+}
+
+.logo {
+    vertical-align: middle;
+    padding: 0.25em;
+}
+
+.message {
+    color: #7F0101;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+a.category-link {
+    font-size: 0.7em;
+    vertical-align: top;
+    text-decoration: none;
+    color: grey;
+}
+
+a.actions-link, input[type="submit"] {
+    padding: 0 0.5em;
+    margin: 0 0.2em;
+    text-decoration: none;
+    border: 1px solid #7F0101;
+    text-transform: uppercase;
+    font-size: 10pt;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+    font-family: 'Trebuchet MS', Verdana, Sans-Serif;
+}
+
+.parent a.actions-link {
+    display: none;
+}
+
+a:link.actions-link, a:visited.actions-link, input[type="submit"] {
+    background-color: #7F0101;
+    color: white;
+}
+
+    a:hover.actions-link, input[type="submit"]:hover {
+        background-color: white;
+        color: #7F0101;
+    }
+
+    a:active.actions-link, input[type="submit"]:active {
+        background-color: #EBEBEB;
+    }
+
+.parent {
+    width: intrinsic;
+    width: -moz-max-content;
+    cursor: pointer;
+}
+
+.selected-category {
+    background-color: lightgrey;
+}
+
+.children {
+    margin-left: 1em;
+}
+
+a.no-children {
+    visibility: hidden;
+}

@@ -1,0 +1,12 @@
+﻿@model Bookland.Models.UserLinksViewModel
+
+@if(String.IsNullOrEmpty(Model.UserName)) {
+    @Html.ActionLink("Log In", "Login", "Account")
+    @Html.ActionLink("Register", "Register", "Account")
+} else {
+    if (Model.AdminAccess) {
+        @Html.ActionLink("Admin", "Index", "Home", new { area = "Admin" }, null)
+    }
+    @Html.ActionLink(Model.UserName, "Manage", "Account")
+    @Html.ActionLink("Log Out", "LogOut", new { returnUrl = Request.Url.PathAndQuery })
+}

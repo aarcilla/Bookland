@@ -1,0 +1,55 @@
+﻿@using Bookland.Helpers
+@model Bookland.Data_Structures.TreeNode<Bookland.Models.Category>
+
+@{
+    ViewBag.Title = "Delete Category";
+}
+
+<h2>Delete Category</h2>
+
+@if (TempData["message"] != null) {
+    <div class="message">@TempData["message"]</div>
+}
+
+<h3>Are you sure you want to delete <i>@Model.Data.CategoryName</i>?</h3>
+<div class="message">
+    <div>Deleting a category will also delete all related descendant categories as well.</div>
+    <div>Products associated with these categories will be denoted under the Root category.</div>
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(c => c.Data.CategoryID)
+    @Html.DisplayFor(c => c.Data.CategoryID)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(c => c.Data.CategoryDescription)
+    @if (!String.IsNullOrWhiteSpace(Model.Data.CategoryDescription)) {
+        @Html.DisplayFor(c => c.Data.CategoryDescription)
+    } else {
+        @: N/A
+    }
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(c => c.Data.CategoryLevel)
+    @Html.DisplayFor(c => c.Data.CategoryLevel)
+</div>
+
+<label style="width: initial">Categories to be deleted:</label>
+@Html.DisplayCategoryTree(Model)
+
+<div>
+    <span style="float: left">
+        @using(Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(c => c.Data.CategoryID)
+            @Html.HiddenFor(c => c.Data.CategoryName)
+
+            <input type="submit" value="Yes" />
+        }
+    </span>
+
+    @Html.ActionLink("No", "Index", "Category", null, new { @class = "actions-link" })
+</div>

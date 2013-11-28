@@ -1,0 +1,33 @@
+﻿@model Bookland.Models.LoginModel
+
+@{
+    ViewBag.Title = "Log In";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="form-row">
+        @Html.LabelFor(m => m.UserName)
+        @Html.TextBoxFor(m => m.UserName, new { autofocus = "", @class = "text-box single-line" })
+        @Html.ValidationMessageFor(m => m.UserName)
+    </div>
+    
+    <div class="form-row">
+        @Html.LabelFor(m => m.Password)
+        @Html.EditorFor(m => m.Password)
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+
+    <div>
+        @Html.EditorFor(m => m.RememberMe)
+        <span class="checkbox">Remember me?</span>
+    </div>
+    
+    <input type="submit" value="Login" />
+}
+
+<p>@Html.ActionLink("Register", "Register") if you don't have an account.</p>
