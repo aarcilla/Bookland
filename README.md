@@ -37,4 +37,6 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Create and update user accounts
 
 ## Screenshots
-See 'screens' folder.
+See [screens][0] folder.
+
+ [0]: https://github.com/aarcilla/Bookland/tree/master/screens
