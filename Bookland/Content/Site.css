@@ -192,6 +192,24 @@ td.image-col, td.actions-col {
     text-align: center;
 }
 
+/* Styles for messages
+-----------------------------------------------------------*/
+.message {
+    font-weight: bold;
+    font-size: 0.9em;
+    margin: 1em 1em 0;
+}
+
+.notification {
+    color: #7F0101;
+    background-color: #FFE5E5;
+    border: 1px solid #7F0101;
+    padding: 0.2em;
+}
+
+.warning {
+    color: #7F0101;
+}
 
 /* Styles for page
 -----------------------------------------------------------*/
@@ -226,7 +244,6 @@ td.image-col, td.actions-col {
     font-size: 0.7em;
 }
 
-
 header {
     font-size: 1.5em;
     font-weight: bold;
@@ -236,12 +253,6 @@ header {
 .logo {
     vertical-align: middle;
     padding: 0.25em;
-}
-
-.message {
-    color: #7F0101;
-    font-weight: bold;
-    font-size: 0.9em;
 }
 
 a.category-link {

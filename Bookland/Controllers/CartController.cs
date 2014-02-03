@@ -28,9 +28,18 @@ namespace Bookland.Controllers
         [ValidateAntiForgeryToken]
         public RedirectResult CartItemAdd(Cart cart, int productID, int quantity = 1, string returnUrl = "/")
         {
+            Product product = productRepo.GetProduct(productID);
+
+            // If product couldn't be retrieved, prepare notification message and immediately redirect
+            if (product == null)
+            {
+                TempData["message"] = "Product cannot be found. Please contact us for help and/or further details.";
+                return Redirect(returnUrl);
+            }
+
             CartItem cartItem = new CartItem
             {
-                Product = productRepo.GetProduct(productID),
+                Product = product,
                 Quantity = quantity
             };
 
@@ -54,6 +63,8 @@ namespace Bookland.Controllers
                 }
             }
 
+            TempData["message"] = string.Format("'{0}' added to your cart.", product.Name);
+
             return Redirect(returnUrl);
         }
 
@@ -75,6 +86,10 @@ namespace Bookland.Controllers
                     cart.CartItems.Remove(itemExists);
                 }
             }
+
+            Product removedProduct = productRepo.GetProduct(productID);
+            TempData["message"] = string.Format("'{0}' removed from your cart.", removedProduct.Name);
+
             return RedirectToAction("Index", "Cart");
         }
 
@@ -92,9 +107,19 @@ namespace Bookland.Controllers
                 cart.CartItems.Clear();
             }
 
+            TempData["message"] = "All items have been removed from your cart.";
+
             return RedirectToAction("Index", "Cart");
         }
 
+        /// <summary>
+        /// Action method enabling the user to set the quantity of a cart item in their cart.
+        /// </summary>
+        /// <param name="cart">Session cart (for guest user), retrieved from model binding.</param>
+        /// <param name="productID">The ID of the product within the cart.</param>
+        /// <param name="quantity">The desired quantity for the cart item.</param>
+        /// <param name="returnUrl">The URL path to redirect to after carrying out the intended action, which is typically the user's original location.</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public RedirectResult CartItemQuantity(Cart cart, int productID, int quantity, string returnUrl = "/Cart")
@@ -117,6 +142,11 @@ namespace Bookland.Controllers
             return Redirect(returnUrl);
         }
 
+        /// <summary>
+        /// Retrieve total price and item count of the user's cart, for display on the main layout view's cart anchor.
+        /// </summary>
+        /// <param name="cart">Session cart (for guest user), retrieved from model binding.</param>
+        /// <returns></returns>
         [ChildActionOnly]
         public PartialViewResult CartLink(Cart cart)
         {
@@ -140,13 +170,18 @@ namespace Bookland.Controllers
             });
         }
 
+        /// <summary>
+        /// If a user logs in and their cart while as a guest (i.e. before logging in) contains items, add those items to the user's DB-stored cart.
+        /// This is called whenever the main layout view is loaded.
+        /// </summary>
+        /// <returns>An empty partial view.</returns>
         [ChildActionOnly]
         public PartialViewResult MergeSessionAndDbCartsWhenAuthenticated()
         {
             var session = HttpContext.Session;
             if (User.Identity.IsAuthenticated && session["Cart"] != null)
             {
-                Cart sessionCart = (Cart)HttpContext.Session["Cart"];
+                Cart sessionCart = (Cart)session["Cart"];
 
                 if (cartRepo.GetCart(User.Identity.Name) == null)
                 {

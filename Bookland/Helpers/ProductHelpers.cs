@@ -86,7 +86,8 @@ namespace Bookland.Helpers
                 case null:
                     throw new System.ArgumentNullException("order", "order cannot be null.");
                 default:
-                    throw new System.ArgumentException("order value is invalid.", "order");
+                    products = productRepo.GetProducts(p => p.Name, categoryFilter: categoryTree);
+                    break;
             }
 
             return products;

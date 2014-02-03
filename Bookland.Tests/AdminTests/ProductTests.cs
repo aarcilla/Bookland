@@ -247,13 +247,17 @@ namespace Bookland.Tests.AdminTests
                 .Returns(exampleCategoryTree);
 
             // ACT
-            var result = controller.Update(exampleProduct.ProductID).ViewData.Model;
+            var result = controller.Update(exampleProduct.ProductID);
 
             // ASSERT
+            // Check that the view type is of ViewResult
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            var resultModel = ((ViewResult)result).ViewData.Model;
+
             // Check that the view's model is identical to the one returned by the 'GetProduct' method
-            Assert.IsInstanceOfType(result, typeof(ProductEditorViewModel));
-            Assert.AreSame(exampleProduct, ((ProductEditorViewModel)result).Product);
-            Assert.AreEqual("Update", ((ProductEditorViewModel)result).Action);
+            Assert.IsInstanceOfType(resultModel, typeof(ProductEditorViewModel));
+            Assert.AreSame(exampleProduct, ((ProductEditorViewModel)resultModel).Product);
+            Assert.AreEqual("Update", ((ProductEditorViewModel)resultModel).Action);
         }
 
         [TestMethod]
@@ -266,11 +270,14 @@ namespace Bookland.Tests.AdminTests
                 .Returns(exampleCategoryTree);
 
             // ACT
-            var result = controller.Update(exampleProduct.ProductID).ViewName;
+            var result = controller.Update(exampleProduct.ProductID);
 
             // ASSERT
+            // Check that the view type is of ViewResult
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+
             // Ensure that it is the 'Editor' view being returned
-            Assert.AreEqual("Editor", result);
+            Assert.AreEqual("Editor", ((ViewResult)result).ViewName);
         }
 
         [TestMethod]
@@ -468,12 +475,16 @@ namespace Bookland.Tests.AdminTests
                 .Returns(exampleProduct);
 
             // ACT
-            var result = controller.Delete(exampleProduct.ProductID).ViewData.Model;
+            var result = controller.Delete(exampleProduct.ProductID);
 
             // ASSERT
+            // Check that the view type is of ViewResult
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            var resultModel = ((ViewResult)result).ViewData.Model;
+
             // Ensure that the passed Product object and the view's model are identical
-            Assert.IsInstanceOfType(result, typeof(Product));
-            Assert.AreSame(exampleProduct, result);
+            Assert.IsInstanceOfType(resultModel, typeof(Product));
+            Assert.AreSame(exampleProduct, resultModel);
         }
 
         [TestMethod]

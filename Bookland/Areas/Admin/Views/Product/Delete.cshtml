@@ -6,10 +6,6 @@
 
 <h2>Delete Product</h2>
 
-@if (TempData["message"] != null) {
-    <div class="message">@TempData["message"]</div>
-}
-
 <h3>Are you sure you want to delete <i>@Model.Name</i>?</h3>
 
 <div class="form-row">
@@ -50,7 +46,7 @@
     }
 </div>
 @if (!Model.IsImageInformationNullOrEmpty) {
-    string getImage = Url.Action("GetImage", "Home", new { area = "", productID = Model.ProductID});
+    string getImage = Url.Action("GetImage", "Home", new { area = "", productID = Model.ProductID });
     <img src="@getImage" alt="IMG" height="100" />
 }
 <div>

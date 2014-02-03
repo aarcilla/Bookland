@@ -116,17 +116,26 @@ namespace Bookland.Areas.Admin.Controllers
         }
                  
 
-        public ViewResult Update(int productID) 
+        public ActionResult Update(int productID) 
         {
             Product product = productRepo.GetProduct(productID);
-            TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
 
-            return View("Editor", new ProductEditorViewModel
+            if (product != null)
             {
-                Product = product,
-                Action = "Update",
-                CategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, product.Category != null ? product.Category.CategoryID : 1)
-            });
+                TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
+
+                return View("Editor", new ProductEditorViewModel
+                {
+                    Product = product,
+                    Action = "Update",
+                    CategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, product.Category != null ? product.Category.CategoryID : 1)
+                });
+            }
+            else
+            {
+                string message404 = String.Format("No product exists under the ID of {0}.", productID);
+                return HttpNotFound(message404);
+            }
         }
 
         [HttpPost]
@@ -168,12 +177,20 @@ namespace Bookland.Areas.Admin.Controllers
         }
 
 
-        public ViewResult Delete(int productID)
+        public ActionResult Delete(int productID)
         {
             Product product = productRepo.GetProduct(productID);
 
-            // Return view of confirmation message (i.e. "Are you sure?")
-            return View(product);
+            if (product != null)
+            {
+                // Return view of confirmation message (i.e. "Are you sure?")
+                return View(product);
+            }
+            else
+            {
+                string message404 = String.Format("No product exists under the ID of {0}.", productID);
+                return HttpNotFound(message404);
+            }
         }
 
         [HttpPost]

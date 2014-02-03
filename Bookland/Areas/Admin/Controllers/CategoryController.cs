@@ -89,18 +89,27 @@ namespace Bookland.Areas.Admin.Controllers
         }
 
 
-        public ViewResult Update(int categoryID)
+        public ActionResult Update(int categoryID)
         {
             Category category = categoryRepo.GetCategory(categoryID);
-            TreeNode<Category> categoryTreeNode = categoryRepo.GetCategoryTree();
-            Category parentCategory = categoryRepo.GetParentCategory(categoryID);
 
-            return View("Editor", new CategoryEditorViewModel
+            if (category != null)
             {
-                Category = category,
-                Action = "Update",
-                ParentCategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTreeNode, parentCategory.CategoryID, category)
-            });
+                TreeNode<Category> categoryTreeNode = categoryRepo.GetCategoryTree();
+                Category parentCategory = categoryRepo.GetParentCategory(categoryID);
+
+                return View("Editor", new CategoryEditorViewModel
+                {
+                    Category = category,
+                    Action = "Update",
+                    ParentCategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTreeNode, parentCategory.CategoryID, category)
+                });
+            }
+            else
+            {
+                string message404 = String.Format("No category exists under the ID of {0}.", categoryID);
+                return HttpNotFound(message404);
+            }
         }
 
         [HttpPost]
@@ -133,11 +142,18 @@ namespace Bookland.Areas.Admin.Controllers
         }
 
 
-        public ViewResult Delete(int categoryID)
+        public ActionResult Delete(int categoryID)
         {
             TreeNode<Category> category = categoryRepo.GetCategoryTree(categoryID);
-
-            return View(category);  // Confirmation
+            if (category != null)
+            {
+                return View(category);  // Confirmation
+            }
+            else
+            {
+                string message404 = String.Format("No category exists under the ID of {0}.", categoryID);
+                return HttpNotFound(message404);
+            }
         }
 
         [HttpPost]

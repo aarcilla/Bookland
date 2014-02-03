@@ -3,6 +3,7 @@ using Bookland.Data_Structures;
 using Bookland.Models;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Web.Mvc;
 
 namespace Bookland.Helpers
@@ -23,7 +24,13 @@ namespace Bookland.Helpers
         public static MvcHtmlString DisplayCategoryTree(this HtmlHelper htmlHelper, TreeNode<Category> rootCategoryNode, bool admin = false)
         {
             UrlHelper urlHelper = new UrlHelper(htmlHelper.ViewContext.RequestContext);
-            string categoryTreeHtml = GenerateCategoryTreeHtml(urlHelper, rootCategoryNode, admin);
+
+            // Generate a script reference tag to JavaScript that contains click event handlers; the source script is based on the tree's intended purpose: viewing or editing/admin
+            TagBuilder scriptRef = new TagBuilder("script");
+            string scriptSource = admin ? "/Scripts/Bookland/treeEdit.js" : "/Scripts/Bookland/treeView.js";
+            scriptRef.MergeAttribute("src", scriptSource);
+
+            string categoryTreeHtml = scriptRef.ToString() + GenerateCategoryTreeHtml(urlHelper, rootCategoryNode, admin);
             
             return MvcHtmlString.Create(categoryTreeHtml);
         }
@@ -56,13 +63,13 @@ namespace Bookland.Helpers
             {
                 // Retrieve tags for all descendants (children, and the children's children, and so forth)
                 // through a depth-first pre-order recursive traversal (for desired order) of the category tree.
-                string childrenHtml = "";
-                childrenNodes.ForEach(childNode => childrenHtml += GenerateCategoryTreeHtml(urlHelper, childNode, admin));
+                StringBuilder childrenHtml = new StringBuilder();
+                childrenNodes.ForEach(childNode => childrenHtml.Append(GenerateCategoryTreeHtml(urlHelper, childNode, admin)));
 
                 // Surround children data within a children-denoting div tag (intended for toggling display visibility)
                 TagBuilder childrenTag = new TagBuilder("div");
                 childrenTag.AddCssClass("children");
-                childrenTag.InnerHtml = childrenHtml;
+                childrenTag.InnerHtml = childrenHtml.ToString();
                 children = childrenTag.ToString();
             }
             else
@@ -104,8 +111,10 @@ namespace Bookland.Helpers
                 deleteAnchorTag.AddCssClass("actions-link delete");
                 deleteAnchorTag.InnerHtml = "Delete";
 
-                string categoryWithActions = category.CategoryName
-                    + createAnchorTag.ToString() + updateAnchorTag.ToString() + deleteAnchorTag.ToString();
+                StringBuilder categoryWithActions = new StringBuilder(category.CategoryName);
+                categoryWithActions.Append(createAnchorTag.ToString());
+                categoryWithActions.Append(updateAnchorTag.ToString());
+                categoryWithActions.Append(deleteAnchorTag.ToString());
 
                 parentTag.InnerHtml = controlAnchorTag.ToString() + categoryWithActions;
             }
@@ -183,14 +192,14 @@ namespace Bookland.Helpers
         }
 
         /// <summary>
-        /// Generate HTML of categories as unordered lists in a hierarchical structure.
+        /// Generate HTML of categories as unordered lists ("ul") in a hierarchical structure.
         /// </summary>
         /// <param name="urlHelper">A UrlHelper instance, used to generate action anchors.</param>
         /// <param name="categories">List of category nodes (including descendants) to be included in the list.</param>
         /// <returns>Unordered lists of categories in a hierarchical structure.</returns>
         private static string GenerateCategoryListHtml(UrlHelper urlHelper, List<TreeNode<Category>> categories)
         {
-            string listItemHtml = "";
+            StringBuilder listItemHtml = new StringBuilder();
             foreach (TreeNode<Category> catNode in categories)
             {
                 Category currentCategory = catNode.Data;
@@ -209,11 +218,11 @@ namespace Bookland.Helpers
                     listItem.InnerHtml += childList;
                 }
 
-                listItemHtml += listItem.ToString();
+                listItemHtml.Append(listItem.ToString());
             }
 
             TagBuilder unorderedList = new TagBuilder("ul");
-            unorderedList.InnerHtml = listItemHtml;
+            unorderedList.InnerHtml = listItemHtml.ToString();
 
             return unorderedList.ToString();
         }

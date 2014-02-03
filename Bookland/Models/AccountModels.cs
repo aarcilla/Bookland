@@ -110,7 +110,7 @@ namespace Bookland.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [RegularExpression(@"^[\w]+([\.][\w]+)*@[\w]+(\.[\w]+)+$", ErrorMessage = "Not a valid email address.")] // '(?i)' means case-insensitive
+        [RegularExpression(@"^[\w]+([\.][\w]+)*@[\w]+(\.[\w]+)+$", ErrorMessage = "Not a valid email address.")]
         public string Email { get; set; }
 
         [Required]

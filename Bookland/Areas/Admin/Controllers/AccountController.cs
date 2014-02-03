@@ -145,27 +145,35 @@ namespace Bookland.Areas.Admin.Controllers
             return View("Editor", model);
         }
 
-        public ViewResult Update(string userName)
+        public ActionResult Update(string userName)
         {
             UserProfile userProfile = userProfileRepo.GetUserProfile(userName);
 
-            string[] userRole = Roles.GetRolesForUser(userName);
-
-            return View("Editor", new UserEditorViewModel
+            if (userProfile != null)
             {
-                UserName = userProfile.UserName,
-                Email = userProfile.Email,
-                FirstName = userProfile.FirstName,
-                LastName = userProfile.LastName,
-                StreetLine1 = userProfile.Address.StreetLine1,
-                StreetLine2 = userProfile.Address.StreetLine2,
-                City = userProfile.Address.City,
-                State = userProfile.Address.State,
-                Country = userProfile.Address.Country,
-                Postcode = userProfile.Address.Postcode,
-                Action = "Update",
-                RoleOptions = new SelectList(RoleOptions(), userRole.Length > 0 ? userRole[0] : null)
-            });
+                string[] userRole = Roles.GetRolesForUser(userName);
+
+                return View("Editor", new UserEditorViewModel
+                {
+                    UserName = userProfile.UserName,
+                    Email = userProfile.Email,
+                    FirstName = userProfile.FirstName,
+                    LastName = userProfile.LastName,
+                    StreetLine1 = userProfile.Address.StreetLine1,
+                    StreetLine2 = userProfile.Address.StreetLine2,
+                    City = userProfile.Address.City,
+                    State = userProfile.Address.State,
+                    Country = userProfile.Address.Country,
+                    Postcode = userProfile.Address.Postcode,
+                    Action = "Update",
+                    RoleOptions = new SelectList(RoleOptions(), userRole.Length > 0 ? userRole[0] : null)
+                });
+            }
+            else
+            {
+                string message404 = String.Format("'{0}' does not exist or is invalid.", userName);
+                return HttpNotFound(message404);
+            }
         }
 
         [HttpPost]

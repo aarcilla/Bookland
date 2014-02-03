@@ -1,6 +1,6 @@
 ﻿@using Bookland.Helpers
 @{ 
-    ViewBag.Title = "Bookland: " + ViewBag.Title;
+    ViewBag.Title = ViewBag.Title + " - Bookland";
 }
 
 <!DOCTYPE html>
@@ -13,6 +13,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
+    <script src="/Scripts/Bookland/messageHide.js"></script>
     @{ Html.RenderAction("MergeSessionAndDbCartsWhenAuthenticated", "Cart"); }
 </head>
 <body>
@@ -41,6 +42,9 @@
         </nav>
 
         <div id="main">
+            @if (TempData["message"] != null) {
+                <div class="message notification">@TempData["message"]</div>
+            }
             @RenderBody()
         </div>
     </div>

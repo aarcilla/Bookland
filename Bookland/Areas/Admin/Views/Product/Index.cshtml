@@ -6,10 +6,6 @@
 
 <h2>Products</h2>
 
-@if (TempData["message"] != null) {
-    <div class="message">@TempData["message"]</div>
-}
-
 @Html.ActionLink("Create", "Create", "Product", null, new { @class = "actions-link" })
 
 <table>

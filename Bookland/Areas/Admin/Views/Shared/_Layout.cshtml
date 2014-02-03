@@ -1,7 +1,7 @@
 ﻿@using Bookland.Helpers
 
 @{
-    ViewBag.Title = "Bookland Admin: " + ViewBag.Title;
+    ViewBag.Title = ViewBag.Title + " - Bookland Admin";
 }
 
 <!DOCTYPE html>
@@ -14,6 +14,7 @@
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @RenderSection("scripts", required: false)
+    <script src="/Scripts/Bookland/messageHide.js"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -37,6 +38,9 @@
         </nav>
 
         <div id="main">
+            @if (TempData["message"] != null) {
+                <div class="message notify">@TempData["message"]</div>
+            }
             @RenderBody()
         </div>
     </div>

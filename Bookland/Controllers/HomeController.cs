@@ -19,31 +19,11 @@ namespace Bookland.Controllers
             this.categoryRepo = categoryRepo;
         }
 
-        public ViewResult Index(int? category, string order = null)
+        public ViewResult Index(int? category)
         {
-            // If no order is specified, attempt to retrieve cookie containing last-used order option
+            // Retrieve user-defined order option; if it hasn't been set up yet, just set as name ascending by default
             HttpCookie productOrder = Request.Cookies["ProductOrder"];
-            if (productOrder != null && order == null)
-            {
-                order = productOrder.Value;
-            }
-            else if (order == null)     // I.e. cookie is null, but no order is specified (e.g. first-ever access of 'Index')
-            {
-                order = ProductHelpers.NameAsc;     // Name ascending is assumed as default order
-            }
-
-            if (productOrder == null)
-            {
-                productOrder = new HttpCookie("ProductOrder");
-                Response.Cookies.Add(productOrder);
-            }
-
-            // Update cookie value and expiry if it has changed, or was just created
-            if (productOrder.Value != order)
-            {
-                Response.Cookies["ProductOrder"].Value = order;
-                Response.Cookies["ProductOrder"].Expires = DateTime.Now.AddMonths(1);
-            }
+            string order = productOrder != null ? productOrder.Value : ProductHelpers.NameAsc;
 
             // Retrieve Category tree (a Category and its descendant Categories) for Category-filtered display
             TreeNode<Category> categoryTree = category.HasValue ? categoryRepo.GetCategoryTree(category.Value) : null;
@@ -58,11 +38,32 @@ namespace Bookland.Controllers
         }
 
         /// <summary>
+        /// Sets the order that products will be displayed in, then redirects back to the user's original location.
+        /// </summary>
+        /// <param name="order">The specified order.</param>
+        /// <param name="returnUrl">The URL path to redirect to after carrying out the intended action, which is typically the user's original location.</param>
+        /// <returns></returns>
+        public RedirectResult Order(string order, string returnUrl)
+        {
+            HttpCookie productOrder = Request.Cookies["ProductOrder"];
+            if (productOrder == null)
+            {
+                productOrder = new HttpCookie("ProductOrder");
+                Response.Cookies.Add(productOrder);
+            }
+
+            Response.Cookies["ProductOrder"].Value = order;
+            Response.Cookies["ProductOrder"].Expires = DateTime.Now.AddMonths(1);
+
+            return Redirect(returnUrl);
+        }
+
+        /// <summary>
         /// Retrieve images contained within the DB.
         /// </summary>
         /// <param name="productID">The ID of the requested product.</param>
         /// <returns>A File object containing the desired image, or null if product isn't found.</returns>
-        public FileContentResult GetImage(int productID)
+        public ActionResult GetImage(int productID)
         {
             Product product = productRepo.GetProduct(productID);
 
@@ -70,8 +71,11 @@ namespace Bookland.Controllers
             {
                 return File(product.ImageData, product.ImageMimeType);
             }
-
-            return null;
+            else
+            {
+                string message404 = String.Format("No product exists under the ID of {0}.", productID);
+                return HttpNotFound(message404);
+            }
         }
     }
 }

@@ -45,21 +45,27 @@ namespace Bookland.DAL.Concrete
         public TreeNode<Category> GetCategoryTree(int categoryID = 1)
         {
             Category category = GetCategory(categoryID);
-            TreeNode<Category> currentParentNode = new TreeNode<Category>(category);
 
-            // If children exist for the current category node, append their trees to the current tree
-            var children = category.ChildCategories;
-            if (children != null)
+            if (category != null)
             {
-                foreach (Category cat in children.OrderBy(c => c.CategoryName))
+                TreeNode<Category> currentParentNode = new TreeNode<Category>(category);
+
+                // If children exist for the current category node, append their trees to the current tree
+                var children = category.ChildCategories;
+                if (children != null)
                 {
-                    // Retrieve child category trees through recursion
-                    TreeNode<Category> childTree = GetCategoryTree(cat.CategoryID);
-                    currentParentNode.AddChild(childTree);
+                    foreach (Category cat in children.OrderBy(c => c.CategoryName))
+                    {
+                        // Retrieve child category trees through recursion
+                        TreeNode<Category> childTree = GetCategoryTree(cat.CategoryID);
+                        currentParentNode.AddChild(childTree);
+                    }
                 }
+
+                return currentParentNode;
             }
 
-            return currentParentNode;
+            return null;
         }
         
         public void CreateCategory(Category category, int parentCategoryID)
