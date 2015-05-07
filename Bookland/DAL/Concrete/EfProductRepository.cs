@@ -23,7 +23,7 @@ namespace Bookland.DAL.Concrete
         {
             List<Product> products = new List<Product>();
 
-            List<Category> categoryAndDescendants = categoryFilter.ToDepthFirstPreOrderTraversalList();
+            List<Category> categoryAndDescendants = categoryFilter.ToList();
 
             foreach (Category cat in categoryAndDescendants)
             {

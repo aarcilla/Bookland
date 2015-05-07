@@ -105,7 +105,7 @@ namespace Bookland.DAL.Concrete
                 }
 
                 // Update the category's descendants' level values
-                List<Category> descendants = GetCategoryTree(dbCategory.CategoryID).ToDepthFirstPreOrderTraversalList();
+                List<Category> descendants = GetCategoryTree(dbCategory.CategoryID).ToList();
                 foreach (Category cat in descendants)
                 {
                     if (cat.CategoryID != dbCategory.CategoryID)
@@ -154,7 +154,7 @@ namespace Bookland.DAL.Concrete
             // Clear the child categories list for the specified category, then delete all of them, as well as disassociate any associated Products
             if (category.ChildCategories != null)
             {
-                List<Category> childCategories = GetCategoryTree(category.CategoryID).ToDepthFirstPreOrderTraversalList();
+                List<Category> childCategories = GetCategoryTree(category.CategoryID).ToList();
 
                 category.ChildCategories.Clear();
                 foreach (Category cat in childCategories)

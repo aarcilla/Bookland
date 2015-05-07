@@ -154,7 +154,7 @@ namespace Bookland.Helpers
 
             List<SelectListItem> categories = new List<SelectListItem>();
 
-            List<Category> categoriesOrdered = categoryTree.ToDepthFirstPreOrderTraversalList();
+            List<Category> categoriesOrdered = categoryTree.ToList();
             foreach (Category cat in categoriesOrdered)
             {
                 // Prepare whitespace (unicode) in front of category names for display in drop-down list, to denote parent-child relationships.

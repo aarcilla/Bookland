@@ -70,9 +70,9 @@ namespace Bookland.Data_Structures
         /// Retrieve all items in the tree as a flattened list, in the order of a depth-first pre-order traversal.
         /// </summary>
         /// <returns>All tree items in a list.</returns>
-        public List<T> ToDepthFirstPreOrderTraversalList()
+        public List<T> ToList()
         {
-            return ToToDepthFirstPreOrderTraversalList(this);
+            return ToListRecursive(this);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Bookland.Data_Structures
         /// </summary>
         /// <param name="node">Current node.</param>
         /// <returns>List of items in depth-first pre-order traversal order.</returns>
-        private List<T> ToToDepthFirstPreOrderTraversalList(TreeNode<T> node)
+        private List<T> ToListRecursive(TreeNode<T> node)
         {
             List<T> itemsOrdered = new List<T>();
             itemsOrdered.Add(node.Data);
@@ -89,7 +89,7 @@ namespace Bookland.Data_Structures
 
             foreach (TreeNode<T> child in childNodes)
             {
-                List<T> childItems = ToToDepthFirstPreOrderTraversalList(child);
+                List<T> childItems = ToListRecursive(child);
 
                 foreach (T item in childItems)
                 {
