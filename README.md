@@ -6,7 +6,7 @@ Bookland is a database-driven web application inspired by typical online book st
 * **Framework & language**: ASP.NET MVC 4 & C# 5.0
 * **IDE**: Visual Studio Community 2013, Visual Studio 2012 Express for Web (previous)
 * **Source control**: Git, Team Foundation Server 2013 (previous)
-* **ORM & DBMS**: Entity Framework Code First with LocalDB SQL Server
+* **ORM & DBMS**: Entity Framework 5 Code First with LocalDB SQL Server
 * **Unit testing**: Visual Studio Unit Testing with Moq
 * **Client-side scripting, validation & DOM interaction**: JavaScript & jQuery
 
