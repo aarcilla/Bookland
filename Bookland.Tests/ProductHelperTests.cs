@@ -140,28 +140,6 @@ namespace Bookland.Tests
             Assert.IsTrue(result.Message.Contains("order cannot be null."));
         }
 
-        [TestMethod]
-        public void ProductsByOrder_With_Invalid_Order_Parameter_Throws_ArgumentException()
-        {
-            // ARRANGE
-            Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
-
-            // ACT
-            Exception result = null;
-            try
-            {
-                ProductHelpers.ProductsByOrder(mockProductRepository.Object, "nme_ascc");
-            }
-            catch (Exception ex)
-            {
-                result = ex;
-            }
-
-            // ASSERT
-            Assert.IsInstanceOfType(result, typeof(ArgumentException));
-            Assert.IsTrue(result.Message.Contains("order value is invalid."));
-        }
-
         #endregion
 
         #region SetProductImage tests
