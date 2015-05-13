@@ -197,34 +197,6 @@
     <Compile Include="Helpers\LinkHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
-    <Compile Include="Migrations\201308220157036_InitialCreate.cs" />
-    <Compile Include="Migrations\201308220157036_InitialCreate.Designer.cs">
-      <DependentUpon>201308220157036_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201309091805485_AddCategoryEtc.cs" />
-    <Compile Include="Migrations\201309091805485_AddCategoryEtc.Designer.cs">
-      <DependentUpon>201309091805485_AddCategoryEtc.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201309091815571_CartCategoryMinorUpdates.cs" />
-    <Compile Include="Migrations\201309091815571_CartCategoryMinorUpdates.Designer.cs">
-      <DependentUpon>201309091815571_CartCategoryMinorUpdates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201309190008553_RequiredFields.cs" />
-    <Compile Include="Migrations\201309190008553_RequiredFields.Designer.cs">
-      <DependentUpon>201309190008553_RequiredFields.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201310141127170_CategoryLevel.cs" />
-    <Compile Include="Migrations\201310141127170_CategoryLevel.Designer.cs">
-      <DependentUpon>201310141127170_CategoryLevel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311261231452_RemoveProductIDFromCartItem.cs" />
-    <Compile Include="Migrations\201311261231452_RemoveProductIDFromCartItem.Designer.cs">
-      <DependentUpon>201311261231452_RemoveProductIDFromCartItem.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201311270021256_1-to-1UserProfileCart.cs" />
-    <Compile Include="Migrations\201311270021256_1-to-1UserProfileCart.Designer.cs">
-      <DependentUpon>201311270021256_1-to-1UserProfileCart.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Cart.cs" />
@@ -363,29 +335,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201308220157036_InitialCreate.resx">
-      <DependentUpon>201308220157036_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201309091805485_AddCategoryEtc.resx">
-      <DependentUpon>201309091805485_AddCategoryEtc.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201309091815571_CartCategoryMinorUpdates.resx">
-      <DependentUpon>201309091815571_CartCategoryMinorUpdates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201309190008553_RequiredFields.resx">
-      <DependentUpon>201309190008553_RequiredFields.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201310141127170_CategoryLevel.resx">
-      <DependentUpon>201310141127170_CategoryLevel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311261231452_RemoveProductIDFromCartItem.resx">
-      <DependentUpon>201311261231452_RemoveProductIDFromCartItem.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201311270021256_1-to-1UserProfileCart.resx">
-      <DependentUpon>201311270021256_1-to-1UserProfileCart.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
