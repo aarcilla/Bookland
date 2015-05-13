@@ -2,8 +2,11 @@
 ## Introduction
 Bookland is a database-driven web application inspired by typical online book stores, developed with the ASP.NET MVC framework. It is still work-in-progress.
 
+## Purpose
+Solidifying and practice of ASP.NET MVC, database design & development (Entity Framework & SQL Server), and unit testing skills, as well as .NET, C#, and web technology (both server- and client-side) in general.
+
 ## Technologies
-* **Framework & language**: ASP.NET MVC 4 & C# 5.0
+* **Framework & language**: ASP.NET MVC 4, .NET 4.5 & C# 5.0
 * **IDE**: Visual Studio Community 2013, Visual Studio 2012 Express for Web (previous)
 * **Source control**: Git, Team Foundation Server 2013 (previous)
 * **ORM & DBMS**: Entity Framework 5 Code First with LocalDB SQL Server
@@ -40,6 +43,23 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Three user roles (in order of highest clearance): administrator, staff, customer
 * Administrators can edit any other users; staff can only edit customers
 * Create and update user accounts
+
+## Developer setup (requires internet access)
+1. Clone source code using 'git clone' command, or download as ZIP from GitHub page
+2. Open 'Bookland.sln' with at least Visual Studio 2012 Express For Web
+3. Download external NuGet packages
+	a) Visual Studio > Tools menu > NuGet Package Manager > Package Manager Settings
+	b) Under 'Package Restore' heading, ensure the 'Allow NuGet to download missing packages' check box is checked
+	c) Visual Studio > Build menu > Build Solution
+4. Generate database based on project code (i.e. EF Code First)
+	a) Visual Studio > Tools menu > NuGet Package Manager > Package Manager Console
+	b) In the Package Manager Console, type 'add-migration Init' and wait until completion
+	c) Type 'update-database'
+	d) You can view the database through Visual Studio's Server Explorer > Data Connections
+5. Click on play icon in the main Visual Studio toolbar to interact with Bookland in a web browser
+	a) The initial administrator login credentials are:
+		User name: admin0
+		Password: overlord
 
 ## Screenshots
 See [screens][0] folder.
