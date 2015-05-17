@@ -21,8 +21,15 @@ namespace Bookland.Migrations
 
         protected override void Seed(Bookland.DAL.BookshopContext context)
         {
-            context.Database.ExecuteSqlCommand("ALTER TABLE Cart ADD CONSTRAINT uc_Cart UNIQUE(UserID)");
-            context.Database.ExecuteSqlCommand("ALTER TABLE Address ADD CONSTRAINT uc_User UNIQUE(UserID)");
+            string constraintCountQueryFormat = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_NAME = '{0}'";
+            IEnumerable<int> ucCartExists = context.Database.SqlQuery<int>(string.Format(constraintCountQueryFormat, "uc_Cart"));
+            IEnumerable<int> ucUserExists = context.Database.SqlQuery<int>(string.Format(constraintCountQueryFormat, "uc_User"));
+
+            if (ucCartExists.First() < 1)
+                context.Database.ExecuteSqlCommand("ALTER TABLE Cart ADD CONSTRAINT uc_Cart UNIQUE(UserID)");
+
+            if (ucUserExists.First() < 1)
+                context.Database.ExecuteSqlCommand("ALTER TABLE Address ADD CONSTRAINT uc_User UNIQUE(UserID)");
 
             Category bookCategory = new Category { CategoryName = "Books", CategoryDescription = "Physical books.", CategoryLevel = 1 };
             context.Categories.AddOrUpdate(c => c.CategoryName, bookCategory);
@@ -53,6 +60,10 @@ namespace Bookland.Migrations
             {
                 throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
             }
+
+            // Skip admin account creation if it's already in the database
+            if (context.UserProfiles.Count(c => c.UserName == "admin0") > 0)
+                return;
 
             // Create admin account
             WebSecurity.CreateUserAndAccount("admin0", "overlord", new
