@@ -29,10 +29,10 @@ namespace Bookland.DAL
                 .WithOptional(u => u.Cart)
                 .Map(m => m.MapKey("UserID"));
 
-            // Configure many-to-many relationship between parent and child Categories
-            modelBuilder.Entity<Category>().HasMany(c => c.ChildCategories).WithMany()
-                .Map(t => t.MapLeftKey("ParentID").MapRightKey("ChildID")
-                .ToTable("CategoryRelationship"));
+            //// Configure many-to-many relationship between parent and child Categories
+            //modelBuilder.Entity<Category>().HasMany(c => c.ChildCategories).WithMany()
+            //    .Map(t => t.MapLeftKey("ParentID").MapRightKey("ChildID")
+            //    .ToTable("CategoryRelationship"));
         }
     }
 }
