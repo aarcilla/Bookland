@@ -6,9 +6,21 @@ namespace Bookland.Models
     public abstract class AbstractUserProfile
     {
         public abstract int UserID { get; set; }
+
+        [Required]
+        [StringLength(50, ErrorMessage = "Name must be {0} characters or less.")]
         public string UserName { get; set; }
+
+        [Required]
+        [StringLength(250, ErrorMessage = "Email must be {0} characters or less.")]
         public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "First name must be {0} characters or less.")]
         public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Last name must be {0} characters or less.")]
         public string LastName { get; set; }
     }
 
@@ -38,11 +50,26 @@ namespace Bookland.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AddressID { get; set; }
+
+        [Required]
+        [StringLength(250, ErrorMessage = "Street line 1 must be {0} characters or less.")]
         public string StreetLine1 { get; set; }
+
+        [StringLength(250, ErrorMessage = "Street line 2 must be {0} characters or less.")]
         public string StreetLine2 { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "City must be {0} characters or less.")]
         public string City { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "State must be {0} characters or less.")]
         public string State { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "Country must be {0} characters or less.")]
         public string Country { get; set; }
+
         public int Postcode { get; set; }
 
         public virtual UserProfile UserProfile { get; set; }
@@ -96,6 +123,7 @@ namespace Bookland.Models
         [Required]
         [Display(Name = "User name")]
         [RegularExpression(@"^[\w]+$", ErrorMessage = "Your user name contains invalid characters.")]
+        [StringLength(50, ErrorMessage = "Name must be {0} characters or less.")]
         public string UserName { get; set; }
 
         [Required]
@@ -111,30 +139,38 @@ namespace Bookland.Models
 
         [Required]
         [RegularExpression(@"^[\w]+([\.][\w]+)*@[\w]+(\.[\w]+)+$", ErrorMessage = "Not a valid email address.")]
+        [StringLength(250, ErrorMessage = "Email must be {0} characters or less.")]
         public string Email { get; set; }
 
         [Required]
         [Display(Name = "First name")]
+        [StringLength(100, ErrorMessage = "First name must be {0} characters or less.")]
         public string FirstName { get; set; }
 
         [Required]
         [Display(Name = "Last name")]
+        [StringLength(100, ErrorMessage = "Last name must be {0} characters or less.")]
         public string LastName { get; set; }
 
         [Required]
         [Display(Name = "Street line 1")]
+        [StringLength(250, ErrorMessage = "Street line 1 must be {0} characters or less.")]
         public string StreetLine1 { get; set; }
 
         [Display(Name = "Street line 2")]
+        [StringLength(250, ErrorMessage = "Street line 2 must be {0} characters or less.")]
         public string StreetLine2 { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "City must be {0} characters or less.")]
         public string City { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "State must be {0} characters or less.")]
         public string State { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "Country must be {0} characters or less.")]
         public string Country { get; set; }
 
         public int Postcode { get; set; }
