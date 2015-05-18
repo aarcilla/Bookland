@@ -2,7 +2,7 @@
 
 namespace Bookland.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Administrator, Staff")]
+    [Authorize(Roles = "Administrator, Support, Staff")]
     public class HomeController : Controller
     {
         //

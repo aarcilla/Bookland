@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Bookland.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Administrator, Staff")]
+    [Authorize(Roles = "Administrator, Support, Staff")]
     public class CategoryController : Controller
     {
         private ICategoryRepository categoryRepo;

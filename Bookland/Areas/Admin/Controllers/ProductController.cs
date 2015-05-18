@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace Bookland.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Administrator, Staff")]
+    [Authorize(Roles = "Administrator, Support, Staff")]
     public class ProductController : Controller
     {
         private IProductRepository productRepo;

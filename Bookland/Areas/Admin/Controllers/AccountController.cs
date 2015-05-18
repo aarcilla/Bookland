@@ -13,7 +13,7 @@ using WebMatrix.WebData;
 
 namespace Bookland.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Administrator, Staff")]
+    [Authorize(Roles = "Administrator, Support, Staff")]
     public class AccountController : Controller
     {
         private IUserProfileRepository userProfileRepo;
@@ -52,12 +52,21 @@ namespace Bookland.Areas.Admin.Controllers
                     Role = userRole.Length > 0 ? userRole[0] : ""
                 };
 
-                // Restrict non-Admin user accounts from being able to see or edit Admin or Staff user accounts
+                // Only Admin user accounts are being able to see or edit all types of user accounts
                 if (!User.IsInRole("Administrator"))
                 {
-                    if (userProfileWithRole.Role != "Administrator" && userProfileWithRole.Role != "Staff")
+                    // Support accounts can only see staff and customer accounts
+                    if (User.IsInRole("Support") && (userProfileWithRole.Role != "Administrator" && userProfileWithRole.Role != "Support"))
                     {
                         userProfilesWithRoles.Add(userProfileWithRole);
+                    }
+                    else
+                    {
+                        // Staff and other non-customer accounts can only see customer accounts
+                        if (userProfileWithRole.Role != "Administrator" && userProfileWithRole.Role != "Support" && userProfileWithRole.Role != "Staff")
+                        {
+                            userProfilesWithRoles.Add(userProfileWithRole);
+                        }
                     }
                 }
                 else
@@ -235,13 +244,60 @@ namespace Bookland.Areas.Admin.Controllers
             return View("Editor", model);
         }
 
+        [Authorize(Roles = "Administrator,Support")]
+        public ActionResult ChangePassword(string userName)
+        {
+            UserProfile userProfile = userProfileRepo.GetUserProfile(userName);
+            if (userProfile != null)
+            {
+                return View("ChangePassword", new LocalPasswordModel { UserName = userName });
+            }
+            else
+            {
+                string message404 = String.Format("'{0}' does not exist or is invalid.", userName);
+                return HttpNotFound(message404);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePassword(LocalPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool changePasswordSucceeded;
+                try
+                {
+                    changePasswordSucceeded = WebSecurity.ChangePassword(model.UserName, model.OldPassword, model.NewPassword);
+                }
+                catch (Exception)
+                {
+                    changePasswordSucceeded = false;
+                }
+
+                if (changePasswordSucceeded)
+                {
+                    TempData["message"] = String.Format("{0}'s password changed successfully.", model.UserName);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                }
+            }
+
+            return View();
+        }
+
         /// <summary>
-        /// Generate role options for drop-down lists to be used in user account editor view, based on the current user's role clearance (i.e. Staff can only set Customer users).
+        /// Generate role options for drop-down lists to be used in user account editor view, based on the current user's role clearance (e.g. Staff can only set Customer users).
         /// </summary>
         /// <returns>Enumeration of role options, based on current user's role.</returns>
         private IEnumerable<string> RoleOptions()
         {
-            return User.IsInRole("Administrator") ? Roles.GetAllRoles() : new string[] { "Customer" };
+            return User.IsInRole("Administrator") ? Roles.GetAllRoles()
+                : User.IsInRole("Support") ? new string[] { "Staff", "Customer" }
+                : new string[] { "Customer" };
         }
 
     }

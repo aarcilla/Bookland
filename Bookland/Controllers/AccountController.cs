@@ -352,7 +352,7 @@ namespace Bookland.Controllers
                 userName = WebSecurity.CurrentUserName;
 
                 string[] userRoles = Roles.GetRolesForUser(userName);
-                admin = userRoles.Contains("Administrator") || userRoles.Contains("Staff");
+                admin = userRoles.Contains("Administrator") || userRoles.Contains("Support") || userRoles.Contains("Staff");
             }
 
             return PartialView(new UserLinksViewModel
