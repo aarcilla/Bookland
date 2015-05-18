@@ -37,9 +37,9 @@
             @Html.ActionLink("User Accounts", "Index", "Account")
         </nav>
 
-        <div id="main">
+        <div id="main-admin">
             @if (TempData["message"] != null) {
-                <div class="message notify">@TempData["message"]</div>
+                <div class="message notification">@TempData["message"]</div>
             }
             @RenderBody()
         </div>
