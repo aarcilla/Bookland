@@ -61,6 +61,12 @@ namespace Bookland.Migrations
                 throw new InvalidOperationException("The ASP.NET Simple Membership database could not be initialized. For more information, please see http://go.microsoft.com/fwlink/?LinkId=256588", ex);
             }
 
+            // Also create other roles
+            if (!Roles.RoleExists("Administrator")) Roles.CreateRole("Administrator");
+            if (!Roles.RoleExists("Support")) Roles.CreateRole("Support");
+            if (!Roles.RoleExists("Staff")) Roles.CreateRole("Staff");
+            if (!Roles.RoleExists("Customer")) Roles.CreateRole("Customer");
+
             // Skip admin account creation if it's already in the database
             if (context.UserProfiles.Count(c => c.UserName == "admin0") > 0)
                 return;
@@ -74,7 +80,6 @@ namespace Bookland.Migrations
             });
 
             // Assign the 'Administrator' role
-            Roles.CreateRole("Administrator");
             Roles.AddUserToRole("admin0", "Administrator");
 
             // Add associated Address record for admin account
@@ -88,10 +93,6 @@ namespace Bookland.Migrations
                 Postcode = 2000,
                 UserProfile = context.UserProfiles.FirstOrDefault(u => u.UserName == "admin0")
             });
-
-            // Also create other roles
-            Roles.CreateRole("Staff");
-            Roles.CreateRole("Customer");
 
             context.SaveChanges();
         }
