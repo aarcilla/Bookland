@@ -226,6 +226,12 @@ td.image-col, td.actions-col {
     display: inline-block;
 }
 
+#main-admin {
+    margin: 1em;
+    width: 100%;
+    display: inline-block;
+}
+
 #items {
     display: block;
 }
