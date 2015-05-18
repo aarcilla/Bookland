@@ -86,6 +86,8 @@ namespace Bookland.Models
 
     public class LocalPasswordModel
     {
+        public string UserName { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]

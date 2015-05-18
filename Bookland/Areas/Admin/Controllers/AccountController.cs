@@ -260,6 +260,7 @@ namespace Bookland.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator,Support")]
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(LocalPasswordModel model)
         {
