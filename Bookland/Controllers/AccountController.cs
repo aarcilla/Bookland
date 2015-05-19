@@ -1,15 +1,10 @@
-﻿using Bookland.DAL;
-using Bookland.DAL.Abstract;
+﻿using Bookland.DAL.Abstract;
 using Bookland.Filters;
 using Bookland.Helpers;
 using Bookland.Models;
-using DotNetOpenAuth.AspNet;
-using Microsoft.Web.WebPages.OAuth;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Transactions;
 using System.Web.Mvc;
 using System.Web.Security;
 using WebMatrix.WebData;
@@ -173,6 +168,76 @@ namespace Bookland.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult Update()
+        {
+            UserProfile userProfile = userProfileRepo.GetUserProfile(User.Identity.Name);
+
+            if (userProfile != null)
+            {
+                return View(new RegisterModel 
+                {
+                    UserName = userProfile.UserName,
+                    Email = userProfile.Email,
+                    FirstName = userProfile.FirstName,
+                    LastName = userProfile.LastName,
+                    StreetLine1 = userProfile.Address.StreetLine1,
+                    StreetLine2 = userProfile.Address.StreetLine2,
+                    City = userProfile.Address.City,
+                    State = userProfile.Address.State,
+                    Country = userProfile.Address.Country,
+                    Postcode = userProfile.Address.Postcode,
+                    Password = "dummy-value",
+                    ConfirmPassword = "dummy-value"
+                });
+            }
+            else
+            {
+                string message404 = String.Format("'{0}' does not exist or is invalid.", User.Identity.Name);
+                return HttpNotFound(message404);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    userProfileRepo.UpdateUserProfile(new UserProfile 
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName
+                    });
+                    
+                    userProfileRepo.UpdateAddress(new Address
+                    {
+                        StreetLine1 = model.StreetLine1,
+                        StreetLine2 = model.StreetLine2,
+                        City = model.City,
+                        State = model.State,
+                        Country = model.Country,
+                        Postcode = model.Postcode
+                    }, model.UserName);
+
+                    userProfileRepo.Commit();
+
+                    TempData["message"] = "Your user details have been successfully updated.";
+
+                    return RedirectToAction("Index");
+                }
+                catch (DataException)
+                {
+                    ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problems persist.");
+                }
+            }
+
+            return View(model);
         }
 
 

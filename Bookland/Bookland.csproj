@@ -325,6 +325,7 @@
     <Content Include="Views\Account\LogOut.cshtml" />
     <Content Include="Views\Cart\MergeSessionAndDbCartsWhenAuthenticated.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
