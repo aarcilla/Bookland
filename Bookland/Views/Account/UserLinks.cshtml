@@ -7,6 +7,6 @@
     if (Model.AdminAccess) {
         @Html.ActionLink("Admin", "Index", "Home", new { area = "Admin" }, null)
     }
-    @Html.ActionLink(Model.UserName, "Manage", "Account")
+    @Html.ActionLink(Model.UserName, "Index", "Account")
     @Html.ActionLink("Log Out", "LogOut", new { returnUrl = Request.Url.PathAndQuery })
 }

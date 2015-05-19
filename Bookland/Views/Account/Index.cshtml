@@ -1,0 +1,14 @@
+﻿@model Bookland.Models.LocalPasswordModel
+@{
+    ViewBag.Title = "Your Account";
+}
+
+<hgroup class="title">
+    <h2>@ViewBag.Title</h2>
+</hgroup>
+
+<p class="message-success">@ViewBag.StatusMessage</p>
+
+<p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+
+@Html.ActionLink("Change password", "ChangePassword")

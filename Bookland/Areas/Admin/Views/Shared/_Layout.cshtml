@@ -20,7 +20,7 @@
     <div id="wrapper">
         <nav class="horizontal account">
             @Html.ActionLink("Store", "Index", "Home", new { area = "" }, null)
-            @Html.ActionLink(User.Identity.Name, "Manage", "Account", new { area = "", userName = User.Identity.Name }, null)
+            @Html.ActionLink(User.Identity.Name, "Index", "Account", new { area = "", userName = User.Identity.Name }, null)
             @Html.ActionLink("Log Out", "LogOut", "Account", new { area = "", returnUrl = Request.Url.PathAndQuery }, null)
         </nav>
 
