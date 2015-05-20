@@ -4,6 +4,7 @@ using Bookland.Helpers;
 using Bookland.Models;
 using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -235,6 +236,77 @@ namespace Bookland.Controllers
                 {
                     ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problems persist.");
                 }
+            }
+
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult RequestPasswordReset()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RequestPasswordReset(string userName)
+        {
+            if (string.IsNullOrWhiteSpace(userName))
+                return View();
+
+            UserProfile userProfile = userProfileRepo.GetUserProfile(userName);
+
+            if (userProfile != null)
+            {
+                string passwordResetToken = WebSecurity.GeneratePasswordResetToken(userProfile.UserName, 60);
+                string passwordResetUrl = Url.Action("ResetPassword", "Account", new { resetToken = passwordResetToken }, Request.Url.Scheme);
+
+                string resetEmailTemplatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\Content\EmailTemplates\ResetPasswordTemplate.html");
+                string resetEmailTemplate = System.IO.File.ReadAllText(resetEmailTemplatePath);
+                string mailBody = string.Format(resetEmailTemplate, userName, passwordResetUrl);
+
+                bool mailSuccess = MailHelpers.SendAdminEmail(userProfile.Email, "Bookland: Password Reset", mailBody);
+
+                if (mailSuccess)
+                    TempData["message"] = "Password reset email sent. Please check your inbox and reset your password within 1 hour.";
+                else
+                    TempData["message"] = "Password reset email unsuccessfully sent. Please try again later.";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            TempData["message"] = string.Format("No user exists under the name '{0}'", userName);
+
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string resetToken)
+        {
+            if (!string.IsNullOrWhiteSpace(resetToken))
+                return View(new ResetPasswordModel { ResetToken = resetToken, OldPassword = "dummy-value" });
+            else
+            {
+                return new HttpUnauthorizedResult();
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPassword(ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool resetSuccess = WebSecurity.ResetPassword(model.ResetToken, model.NewPassword);
+
+                if (resetSuccess)
+                    TempData["message"] = "Password reset successful.";
+                else
+                    TempData["message"] = "Password reset unsuccessful. Make sure that you view the newest Bookland email or try resending the password reset request.";
+
+                return RedirectToAction("LogIn");
             }
 
             return View(model);

@@ -5,6 +5,7 @@ namespace Bookland.Migrations
     using Bookland.Models;
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Migrations;
@@ -76,7 +77,7 @@ namespace Bookland.Migrations
             {
                 FirstName = "Admin",
                 LastName = "Zero",
-                Email = "admin0@bookland.com"
+                Email = ConfigurationManager.AppSettings["adminEmail"]
             });
 
             // Assign the 'Administrator' role

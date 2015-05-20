@@ -195,6 +195,7 @@
     <Compile Include="Helpers\AccountHelpers.cs" />
     <Compile Include="Helpers\CategoryHelpers.cs" />
     <Compile Include="Helpers\LinkHelpers.cs" />
+    <Compile Include="Helpers\MailHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\EmailTemplates\ResetPasswordTemplate.html" />
     <Content Include="Content\Images\bookland-logo.gif" />
     <Content Include="Content\Images\bookland-logo.jpg" />
     <Content Include="Content\Images\placeholder.gif" />
@@ -326,6 +328,8 @@
     <Content Include="Views\Cart\MergeSessionAndDbCartsWhenAuthenticated.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\Update.cshtml" />
+    <Content Include="Views\Account\RequestPasswordReset.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

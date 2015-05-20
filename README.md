@@ -27,6 +27,9 @@ Bookland is separated into two sections: the storefront and the admin section.
 * View basic cart details on any storefront page
 * Customer registration and log in for persistent cart (and eventual purchase)
 
+#### User accounts
+* Ability to change and reset (through email) your password
+
 ### Admin
 
 #### Categories
@@ -40,8 +43,8 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Add image file to associate with a product
 
 #### User accounts
-* Three user roles (in order of highest clearance): administrator, staff, customer
-* Administrators can edit any other users; staff can only edit customers
+* Four user roles (in order of highest clearance): administrator, support, staff, customer
+* Administrators can edit any other users; support can edit staff and customers; staff can only edit customers
 * Create and update user accounts
 
 ## Developer setup (requires internet access)
@@ -51,6 +54,10 @@ Bookland is separated into two sections: the storefront and the admin section.
 	a) Visual Studio > Tools menu > NuGet Package Manager > Package Manager Settings
 	b) Under 'Package Restore' heading, ensure the 'Allow NuGet to download missing packages' check box is checked
 	c) Visual Studio > Build menu > Build Solution
+3. Configure administrator email settings (for sending password reset emails, etc.)
+	a) Open the 'Web.config' file in the main Bookland project
+	b) Under the 'appSettings' section, edit the value of each email-related setting (denoted as key, e.g. 'smtpHost') based on your nominated email provider and account
+	c) Example values (which are made up) are provided for a Gmail-based account
 4. Generate database based on project code (i.e. EF Code First)
 	a) Visual Studio > Tools menu > NuGet Package Manager > Package Manager Console
 	b) In the Package Manager Console, type 'add-migration Init' and wait until completion

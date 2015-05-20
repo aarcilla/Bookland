@@ -75,15 +75,6 @@ namespace Bookland.Models
         public virtual UserProfile UserProfile { get; set; }
     }
 
-    public class RegisterExternalLoginModel
-    {
-        [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
-
-        public string ExternalLoginData { get; set; }
-    }
-
     public class LocalPasswordModel
     {
         public string UserName { get; set; }
@@ -103,6 +94,12 @@ namespace Bookland.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class ResetPasswordModel : LocalPasswordModel
+    {
+        [Required]
+        public string ResetToken { get; set; }
     }
 
     public class LoginModel
@@ -176,12 +173,5 @@ namespace Bookland.Models
         public string Country { get; set; }
 
         public int Postcode { get; set; }
-    }
-
-    public class ExternalLogin
-    {
-        public string Provider { get; set; }
-        public string ProviderDisplayName { get; set; }
-        public string ProviderUserID { get; set; }
     }
 }
