@@ -22,9 +22,9 @@ namespace Bookland.Migrations
 
         protected override void Seed(Bookland.DAL.BookshopContext context)
         {
-            string constraintCountQueryFormat = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_NAME = '{0}'";
-            IEnumerable<int> ucCartExists = context.Database.SqlQuery<int>(string.Format(constraintCountQueryFormat, "uc_Cart"));
-            IEnumerable<int> ucUserExists = context.Database.SqlQuery<int>(string.Format(constraintCountQueryFormat, "uc_User"));
+            string constraintCountQueryFormat = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_NAME = @p0";
+            IEnumerable<int> ucCartExists = context.Database.SqlQuery<int>(constraintCountQueryFormat, "uc_Cart");
+            IEnumerable<int> ucUserExists = context.Database.SqlQuery<int>(constraintCountQueryFormat, "uc_User");
 
             if (ucCartExists.First() < 1)
                 context.Database.ExecuteSqlCommand("ALTER TABLE Cart ADD CONSTRAINT uc_Cart UNIQUE(UserID)");
