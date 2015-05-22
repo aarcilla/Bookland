@@ -250,7 +250,7 @@ namespace Bookland.Areas.Admin.Controllers
             UserProfile userProfile = userProfileRepo.GetUserProfile(userName);
             if (userProfile != null)
             {
-                return View("ChangePassword", new LocalPasswordModel { UserName = userName });
+                return View("ChangePassword", new LocalPasswordModel { UserName = userName, OldPassword = "dummy-value" });
             }
             else
             {
@@ -269,7 +269,9 @@ namespace Bookland.Areas.Admin.Controllers
                 bool changePasswordSucceeded;
                 try
                 {
-                    changePasswordSucceeded = WebSecurity.ChangePassword(model.UserName, model.OldPassword, model.NewPassword);
+                    // Similar process to password reset, but without the reset email being sent
+                    string resetToken = WebSecurity.GeneratePasswordResetToken(model.UserName);
+                    changePasswordSucceeded = WebSecurity.ResetPassword(resetToken, model.NewPassword);
                 }
                 catch (Exception)
                 {
