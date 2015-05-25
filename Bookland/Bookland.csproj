@@ -197,7 +197,7 @@
     <Compile Include="Helpers\LinkHelpers.cs" />
     <Compile Include="Helpers\MailHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
-    <Compile Include="Infrastructure\MergeCartsNinjectModule.cs" />
+    <Compile Include="Infrastructure\RepositoryNinjectModule.cs" />
     <Compile Include="Infrastructure\MergeSessionAndDbCartsAttribute.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />

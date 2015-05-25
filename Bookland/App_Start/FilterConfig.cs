@@ -12,7 +12,7 @@ namespace Bookland
         {
             filters.Add(new HandleErrorAttribute());
 
-            IKernel ninjectKernel = new StandardKernel(new MergeCartsNinjectModule(context));
+            IKernel ninjectKernel = new StandardKernel(new RepositoryNinjectModule(context));
             var cartRepo = ninjectKernel.Get<ICartRepository>();
             filters.Add(new MergeSessionAndDbCartsAttribute(cartRepo));
         }
