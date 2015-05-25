@@ -10,9 +10,11 @@ namespace Bookland.Infrastructure
     public class NinjectControllerFactory : DefaultControllerFactory
     {
         private IKernel ninjectKernel;
+        private BookshopContext context;
 
-        public NinjectControllerFactory()
+        public NinjectControllerFactory(BookshopContext bookshopContext)
         {
+            context = bookshopContext;
             ninjectKernel = new StandardKernel();
             AddBindings();
         }
@@ -23,12 +25,7 @@ namespace Bookland.Infrastructure
         }
 
         private void AddBindings()
-        {
-            // Instantiate a single DB context, for all repositories to utilise.
-            // This avoids possible failed transactions involving multiple entities 
-            // if/when each of their repositories instantiate separate DB contexts.
-            BookshopContext context = new BookshopContext();
-            
+        {            
             ninjectKernel.Bind<IProductRepository>()
                 .To<EfProductRepository>()
                 .WithConstructorArgument("context", context);

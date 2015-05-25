@@ -197,6 +197,8 @@
     <Compile Include="Helpers\LinkHelpers.cs" />
     <Compile Include="Helpers\MailHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
+    <Compile Include="Infrastructure\MergeCartsNinjectModule.cs" />
+    <Compile Include="Infrastructure\MergeSessionAndDbCartsAttribute.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
@@ -325,7 +327,6 @@
     <Content Include="Views\Category\Menu.cshtml" />
     <Content Include="Views\Account\UserLinks.cshtml" />
     <Content Include="Views\Account\LogOut.cshtml" />
-    <Content Include="Views\Cart\MergeSessionAndDbCartsWhenAuthenticated.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Account\Update.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />

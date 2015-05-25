@@ -169,37 +169,5 @@ namespace Bookland.Controllers
                 TotalCost = cartTotalCost
             });
         }
-
-        /// <summary>
-        /// If a user logs in and their cart while as a guest (i.e. before logging in) contains items, add those items to the user's DB-stored cart.
-        /// This is called whenever the main layout view is loaded.
-        /// </summary>
-        /// <returns>An empty partial view.</returns>
-        [ChildActionOnly]
-        public PartialViewResult MergeSessionAndDbCartsWhenAuthenticated()
-        {
-            var session = HttpContext.Session;
-            if (User.Identity.IsAuthenticated && session["Cart"] != null)
-            {
-                Cart sessionCart = (Cart)session["Cart"];
-
-                if (cartRepo.GetCart(User.Identity.Name) == null)
-                {
-                    cartRepo.CreateCart(User.Identity.Name);
-                    cartRepo.Commit();
-                }
-
-                foreach (CartItem item in sessionCart.CartItems)
-                {
-                    cartRepo.AddItemToCart(User.Identity.Name, item);
-                }
-
-                cartRepo.Commit();
-
-                HttpContext.Session.Clear();
-            }
-
-            return PartialView();
-        }
     }
 }
