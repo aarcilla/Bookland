@@ -30,6 +30,9 @@ namespace Bookland.Infrastructure
 
             Bind<ICartRepository>().To<EfCartRepository>()
                 .WithConstructorArgument("context", context);
+
+            Bind<IPurchaseRepository>().To<EfPurchaseRepository>()
+                .WithConstructorArgument("context", context);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace Bookland.DAL
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

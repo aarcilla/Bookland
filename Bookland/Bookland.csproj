@@ -177,13 +177,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\Abstract\ICartRepository.cs" />
+    <Compile Include="DAL\Abstract\IPurchaseRepository.cs" />
     <Compile Include="DAL\Abstract\IUserProfileRepository.cs" />
     <Compile Include="DAL\Abstract\ICategoryRepository.cs" />
     <Compile Include="DAL\Abstract\IProductRepository.cs" />
     <Compile Include="DAL\BookshopContext.cs" />
     <Compile Include="DAL\Concrete\EfCartRepository.cs" />
+    <Compile Include="DAL\Concrete\EfPurchaseRepository.cs" />
     <Compile Include="DAL\Concrete\EfUserProfileRepository.cs" />
     <Compile Include="DAL\Concrete\EfCategoryRepository.cs" />
     <Compile Include="DAL\Concrete\EfProductRepository.cs" />
@@ -207,6 +210,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
+    <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\UserLinksViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

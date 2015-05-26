@@ -35,6 +35,7 @@ namespace Bookland.Models
 
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual Category Category { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
 
         public bool IsImageInformationNullOrEmpty
         {

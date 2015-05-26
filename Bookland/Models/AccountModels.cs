@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bookland.Models
@@ -33,6 +34,7 @@ namespace Bookland.Models
 
         public virtual Address Address { get; set; }
         public virtual Cart Cart { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
     }
 
     /// <summary>
