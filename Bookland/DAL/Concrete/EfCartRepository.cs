@@ -55,31 +55,40 @@ namespace Bookland.DAL.Concrete
         public void AddItemToCart(string userName, CartItem cartItem)
         {
             Cart cart = GetCart(userName);
-            if (cart != null)
+            if (cart == null)
             {
-                CartItem itemExistsForUser = cart.CartItems.FirstOrDefault(cI => cI.Product.ProductID == cartItem.Product.ProductID);
+                if (context.UserProfiles.Count(u => u.UserName == userName) > 0)
+                {                 
+                    // Create new Cart for user if it doesn't exist yet in DB
+                    CreateCart(userName);
+                    Commit();
 
-                if (itemExistsForUser == null)
-                {
-                    context.CartItems.Add(cartItem);
-                    cart.CartItems.Add(cartItem);
+                    cart = GetCart(userName);
                 }
                 else
                 {
-                    // N.B.: Maximum quantity for a cart item is 10
-                    if ((itemExistsForUser.Quantity + cartItem.Quantity) <= 10)
-                    {
-                        itemExistsForUser.Quantity += cartItem.Quantity;
-                    }
-                    else
-                    {
-                        itemExistsForUser.Quantity = 10;
-                    }
+                    throw new ArgumentException("userName is not valid.", "userName");
                 }
+            }
+
+            CartItem itemExistsForUser = cart.CartItems.FirstOrDefault(cI => cI.Product.ProductID == cartItem.Product.ProductID);
+
+            if (itemExistsForUser == null)
+            {
+                context.CartItems.Add(cartItem);
+                cart.CartItems.Add(cartItem);
             }
             else
             {
-                throw new ArgumentException("userName is not valid.", "userName");
+                // N.B.: Maximum quantity for a cart item is 10
+                if ((itemExistsForUser.Quantity + cartItem.Quantity) <= 10)
+                {
+                    itemExistsForUser.Quantity += cartItem.Quantity;
+                }
+                else
+                {
+                    itemExistsForUser.Quantity = 10;
+                }
             }
         }
 
