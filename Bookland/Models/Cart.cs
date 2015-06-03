@@ -10,6 +10,24 @@ namespace Bookland.Models
 
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual UserProfile UserProfile { get; set; }
+
+        public decimal GetTotalPrice()
+        {
+            decimal totalPrice = 0.0M;
+            foreach (CartItem cartItem in CartItems)
+                totalPrice += cartItem.GetCartItemPrice();
+
+            return totalPrice;
+        }
+
+        public int GetItemCount()
+        {
+            int count = 0;
+            foreach (CartItem cartItem in CartItems)
+                count += cartItem.Quantity;
+
+            return count;
+        }
     }
 
     public class CartItem
@@ -20,5 +38,10 @@ namespace Bookland.Models
 
         public virtual Product Product { get; set; }
         public virtual Cart Cart { get; set; }
+
+        public decimal GetCartItemPrice()
+        {
+            return Product.Price * Quantity;
+        }
     }
 }

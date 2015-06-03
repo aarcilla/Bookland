@@ -150,24 +150,10 @@ namespace Bookland.Controllers
         [ChildActionOnly]
         public PartialViewResult CartLink(Cart cart)
         {
-            IEnumerable<CartItem> cartItems = User.Identity.IsAuthenticated ? cartRepo.GetCartItems(User.Identity.Name) : cart.CartItems;
+            if (User.Identity.IsAuthenticated)
+                cart = cartRepo.GetCart(User.Identity.Name);
 
-            int cartItemCount = 0;
-            decimal cartTotalCost = 0.0M;
-            if (cartItems != null)
-            {
-                foreach (CartItem item in cartItems)
-                {
-                    cartItemCount += item.Quantity;
-                    cartTotalCost += (item.Product.Price * item.Quantity);
-                }
-            }
-
-            return PartialView(new CartLinkViewModel
-            {
-                ItemCount = cartItemCount,
-                TotalCost = cartTotalCost
-            });
+            return PartialView(cart);
         }
     }
 }
