@@ -262,7 +262,7 @@ namespace Bookland.Controllers
                 string passwordResetToken = WebSecurity.GeneratePasswordResetToken(userProfile.UserName, 60);
                 string passwordResetUrl = Url.Action("ResetPassword", "Account", new { resetToken = passwordResetToken }, Request.Url.Scheme);
 
-                string resetEmailTemplatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\Content\EmailTemplates\ResetPasswordTemplate.html");
+                string resetEmailTemplatePath = AppDomain.CurrentDomain.BaseDirectory + @"\Content\EmailTemplates\ResetPasswordTemplate.html";
                 string resetEmailTemplate = System.IO.File.ReadAllText(resetEmailTemplatePath);
                 string mailBody = string.Format(resetEmailTemplate, userName, passwordResetUrl);
 

@@ -27,7 +27,7 @@ namespace Bookland.Models
         [Required]
         [Display(Name = "Price paid")]
         [DataType(DataType.Currency)]
-        public int PurchasePrice { get; set; }
+        public decimal PurchasePrice { get; set; }
 
         [Required]
         [Display(Name = "Quantity")]

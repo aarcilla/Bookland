@@ -54,9 +54,11 @@ namespace Bookland.Models
         public int AddressID { get; set; }
 
         [Required]
+        [Display(Name = "Street line 1")]
         [StringLength(250, ErrorMessage = "Street line 1 must be {0} characters or less.")]
         public string StreetLine1 { get; set; }
 
+        [Display(Name = "Street line 2")]
         [StringLength(250, ErrorMessage = "Street line 2 must be {0} characters or less.")]
         public string StreetLine2 { get; set; }
 
