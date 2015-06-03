@@ -1,0 +1,24 @@
+﻿@model Bookland.Models.Cart
+
+<div id="cart-small">
+    <h4 style="text-align: center">Cart</h4>
+    <table>
+        <colgroup>
+            <col span="1" style="width: 85%" />
+            <col span="1" style="width: 15%" />
+        </colgroup>
+        <tbody>
+            @foreach (var cartItem in Model.CartItems)
+            {
+                <tr>
+                    <td>@cartItem.Product.Name @string.Format("(x{0})", cartItem.Quantity)</td>
+                    <td>@string.Format("{0:c}", cartItem.GetCartItemPrice())</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td><strong>@string.Format("{0:c}", Model.GetTotalPrice())</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

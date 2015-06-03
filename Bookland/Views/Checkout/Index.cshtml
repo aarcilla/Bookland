@@ -1,0 +1,104 @@
+﻿@model Bookland.Models.CheckoutViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>Please provide your credit card details and a delivery address.</p>
+
+@{ Html.RenderPartial("_ViewCartSmall", Model.UserCart); }
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        <h3>Credit card details</h3>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.Payment.CardOwnerName)
+            @Html.EditorFor(m => m.Payment.CardOwnerName)
+            @Html.ValidationMessageFor(m => m.Payment.CardOwnerName)
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.Payment.CardNumber1)
+            @Html.TextBoxFor(m => m.Payment.CardNumber1,
+                new { @class = "three-em card-number", MaxLength= "4" })
+            @Html.TextBoxFor(m => m.Payment.CardNumber2,
+             new { @class = "three-em card-number", MaxLength = "4" })
+            @Html.TextBoxFor(m => m.Payment.CardNumber3,
+             new { @class = "three-em card-number", MaxLength = "4" })
+            @Html.TextBoxFor(m => m.Payment.CardNumber4,
+             new { @class = "three-em card-number", MaxLength = "4" })
+            @Html.TextBoxFor(m => m.Payment.CardNumber5,
+             new { @class = "two-em card-number", MaxLength = "3" })
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.Payment.CardCvv)
+            @Html.TextBoxFor(m => m.Payment.CardCvv,
+                new { @class = "two-em", MaxLength = "3" })
+            @Html.ValidationMessageFor(m => m.Payment.CardCvv)
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.Payment.CardExpiryMonth)
+            @Html.TextBoxFor(m => m.Payment.CardExpiryMonth,
+                new { @class = "two-em", MaxLength = "2", Placeholder = "MM" })
+            @Html.TextBoxFor(m => m.Payment.CardExpiryYear,
+                new { @class = "three-em", MaxLength = "4", Placeholder = "YYYY" })
+        </div>
+    </p>
+
+    <div id="delivery-address">
+        <h3>Delivery address</h3>
+
+        <a href="#" id="clear-address" class="actions-link" title="Send to a different address to the one in your user profile.">Clear</a>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.DeliveryAddress.StreetLine1)
+            @Html.EditorFor(m => m.DeliveryAddress.StreetLine1)
+            @Html.ValidationMessageFor(m => m.DeliveryAddress.StreetLine1)
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.DeliveryAddress.StreetLine2)
+            @Html.EditorFor(m => m.DeliveryAddress.StreetLine2)
+            @Html.ValidationMessageFor(m => m.DeliveryAddress.StreetLine2)
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.DeliveryAddress.City)
+            @Html.EditorFor(m => m.DeliveryAddress.City)
+            @Html.ValidationMessageFor(m => m.DeliveryAddress.City)
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.DeliveryAddress.State)
+            @Html.EditorFor(m => m.DeliveryAddress.State)
+            @Html.ValidationMessageFor(m => m.DeliveryAddress.State)
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.DeliveryAddress.Country)
+            @Html.EditorFor(m => m.DeliveryAddress.Country)
+            @Html.ValidationMessageFor(m => m.DeliveryAddress.Country)
+        </div>
+
+        <div class="form-row">
+            @Html.LabelFor(m => m.DeliveryAddress.Postcode)
+            @Html.EditorFor(m => m.DeliveryAddress.Postcode)
+            @Html.ValidationMessageFor(m => m.DeliveryAddress.Postcode)
+        </div>
+    </div>
+    
+    <input type="submit" value="Confirm" />
+}
+
+@section scripts {
+    <script src="/Scripts/Bookland/clearAddress.js"></script>
+    <script src="~/Scripts/Bookland/cardNumberAutoTab.js"></script>
+}

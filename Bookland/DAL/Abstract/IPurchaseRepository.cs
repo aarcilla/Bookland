@@ -40,6 +40,12 @@ namespace Bookland.DAL.Abstract
         void UpdatePurchase(Purchase purchase);
 
         /// <summary>
+        /// Delete Purchases under the same transaction/invoice.
+        /// </summary>
+        /// <param name="transactionID">The ID of the requested transaction.</param>
+        void DeletePurchasesByTransaction(Guid transactionID);
+
+        /// <summary>
         /// Commit any changes to the DB.
         /// </summary>
         void Commit();

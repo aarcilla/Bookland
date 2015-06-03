@@ -1,0 +1,54 @@
+﻿@model Bookland.Models.PurchaseTemplateViewModel
+
+Hi @User.Identity.Name,
+
+<p>Thank you for purchasing from Bookland. Here is what you ordered:</p>
+<p>
+    Transaction ID: @Model.TransactionID.ToString()
+    <table style="width: 70%">
+        <thead>
+            <tr>
+                <th style="width: 40%"><!-- Product column --></th>
+                <th style="width: 20%"><!--Price column --></th>
+                <th style="width: 20%"><!-- Quantity column --></th>
+                <th style="width: 20%"><!-- Price X Quantity Column --></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartItem in Model.UserCart.CartItems)
+            {
+                <tr>
+                    <td>@cartItem.Product.Name</td>
+                    <td>@string.Format("{0:c}", cartItem.Product.Price)</td>
+                    <td>@string.Format("x{0}", cartItem.Quantity)</td>
+                    <td><strong>@string.Format("{0:c}", cartItem.GetCartItemPrice())</strong></td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td /><td /><td>Total:</td><td><strong>@string.Format("{0:c}", Model.UserCart.GetTotalPrice())</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</p>
+
+<p>It will be delivered to this address:</p>
+<p>
+    @Model.DeliveryAddress.StreetLine1<br/>
+    @if (!string.IsNullOrWhiteSpace(Model.DeliveryAddress.StreetLine2))
+    {
+        @: @Model.DeliveryAddress.StreetLine2<br />
+    }
+    @Model.DeliveryAddress.City<br />
+    @Model.DeliveryAddress.State<br />
+    @Model.DeliveryAddress.Country<br />
+    @Model.DeliveryAddress.Postcode
+</p>
+
+<p>If you have any issues with your order, please don't hesitate to contact our support team (don't forget to mention the ID of this transaction).</p>
+
+<p>
+    Sincerely,<br />
+    The Bookland team
+</p>

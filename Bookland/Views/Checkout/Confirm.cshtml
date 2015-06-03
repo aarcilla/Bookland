@@ -1,0 +1,62 @@
+﻿@model Bookland.Models.CheckoutViewModel
+
+@{
+    ViewBag.Title = "Confirm Order";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>Please confirm your order details.</p>
+<p>
+    <h3>Buying:</h3>
+    <table id="checkout-confirm-table">
+        <thead>
+            <tr>
+                <th class="prod-col">Product</th>
+                <th class="prc-col">Price</th>
+                <th class="quant-col">Quantity</th>
+                <th class="prc-quant-col">Combined</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartItem in Model.UserCart.CartItems)
+            {
+                <tr>
+                    <td>@cartItem.Product.Name</td>
+                    <td>@string.Format("{0:c}", cartItem.Product.Price)</td>
+                    <td>@string.Format("x{0}", cartItem.Quantity)</td>
+                    <td>@string.Format("{0:c}", cartItem.Product.Price * cartItem.Quantity)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</p>
+<p>
+    <h3>Paying with card:</h3>
+    @Model.Payment.CardOwnerName <br />
+    Number ending with 
+    @if (!string.IsNullOrWhiteSpace(Model.Payment.CardNumber5)) {
+        @: ... @Model.Payment.CardNumber5 <br />
+    } else {
+        @: ... @Model.Payment.CardNumber4 <br />
+    }
+    Expiring @string.Format("{0}/{1}", Model.Payment.CardExpiryMonth, Model.Payment.CardExpiryYear) <br />
+</p>
+<p>
+    <h3>Delivering to:</h3>
+    @Model.DeliveryAddress.StreetLine1 <br />
+    @if (!string.IsNullOrWhiteSpace(Model.DeliveryAddress.StreetLine2))
+    {
+        @: @Model.DeliveryAddress.StreetLine2 <br />
+}
+    @Model.DeliveryAddress.City <br />
+    @Model.DeliveryAddress.State <br />
+    @Model.DeliveryAddress.Country <br />
+    @Model.DeliveryAddress.Postcode <br />
+</p>
+@using (Html.BeginForm("ConfirmCheckout", "Checkout"))
+{
+    @Html.AntiForgeryToken()
+    
+    <input type="submit" value="Checkout" />
+}

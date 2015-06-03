@@ -199,6 +199,7 @@
     <Compile Include="Helpers\CategoryHelpers.cs" />
     <Compile Include="Helpers\LinkHelpers.cs" />
     <Compile Include="Helpers\MailHelpers.cs" />
+    <Compile Include="Helpers\MvcHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
     <Compile Include="Infrastructure\RepositoryNinjectModule.cs" />
     <Compile Include="Infrastructure\MergeSessionAndDbCartsAttribute.cs" />
@@ -206,11 +207,13 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Cart.cs" />
-    <Compile Include="Models\CartLinkViewModel.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CheckoutViewModel.cs" />
+    <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\Purchase.cs" />
+    <Compile Include="Models\PurchaseTemplateViewModel.cs" />
     <Compile Include="Models\UserLinksViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -289,6 +292,8 @@
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\ChangePassword.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\Bookland\cardNumberAutoTab.js" />
+    <Content Include="Scripts\Bookland\clearAddress.js" />
     <Content Include="Scripts\Bookland\messageHide.js" />
     <Content Include="Scripts\Bookland\treeEdit.js" />
     <Content Include="Scripts\Bookland\treeHelpers.js" />
@@ -322,7 +327,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\ViewProduct.cshtml" />
+    <Content Include="Views\Shared\_ViewProduct.cshtml" />
     <Content Include="Views\Account\LogIn.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
@@ -335,6 +340,10 @@
     <Content Include="Views\Account\Update.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Checkout\Index.cshtml" />
+    <Content Include="Views\Checkout\Confirm.cshtml" />
+    <Content Include="Views\Shared\_ViewCartSmall.cshtml" />
+    <Content Include="Views\Shared\EmailTemplates\_PurchaseTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

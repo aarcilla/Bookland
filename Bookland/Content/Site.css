@@ -56,6 +56,18 @@ label {
     padding-bottom: 5px;
 }
 
+.two-em {
+    width: 2em;
+}
+
+.three-em {
+    width: 3em;
+}
+
+.four-em {
+    width: 4em;
+}
+
 
 /* Styles for validation helpers
 -----------------------------------------------------------*/
@@ -192,6 +204,19 @@ td.image-col, td.actions-col {
     text-align: center;
 }
 
+table#checkout-confirm-table {
+    width: 70%;
+}
+
+th.prod-col {
+    width: 40%;
+}
+
+th.prc-col, th.quant-col, th.prc-quant-col {
+    width: 20%;
+
+}
+
 /* Styles for messages
 -----------------------------------------------------------*/
 .message {
@@ -221,8 +246,8 @@ td.image-col, td.actions-col {
 }
 
 #main {
-    margin: 1em;
-    width: 80%;
+    margin: 1em 0em 1em 1em;
+    width: 83%;
     display: inline-block;
 }
 
@@ -234,6 +259,12 @@ td.image-col, td.actions-col {
 
 #items {
     display: block;
+}
+
+#cart-small {
+    float: right;
+    width: 33%;
+    border: 2px solid #7F0101;
 }
 
 .row {

@@ -45,6 +45,16 @@ namespace Bookland.DAL.Concrete
             dbPurchase.PurchaseStatus = purchase.PurchaseStatus;
         }
 
+        public void DeletePurchasesByTransaction(Guid transactionID)
+        {
+            IEnumerable<Purchase> purchasesByTransaction = GetPurchasesByTransaction(transactionID);
+
+            foreach (Purchase purchase in purchasesByTransaction)
+            {
+                context.Purchases.Remove(purchase);
+            }
+        }
+
         public void Commit()
         {
             context.SaveChanges();
