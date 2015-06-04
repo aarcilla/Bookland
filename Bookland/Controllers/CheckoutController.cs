@@ -15,6 +15,8 @@ namespace Bookland.Controllers
         private IPurchaseRepository purchaseRepo;
         private IUserProfileRepository userProfileRepo;
 
+        private int CheckoutExpiryMinutes = 30;
+
         public CheckoutController(ICartRepository cartRepo, IPurchaseRepository purchaseRepo,
             IUserProfileRepository userProfileRepo)
         {
@@ -25,8 +27,17 @@ namespace Bookland.Controllers
 
         public ActionResult Index()
         {
+            // If delivery and payment details have already been entered (for current cart), skip to Confirm page
+            if (HttpRuntime.Cache["DeliveryAddress"] != null && HttpRuntime.Cache["Payment"] != null
+                && HttpRuntime.Cache["CheckoutCart"] != null)
+                return RedirectToAction("Confirm");
+
             Address userAddress = userProfileRepo.GetAddress(User.Identity.Name);
             Cart userCart = cartRepo.GetCart(User.Identity.Name);
+
+            // Add user's cart to cache to reduce future (more expensive) calls to DB, 
+            // with 30 minute expiration (also for checkout process expiration)
+            HttpRuntime.Cache.Insert("CheckoutCart", userCart, null, DateTime.Now.AddMinutes(CheckoutExpiryMinutes), Cache.NoSlidingExpiration);
 
             return View(new CheckoutViewModel 
             {
@@ -39,6 +50,10 @@ namespace Bookland.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(CheckoutViewModel models)
         {
+            Cart userCart = (Cart)HttpRuntime.Cache["CheckoutCart"];
+            if (userCart == null)
+                return CheckoutExpiredRedirect();
+
             int cardExpYear = models.Payment.CardExpiryYear;
 
             int cardExpMonth;
@@ -58,13 +73,16 @@ namespace Bookland.Controllers
 
             if (ModelState.IsValid)
             {
-                HttpRuntime.Cache.Insert("DeliveryAddress", models.DeliveryAddress, null, DateTime.Now.AddHours(3), Cache.NoSlidingExpiration);
-                HttpRuntime.Cache.Insert("Payment", models.Payment, null, DateTime.Now.AddHours(3), Cache.NoSlidingExpiration);
+                // Add delivery address and payment details to cache to prepare for final checkout processing
+                HttpRuntime.Cache.Insert("DeliveryAddress", models.DeliveryAddress, null, 
+                    DateTime.Now.AddMinutes(CheckoutExpiryMinutes), Cache.NoSlidingExpiration);
+                HttpRuntime.Cache.Insert("Payment", models.Payment, null, 
+                    DateTime.Now.AddMinutes(CheckoutExpiryMinutes), Cache.NoSlidingExpiration);
 
                 return RedirectToAction("Confirm");
             }
-
-            models.UserCart = cartRepo.GetCart(User.Identity.Name);
+                        
+            models.UserCart = userCart;
 
             return View(models);
         }
@@ -73,21 +91,19 @@ namespace Bookland.Controllers
         {
             PaymentModel payment = (PaymentModel)HttpRuntime.Cache["Payment"];
             Address deliveryAddress = (Address)HttpRuntime.Cache["DeliveryAddress"];
+            Cart userCart = (Cart)HttpRuntime.Cache["CheckoutCart"];
 
-            if (payment != null && deliveryAddress != null)
+            if (payment != null && deliveryAddress != null && userCart != null)
             {
                 return View(new CheckoutViewModel
                 {
                     Payment = payment,
                     DeliveryAddress = deliveryAddress,
-                    UserCart = cartRepo.GetCart(User.Identity.Name)
+                    UserCart = userCart
                 });
             }
-            else
-            {
-                TempData["message"] = "Checkout process incomplete.";
-                return RedirectToAction("Index", "Cart");
-            }
+
+            return CheckoutExpiredRedirect();
         }
 
         [HttpPost]
@@ -98,14 +114,11 @@ namespace Bookland.Controllers
 
             // Add to purchase history
             Address deliveryAddress = (Address)HttpRuntime.Cache["DeliveryAddress"];
-            if (deliveryAddress == null)
-            {
-                TempData["message"] = "Checkout process expired. Please try again.";
-                return RedirectToAction("Index", "Cart");
-            }
+            Cart userCart = (Cart)HttpRuntime.Cache["CheckoutCart"];
+            if (deliveryAddress == null || userCart == null)
+                return CheckoutExpiredRedirect();
 
             UserProfile userProfile = userProfileRepo.GetUserProfile(User.Identity.Name);
-            Cart userCart = cartRepo.GetCart(User.Identity.Name);
             Guid transactionID = Guid.NewGuid();
 
             try
@@ -151,9 +164,7 @@ namespace Bookland.Controllers
                 return RedirectToAction("Index", "Cart");
             }
 
-            // Clear cache data
-            HttpRuntime.Cache.Remove("Payment");
-            HttpRuntime.Cache.Remove("DeliveryAddress");
+            CheckoutCleanup();
 
             // Clear cart
             cartRepo.ClearCart(User.Identity.Name);
@@ -162,5 +173,30 @@ namespace Bookland.Controllers
             TempData["message"] = "Checkout successful. Check your email inbox for an invoice.";
             return RedirectToAction("Index", "Home");
         }
+
+        public ActionResult CancelCheckout()
+        {
+            CheckoutCleanup();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        #region Helper methods
+
+        private ActionResult CheckoutExpiredRedirect()
+        {
+            TempData["message"] = "Checkout process incomplete or expired. Please try again.";
+            return RedirectToAction("Index", "Cart");
+        }
+
+        private void CheckoutCleanup()
+        {
+            // Clear checkout cache data
+            HttpRuntime.Cache.Remove("Payment");
+            HttpRuntime.Cache.Remove("DeliveryAddress");
+            HttpRuntime.Cache.Remove("CheckoutCart");
+        }
+
+        #endregion
     }
 }

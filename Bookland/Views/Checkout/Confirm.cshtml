@@ -54,9 +54,11 @@
     @Model.DeliveryAddress.Country <br />
     @Model.DeliveryAddress.Postcode <br />
 </p>
-@using (Html.BeginForm("ConfirmCheckout", "Checkout"))
-{
-    @Html.AntiForgeryToken()
-    
-    <input type="submit" value="Checkout" />
-}
+<span style="float: left">
+    @using (Html.BeginForm("ConfirmCheckout", "Checkout"))
+    {
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Checkout" />
+    }
+</span>
+@Html.ActionLink("Cancel", "CancelCheckout", "Checkout", null, new { @class = "actions-link" })

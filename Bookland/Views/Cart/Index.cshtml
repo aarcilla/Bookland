@@ -81,11 +81,11 @@
                     }
                 </td>
             </tr>
-            <tr>
-                <td colspan="4"></td>
-                <td class="actions-col">@Html.ActionLink("Proceed to Checkout", "Index", "Checkout", null, new { @class = "actions-link" })</td></tr>
         </tfoot>
     </table>
-} else {
+    @Html.ActionLink("Proceed to Checkout", "Index", "Checkout", null, new { @class = "actions-link", style = "float: right"})
+}
+else
+{
     <p>There is nothing in your cart.</p>
 }

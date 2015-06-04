@@ -2,6 +2,7 @@
 using Bookland.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Bookland.Controllers
@@ -46,6 +47,7 @@ namespace Bookland.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
+                ExpireCheckoutCart();
                 cartRepo.AddItemToCart(User.Identity.Name, cartItem);
                 cartRepo.Commit();
             }
@@ -74,6 +76,7 @@ namespace Bookland.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                ExpireCheckoutCart();
                 cartRepo.RemoveItemFromCart(User.Identity.Name, productID);
                 cartRepo.Commit();
             }
@@ -99,6 +102,7 @@ namespace Bookland.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                ExpireCheckoutCart();
                 cartRepo.ClearCart(User.Identity.Name);
                 cartRepo.Commit();
             }
@@ -126,6 +130,7 @@ namespace Bookland.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                ExpireCheckoutCart();
                 cartRepo.UpdateItemQuantity(User.Identity.Name, productID, quantity);
                 cartRepo.Commit();
             }
@@ -154,6 +159,12 @@ namespace Bookland.Controllers
                 cart = cartRepo.GetCart(User.Identity.Name);
 
             return PartialView(cart);
+        }
+
+        private void ExpireCheckoutCart()
+        {
+            if (HttpRuntime.Cache["CheckoutCart"] != null)
+                HttpRuntime.Cache.Remove("CheckoutCart");
         }
     }
 }
