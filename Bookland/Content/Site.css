@@ -214,7 +214,15 @@ th.prod-col {
 
 th.prc-col, th.quant-col, th.prc-quant-col {
     width: 20%;
+}
 
+table#purchase-history-table {
+    width: 80%;
+}
+
+#purchase-history-table th.prc-col, #purchase-history-table th.quant-col, 
+    #purchase-history-table th.prc-quant-col, #purchase-history-table th.status-col {
+    width: 15%;
 }
 
 /* Styles for messages

@@ -179,6 +179,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PurchasesController.cs" />
     <Compile Include="DAL\Abstract\ICartRepository.cs" />
     <Compile Include="DAL\Abstract\IPurchaseRepository.cs" />
     <Compile Include="DAL\Abstract\IUserProfileRepository.cs" />
@@ -344,6 +345,7 @@
     <Content Include="Views\Checkout\Confirm.cshtml" />
     <Content Include="Views\Shared\_ViewCartSmall.cshtml" />
     <Content Include="Views\Shared\EmailTemplates\_PurchaseTemplate.cshtml" />
+    <Content Include="Views\Purchases\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

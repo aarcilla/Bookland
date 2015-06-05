@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Bookland.Models.Purchase>
+
+@{
+    ViewBag.Title = "Purchase History";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@{ string newTransaction = string.Empty; }
+
+@if (Model != null && Model.Count() > 0) {
+    <table id="purchase-history-table">
+        <thead>
+            <tr>
+                <th class="prod-col">Product</th>
+                <th class="prc-col">Price</th>
+                <th class="quant-col">Quantity</th>
+                <th class="prc-quant-col">Item total</th>
+                <th class="status-col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var purchase in Model)
+        {
+            string currentTransaction = purchase.TransactionID.ToString();
+            if (!currentTransaction.Equals(newTransaction))
+            {
+                newTransaction = currentTransaction;
+                <tr><td colspan="5"><h3>Order @newTransaction</h3></td></tr>
+                <tr><td colspan="5"><h4>@purchase.PurchaseDate</h4></td></tr>
+            }
+
+            <tr>
+                <td>@purchase.Product.Name</td>
+                <td>@string.Format("{0:c}", purchase.PurchasePrice) </td>
+                <td>@string.Format("x{0}", purchase.PurchaseQuantity) </td>
+                <td>@string.Format("{0:c}", (purchase.PurchasePrice * purchase.PurchaseQuantity)) </td>
+                <td>@purchase.PurchaseStatus</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+} else {
+    <p>You have not purchased anything yet.</p>
+}
