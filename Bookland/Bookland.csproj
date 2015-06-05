@@ -168,9 +168,11 @@
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PurchasesController.cs" />
     <Compile Include="Areas\Admin\Models\CategoryEditorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductEditorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\PurchasesViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UserEditorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
     <Compile Include="Binders\CartModelBinder.cs" />
@@ -292,6 +294,7 @@
     <Content Include="Areas\Admin\Views\Account\Editor.cshtml" />
     <Content Include="Areas\Admin\Views\Account\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Account\ChangePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Purchases\Index.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\Bookland\cardNumberAutoTab.js" />
     <Content Include="Scripts\Bookland\clearAddress.js" />

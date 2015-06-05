@@ -45,7 +45,7 @@
                         @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Support")) { 
                             @Html.ActionLink("Password", "ChangePassword", new { userName = userProfile.UserName }, new { @class = "actions-link" })
                         }
-                        <a href="#" class="actions-link">Delete</a>
+                        @Html.ActionLink("Purchases", "Index", "Purchases", new { userName = userProfile.UserName }, new { @class = "actions-link" })
                     </td>
                 </tr>
             }
