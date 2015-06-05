@@ -17,10 +17,12 @@ namespace Bookland.Controllers
     public class AccountController : Controller
     {
         private IUserProfileRepository userProfileRepo;
+        private ICartRepository cartRepo;
 
-        public AccountController(IUserProfileRepository userProfileRepo)
+        public AccountController(IUserProfileRepository userProfileRepo, ICartRepository cartRepo)
         {
             this.userProfileRepo = userProfileRepo;
+            this.cartRepo = cartRepo;
         }
 
         //
@@ -112,6 +114,9 @@ namespace Bookland.Controllers
                         Postcode = model.Postcode
                     }, model.UserName);
                     userProfileRepo.Commit();
+
+                    cartRepo.CreateCart(model.UserName);
+                    cartRepo.Commit();
 
                     WebSecurity.Login(model.UserName, model.Password);
 
