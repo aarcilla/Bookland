@@ -4,9 +4,9 @@ using System.Net.Mail;
 
 namespace Bookland.Helpers
 {
-    public static class MailHelpers
+    public class MailHelpers : IMailHelpers
     {
-        public static bool SendAdminEmail(string toAddress, string subject, string body)
+        public bool SendAdminEmail(string toAddress, string subject, string body)
         {
             string smtpHost = ConfigurationManager.AppSettings["adminSmtpHost"];
             int smtpPort = Int32.Parse(ConfigurationManager.AppSettings["adminSmtpPort"]);

@@ -18,11 +18,13 @@ namespace Bookland.Controllers
     {
         private IUserProfileRepository userProfileRepo;
         private ICartRepository cartRepo;
+        private IMailHelpers mailHelpers;
 
-        public AccountController(IUserProfileRepository userProfileRepo, ICartRepository cartRepo)
+        public AccountController(IUserProfileRepository userProfileRepo, ICartRepository cartRepo, IMailHelpers mailHelpers)
         {
             this.userProfileRepo = userProfileRepo;
             this.cartRepo = cartRepo;
+            this.mailHelpers = mailHelpers;
         }
 
         //
@@ -271,7 +273,7 @@ namespace Bookland.Controllers
                 string resetEmailTemplate = System.IO.File.ReadAllText(resetEmailTemplatePath);
                 string mailBody = string.Format(resetEmailTemplate, userName, passwordResetUrl);
 
-                bool mailSuccess = MailHelpers.SendAdminEmail(userProfile.Email, "Bookland: Password Reset", mailBody);
+                bool mailSuccess = mailHelpers.SendAdminEmail(userProfile.Email, "Bookland: Password Reset", mailBody);
 
                 if (mailSuccess)
                     TempData["message"] = "Password reset email sent. Please check your inbox and reset your password within 1 hour.";

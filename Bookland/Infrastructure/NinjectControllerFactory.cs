@@ -15,7 +15,7 @@ namespace Bookland.Infrastructure
         public NinjectControllerFactory(BookshopContext bookshopContext)
         {
             context = bookshopContext;
-            ninjectKernel = new StandardKernel(new RepositoryNinjectModule(context));
+            ninjectKernel = new StandardKernel(new RepositoryNinjectModule(context), new HelpersNinjectModule());
         }
 
         protected override IController GetControllerInstance(System.Web.Routing.RequestContext requestContext, Type controllerType)

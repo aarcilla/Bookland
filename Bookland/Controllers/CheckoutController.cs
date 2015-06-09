@@ -14,15 +14,19 @@ namespace Bookland.Controllers
         private ICartRepository cartRepo;
         private IPurchaseRepository purchaseRepo;
         private IUserProfileRepository userProfileRepo;
+        private IMailHelpers mailHelpers;
+        private IMvcHelpers mvcHelpers;
 
         private int CheckoutExpiryMinutes = 30;
 
         public CheckoutController(ICartRepository cartRepo, IPurchaseRepository purchaseRepo,
-            IUserProfileRepository userProfileRepo)
+            IUserProfileRepository userProfileRepo, IMailHelpers mailHelpers, IMvcHelpers mvcHelpers)
         {
             this.cartRepo = cartRepo;
             this.purchaseRepo = purchaseRepo;
             this.userProfileRepo = userProfileRepo;
+            this.mailHelpers = mailHelpers;
+            this.mvcHelpers = mvcHelpers;
         }
 
         public ActionResult Index()
@@ -146,14 +150,14 @@ namespace Bookland.Controllers
             }
 
             // Send email invoice
-            string purchaseEmailString = (new MvcHelpers()).RenderViewToString(ControllerContext, @"~/Views/Shared/EmailTemplates/_PurchaseTemplate.cshtml", new PurchaseTemplateViewModel
+            string purchaseEmailString = mvcHelpers.RenderViewToString(ControllerContext, @"~/Views/Shared/EmailTemplates/_PurchaseTemplate.cshtml", new PurchaseTemplateViewModel
             {
                 DeliveryAddress = deliveryAddress,
                 UserCart = userCart,
                 TransactionID = transactionID
             });
             
-            bool emailSuccess = MailHelpers.SendAdminEmail(userProfile.Email, "Bookland: Order " + transactionID.ToString(), purchaseEmailString);
+            bool emailSuccess = mailHelpers.SendAdminEmail(userProfile.Email, "Bookland: Order " + transactionID.ToString(), purchaseEmailString);
             if (!emailSuccess)
             {
                 // Revert changes made in DB's Purchase table

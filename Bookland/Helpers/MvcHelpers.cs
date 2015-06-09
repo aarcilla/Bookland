@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
+﻿using System.IO;
 using System.Web.Mvc;
 
 namespace Bookland.Helpers
 {
-    public class MvcHelpers
+    public class MvcHelpers : IMvcHelpers
     {
         public string RenderViewToString(ControllerContext controllerContext, string viewName, object model)
         {

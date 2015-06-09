@@ -200,10 +200,13 @@
     </Compile>
     <Compile Include="Helpers\AccountHelpers.cs" />
     <Compile Include="Helpers\CategoryHelpers.cs" />
+    <Compile Include="Helpers\IMailHelpers.cs" />
+    <Compile Include="Helpers\IMvcHelpers.cs" />
     <Compile Include="Helpers\LinkHelpers.cs" />
     <Compile Include="Helpers\MailHelpers.cs" />
     <Compile Include="Helpers\MvcHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
+    <Compile Include="Infrastructure\HelpersNinjectModule.cs" />
     <Compile Include="Infrastructure\RepositoryNinjectModule.cs" />
     <Compile Include="Infrastructure\MergeSessionAndDbCartsAttribute.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
