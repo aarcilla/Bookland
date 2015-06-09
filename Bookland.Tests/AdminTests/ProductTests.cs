@@ -17,6 +17,7 @@ namespace Bookland.Tests.AdminTests
         private Mock<IProductRepository> mockProductRepository;
         private Mock<ICategoryRepository> mockCategoryRepository;
         private Mock<IProductHelpers> mockProductHelpers;
+        private Mock<ICategoryHelpers> mockCategoryHelpers;
         private ProductController controller;
         private static Category exampleCategory = new Category { CategoryID = 1, CategoryName = "ROOT" };
         private static Product exampleProduct = new Product { ProductID = 1, Name = "exampleProduct", Category = exampleCategory };
@@ -28,7 +29,9 @@ namespace Bookland.Tests.AdminTests
             mockProductRepository = new Mock<IProductRepository>();
             mockCategoryRepository = new Mock<ICategoryRepository>();
             mockProductHelpers = new Mock<IProductHelpers>();
-            controller = new ProductController(mockProductRepository.Object, mockCategoryRepository.Object, mockProductHelpers.Object);
+            mockCategoryHelpers = new Mock<ICategoryHelpers>();
+            controller = new ProductController(mockProductRepository.Object, mockCategoryRepository.Object, 
+                mockProductHelpers.Object, mockCategoryHelpers.Object);
         }
 
         [TestCleanup]
@@ -36,6 +39,8 @@ namespace Bookland.Tests.AdminTests
         {
             mockProductRepository = null;
             mockCategoryRepository = null;
+            mockProductHelpers = null;
+            mockCategoryHelpers = null;
             
             controller.Dispose();
             controller = null;

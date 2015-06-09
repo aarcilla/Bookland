@@ -1,7 +1,7 @@
 ﻿using Bookland.Areas.Admin.Models;
 using Bookland.DAL.Abstract;
 using Bookland.Data_Structures;
-using Bookland.Helpers;
+using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using System;
 using System.Data;
@@ -14,10 +14,12 @@ namespace Bookland.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private ICategoryRepository categoryRepo;
+        private ICategoryHelpers categoryHelpers;
 
-        public CategoryController(ICategoryRepository categoryRepo)
+        public CategoryController(ICategoryRepository categoryRepo, ICategoryHelpers categoryHelpers)
         {
             this.categoryRepo = categoryRepo;
+            this.categoryHelpers = categoryHelpers;
         }
 
         public ViewResult Index()
@@ -55,7 +57,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 Category = null,
                 Action = "Create",
-                ParentCategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, parentCategoryID)
+                ParentCategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, parentCategoryID)
             });
         }
 
@@ -84,7 +86,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 Category = category,
                 Action = "Create",
-                ParentCategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, parentCategoryID)
+                ParentCategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, parentCategoryID)
             });
         }
 
@@ -102,7 +104,7 @@ namespace Bookland.Areas.Admin.Controllers
                 {
                     Category = category,
                     Action = "Update",
-                    ParentCategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTreeNode, parentCategory.CategoryID, category)
+                    ParentCategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTreeNode, parentCategory.CategoryID, category)
                 });
             }
             else
@@ -137,7 +139,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 Category = category,
                 Action = "Update",
-                ParentCategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTreeNode, parentCategoryID)
+                ParentCategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTreeNode, parentCategoryID)
             });
         }
 

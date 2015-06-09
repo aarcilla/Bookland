@@ -18,6 +18,8 @@ namespace Bookland.Infrastructure
             Bind<IProductHelpers>().To<ProductHelpers>();
 
             Bind<IAccountHelpers>().To<AccountHelpers>();
+
+            Bind<ICategoryHelpers>().To<CategoryHelpers>();
         }
     }
 }

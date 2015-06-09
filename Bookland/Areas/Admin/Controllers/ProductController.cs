@@ -2,7 +2,6 @@
 using Bookland.Constants;
 using Bookland.DAL.Abstract;
 using Bookland.Data_Structures;
-using Bookland.Helpers;
 using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using System;
@@ -19,12 +18,15 @@ namespace Bookland.Areas.Admin.Controllers
         private IProductRepository productRepo;
         private ICategoryRepository categoryRepo;
         private IProductHelpers productHelpers;
+        private ICategoryHelpers categoryHelpers;
 
-        public ProductController(IProductRepository productRepo, ICategoryRepository categoryRepo, IProductHelpers productHelpers)
+        public ProductController(IProductRepository productRepo, ICategoryRepository categoryRepo, 
+            IProductHelpers productHelpers, ICategoryHelpers categoryHelpers)
         {
             this.productRepo = productRepo;
             this.categoryRepo = categoryRepo;
             this.productHelpers = productHelpers;
+            this.categoryHelpers = categoryHelpers;
         }
 
         public ViewResult Index(int categoryID = 1, string order = null)
@@ -61,7 +63,7 @@ namespace Bookland.Areas.Admin.Controllers
             return View(new Admin.Models.ProductsViewModel
             {
                 Products = products,
-                CategoryFilterOptions = CategoryHelpers.ParentCategoryOptions(categoryRepo.GetCategoryTree(), categoryID),
+                CategoryFilterOptions = categoryHelpers.ParentCategoryOptions(categoryRepo.GetCategoryTree(), categoryID),
                 OrderOptions = productHelpers.ProductOrderOptionsSelectList(order)
             });
         }
@@ -75,7 +77,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 Product = null,
                 Action = "Create",
-                CategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, 1)
+                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 1)
             });
         }
 
@@ -114,7 +116,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 Product = product,
                 Action = "Create",
-                CategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, 1)
+                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 1)
             });
         }
                  
@@ -131,7 +133,7 @@ namespace Bookland.Areas.Admin.Controllers
                 {
                     Product = product,
                     Action = "Update",
-                    CategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, product.Category != null ? product.Category.CategoryID : 1)
+                    CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, product.Category != null ? product.Category.CategoryID : 1)
                 });
             }
             else
@@ -175,7 +177,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 Product = product,
                 Action = "Update",
-                CategoryOptions = CategoryHelpers.ParentCategoryOptions(categoryTree, 1)
+                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 1)
             });
         }
 

@@ -201,8 +201,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Abstract\IAccountHelpers.cs" />
+    <Compile Include="Helpers\Abstract\ICategoryHelpers.cs" />
     <Compile Include="Helpers\AccountHelpers.cs" />
     <Compile Include="Helpers\CategoryHelpers.cs" />
+    <Compile Include="Helpers\CategoryHtmlHelpers.cs" />
     <Compile Include="Helpers\Abstract\IMailHelpers.cs" />
     <Compile Include="Helpers\Abstract\IMvcHelpers.cs" />
     <Compile Include="Helpers\Abstract\IProductHelpers.cs" />
