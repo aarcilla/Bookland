@@ -1,12 +1,7 @@
 ﻿using Bookland.DAL.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Bookland.Helpers;
 using Bookland.Data_Structures;
 using Bookland.Models;
+using System.Web.Mvc;
 
 namespace Bookland.Controllers
 {
