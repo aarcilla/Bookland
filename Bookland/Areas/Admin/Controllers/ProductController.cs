@@ -1,14 +1,15 @@
 ﻿using Bookland.Areas.Admin.Models;
+using Bookland.Constants;
 using Bookland.DAL.Abstract;
 using Bookland.Data_Structures;
 using Bookland.Helpers;
+using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Web;
 using System.Web.Mvc;
-using System.Linq;
 
 namespace Bookland.Areas.Admin.Controllers
 {
@@ -17,11 +18,13 @@ namespace Bookland.Areas.Admin.Controllers
     {
         private IProductRepository productRepo;
         private ICategoryRepository categoryRepo;
+        private IProductHelpers productHelpers;
 
-        public ProductController(IProductRepository productRepo, ICategoryRepository categoryRepo)
+        public ProductController(IProductRepository productRepo, ICategoryRepository categoryRepo, IProductHelpers productHelpers)
         {
             this.productRepo = productRepo;
             this.categoryRepo = categoryRepo;
+            this.productHelpers = productHelpers;
         }
 
         public ViewResult Index(int categoryID = 1, string order = null)
@@ -34,13 +37,13 @@ namespace Bookland.Areas.Admin.Controllers
             }
             else if (order == null)     // I.e. cookie is null, but no order is specified (e.g. first-ever access of 'Index')
             {
-                order = ProductHelpers.NameAsc;     // Name ascending is assumed as default order
+                order = ProductOrderOptions.NameAsc;     // Name ascending is assumed as default order
             }
 
             // Retrieve category tree of category to be filtered
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree(categoryID);
             
-            IEnumerable<Product> products = ProductHelpers.ProductsByOrder(productRepo, order, categoryTree);
+            IEnumerable<Product> products = productHelpers.ProductsByOrder(productRepo, order, categoryTree);
 
             if (productOrder == null)
             {
@@ -59,7 +62,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 Products = products,
                 CategoryFilterOptions = CategoryHelpers.ParentCategoryOptions(categoryRepo.GetCategoryTree(), categoryID),
-                OrderOptions = ProductHelpers.ProductOrderOptions(order)
+                OrderOptions = productHelpers.ProductOrderOptionsSelectList(order)
             });
         }
 
@@ -87,7 +90,7 @@ namespace Bookland.Areas.Admin.Controllers
                 {
                     if (productImage != null)
                     {
-                        product = ProductHelpers.SetProductImage(product, productImage);
+                        product = productHelpers.SetProductImage(product, productImage);
                     }
 
                     product.Category = categoryRepo.GetCategory(categoryID);
@@ -149,7 +152,7 @@ namespace Bookland.Areas.Admin.Controllers
                 {
                     if (productImage != null)
                     {
-                        product = ProductHelpers.SetProductImage(product, productImage);
+                        product = productHelpers.SetProductImage(product, productImage);
                     }
 
                     product.Category = categoryRepo.GetCategory(categoryID);

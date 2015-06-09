@@ -2,15 +2,11 @@
 using Bookland.Areas.Admin.Models;
 using Bookland.DAL.Abstract;
 using Bookland.Data_Structures;
-using Bookland.Helpers;
+using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
 using System.Web.Mvc;
 
 namespace Bookland.Tests.AdminTests
@@ -20,6 +16,7 @@ namespace Bookland.Tests.AdminTests
     {
         private Mock<IProductRepository> mockProductRepository;
         private Mock<ICategoryRepository> mockCategoryRepository;
+        private Mock<IProductHelpers> mockProductHelpers;
         private ProductController controller;
         private static Category exampleCategory = new Category { CategoryID = 1, CategoryName = "ROOT" };
         private static Product exampleProduct = new Product { ProductID = 1, Name = "exampleProduct", Category = exampleCategory };
@@ -30,7 +27,8 @@ namespace Bookland.Tests.AdminTests
         {
             mockProductRepository = new Mock<IProductRepository>();
             mockCategoryRepository = new Mock<ICategoryRepository>();
-            controller = new ProductController(mockProductRepository.Object, mockCategoryRepository.Object);
+            mockProductHelpers = new Mock<IProductHelpers>();
+            controller = new ProductController(mockProductRepository.Object, mockCategoryRepository.Object, mockProductHelpers.Object);
         }
 
         [TestCleanup]

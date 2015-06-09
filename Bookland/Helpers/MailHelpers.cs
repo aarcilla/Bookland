@@ -4,7 +4,7 @@ using System.Net.Mail;
 
 namespace Bookland.Helpers
 {
-    public class MailHelpers : IMailHelpers
+    public class MailHelpers : Abstract.IMailHelpers
     {
         public bool SendAdminEmail(string toAddress, string subject, string body)
         {

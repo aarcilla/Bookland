@@ -1,4 +1,5 @@
-﻿using Bookland.DAL.Abstract;
+﻿using Bookland.Constants;
+using Bookland.DAL.Abstract;
 using Bookland.Data_Structures;
 using Bookland.Models;
 using System.Collections.Generic;
@@ -10,23 +11,14 @@ namespace Bookland.Helpers
     /// <summary>
     /// A collection of helper properties and methods that caters to displaying options and performing common functions for Products.
     /// </summary>
-    public static class ProductHelpers
+    public class ProductHelpers : Abstract.IProductHelpers
     {
-        public const string NameAsc = "name_asc";
-        public const string NameDesc = "name_desc";
-        public const string IdAsc = "id_asc";
-        public const string IdDesc = "id_desc";
-        public const string PriceAsc = "price_asc";
-        public const string PriceDesc = "price_desc";
-        public const string DateAddedAsc = "dateAdded_asc";
-        public const string DateAddedDesc = "dateAdded_desc";
-
         /// <summary>
         /// Create an enumeration of items for drop-down list of product ordering.
         /// </summary>
         /// <param name="selected">The pre-selected/displayed item for the drop-down list.</param>
         /// <returns>An enumeration of drop-down list order options.</returns>
-        public static IEnumerable<SelectListItem> ProductOrderOptions(string selected)
+        public IEnumerable<SelectListItem> ProductOrderOptionsSelectList(string selected)
         {
             if (selected == null)
             {
@@ -34,14 +26,14 @@ namespace Bookland.Helpers
             }
 
             var list = new List<SelectListItem>() {
-                new SelectListItem { Text = "Name: A - Z", Value = NameAsc, Selected = (selected == NameAsc) },
-                new SelectListItem { Text = "Name: Z - A", Value = NameDesc, Selected = (selected == NameDesc) },
-                new SelectListItem { Text = "ID: 0 - 9", Value = IdAsc, Selected = (selected == IdAsc) },
-                new SelectListItem { Text = "ID: 9 - 0", Value = IdDesc, Selected = (selected == IdDesc) },
-                new SelectListItem { Text = "Price: 0 - 9", Value = PriceAsc, Selected = (selected == PriceAsc) },
-                new SelectListItem { Text = "Price: 9 - 0", Value = PriceDesc, Selected = (selected == PriceDesc) },
-                new SelectListItem { Text = "Date added: Old - New", Value = DateAddedAsc, Selected = (selected == DateAddedAsc) },
-                new SelectListItem { Text = "Date added: New - Old", Value = DateAddedDesc, Selected = (selected == DateAddedDesc) }
+                new SelectListItem { Text = "Name: A - Z", Value = ProductOrderOptions.NameAsc, Selected = (selected == ProductOrderOptions.NameAsc) },
+                new SelectListItem { Text = "Name: Z - A", Value = ProductOrderOptions.NameDesc, Selected = (selected == ProductOrderOptions.NameDesc) },
+                new SelectListItem { Text = "ID: 0 - 9", Value = ProductOrderOptions.IdAsc, Selected = (selected == ProductOrderOptions.IdAsc) },
+                new SelectListItem { Text = "ID: 9 - 0", Value = ProductOrderOptions.IdDesc, Selected = (selected == ProductOrderOptions.IdDesc) },
+                new SelectListItem { Text = "Price: 0 - 9", Value = ProductOrderOptions.PriceAsc, Selected = (selected == ProductOrderOptions.PriceAsc) },
+                new SelectListItem { Text = "Price: 9 - 0", Value = ProductOrderOptions.PriceDesc, Selected = (selected == ProductOrderOptions.PriceDesc) },
+                new SelectListItem { Text = "Date added: Old - New", Value = ProductOrderOptions.DateAddedAsc, Selected = (selected == ProductOrderOptions.DateAddedAsc) },
+                new SelectListItem { Text = "Date added: New - Old", Value = ProductOrderOptions.DateAddedDesc, Selected = (selected == ProductOrderOptions.DateAddedDesc) }
             };
 
             return list;
@@ -54,33 +46,33 @@ namespace Bookland.Helpers
         /// <param name="order">The order identifier (e.g. 'name_desc' = order by product names descending).</param>
         /// <param name="categoryTree">A category tree, where the root node is the category to be filtered, along with its descendants.</param>
         /// <returns>An enumeration of products in the desired order.</returns>
-        public static IEnumerable<Product> ProductsByOrder(IProductRepository productRepo, string order, TreeNode<Category> categoryTree = null)
+        public IEnumerable<Product> ProductsByOrder(IProductRepository productRepo, string order, TreeNode<Category> categoryTree = null)
         {
             IEnumerable<Product> products;
             switch (order)
             {
-                case NameAsc:
+                case ProductOrderOptions.NameAsc:
                     products = productRepo.GetProducts(p => p.Name, categoryFilter: categoryTree);
                     break;
-                case NameDesc:
+                case ProductOrderOptions.NameDesc:
                     products = productRepo.GetProducts(p => p.Name, true, categoryTree);
                     break;
-                case IdAsc:
+                case ProductOrderOptions.IdAsc:
                     products = productRepo.GetProducts(p => p.ProductID, categoryFilter: categoryTree);
                     break;
-                case IdDesc:
+                case ProductOrderOptions.IdDesc:
                     products = productRepo.GetProducts(p => p.ProductID, true, categoryTree);
                     break;
-                case PriceAsc:
+                case ProductOrderOptions.PriceAsc:
                     products = productRepo.GetProducts(p => p.Price, categoryFilter: categoryTree);
                     break;
-                case PriceDesc:
+                case ProductOrderOptions.PriceDesc:
                     products = productRepo.GetProducts(p => p.Price, true, categoryTree);
                     break;
-                case DateAddedAsc:
+                case ProductOrderOptions.DateAddedAsc:
                     products = productRepo.GetProducts(p => p.DateAdded, categoryFilter: categoryTree);
                     break;
-                case DateAddedDesc:
+                case ProductOrderOptions.DateAddedDesc:
                     products = productRepo.GetProducts(p => p.DateAdded, true, categoryTree);
                     break;
                 case null:
@@ -99,7 +91,7 @@ namespace Bookland.Helpers
         /// <param name="product">The Product object that will accept the uploaded image.</param>
         /// <param name="productImage">The uploaded image file.</param>
         /// <returns>The Product object with image data included.</returns>
-        public static Product SetProductImage(Product product, HttpPostedFileBase productImage)
+        public Product SetProductImage(Product product, HttpPostedFileBase productImage)
         {
             if (productImage != null && productImage.InputStream != null && productImage.ContentType != null)
             {

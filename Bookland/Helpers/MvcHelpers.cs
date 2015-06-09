@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace Bookland.Helpers
 {
-    public class MvcHelpers : IMvcHelpers
+    public class MvcHelpers : Abstract.IMvcHelpers
     {
         public string RenderViewToString(ControllerContext controllerContext, string viewName, object model)
         {

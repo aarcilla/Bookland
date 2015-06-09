@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Bookland.Helpers;
+using Bookland.Helpers.Abstract;
 
 namespace Bookland.Infrastructure
 {
@@ -13,6 +14,8 @@ namespace Bookland.Infrastructure
             Bind<IMailHelpers>().To<MailHelpers>();
 
             Bind<IMvcHelpers>().To<MvcHelpers>();
+
+            Bind<IProductHelpers>().To<ProductHelpers>();
         }
     }
 }

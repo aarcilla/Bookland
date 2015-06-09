@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Bookland.Helpers
+namespace Bookland.Helpers.Abstract
 {
     public interface IMvcHelpers
     {

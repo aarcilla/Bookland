@@ -1,4 +1,5 @@
-﻿using Bookland.DAL.Abstract;
+﻿using Bookland.Constants;
+using Bookland.DAL.Abstract;
 using Bookland.Helpers;
 using Bookland.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,6 +13,8 @@ namespace Bookland.Tests
     [TestClass]
     public class ProductHelperTests
     {
+        private ProductHelpers productHelpers = new ProductHelpers();
+
         #region ProductsByOrder tests
 
         [TestMethod]
@@ -21,7 +24,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.NameAsc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.NameAsc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.Name, false, null));
@@ -34,7 +37,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.NameDesc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.NameDesc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.Name, true, null));
@@ -47,7 +50,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.IdAsc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.IdAsc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.ProductID, false, null));
@@ -60,7 +63,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.IdDesc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.IdDesc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.ProductID, true, null));
@@ -73,7 +76,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.PriceAsc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.PriceAsc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.Price, false, null));
@@ -86,7 +89,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.PriceDesc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.PriceDesc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.Price, true, null));
@@ -99,7 +102,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.DateAddedAsc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.DateAddedAsc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.DateAdded, false, null));
@@ -112,7 +115,7 @@ namespace Bookland.Tests
             Mock<IProductRepository> mockProductRepository = new Mock<IProductRepository>();
 
             // ACT
-            ProductHelpers.ProductsByOrder(mockProductRepository.Object, ProductHelpers.DateAddedDesc);
+            productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.DateAddedDesc);
 
             // ASSERT
             mockProductRepository.Verify(m => m.GetProducts(p => p.DateAdded, true, null));
@@ -128,7 +131,7 @@ namespace Bookland.Tests
             Exception result = null;
             try
             {
-                ProductHelpers.ProductsByOrder(mockProductRepository.Object, null);
+                productHelpers.ProductsByOrder(mockProductRepository.Object, null);
             }
             catch (Exception ex)
             {
@@ -158,7 +161,7 @@ namespace Bookland.Tests
             mockImage.Setup(m => m.ContentType).Returns(mimeType);
 
             // ACT
-            Product result = ProductHelpers.SetProductImage(exampleProduct, mockImage.Object);
+            Product result = productHelpers.SetProductImage(exampleProduct, mockImage.Object);
 
             // ASSERT
             // First, prepare an expected product, and add the expected image into it
@@ -180,7 +183,7 @@ namespace Bookland.Tests
             Exception result = null;
             try
             {
-                ProductHelpers.SetProductImage(exampleProduct, image);
+                productHelpers.SetProductImage(exampleProduct, image);
             }
             catch (Exception ex)
             {

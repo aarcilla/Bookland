@@ -1,6 +1,7 @@
-﻿using Bookland.DAL.Abstract;
+﻿using Bookland.Constants;
+using Bookland.DAL.Abstract;
 using Bookland.Data_Structures;
-using Bookland.Helpers;
+using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using System;
 using System.Web;
@@ -12,28 +13,30 @@ namespace Bookland.Controllers
     {
         private IProductRepository productRepo;
         private ICategoryRepository categoryRepo;
+        private IProductHelpers productHelpers;
 
-        public HomeController(IProductRepository productRepo, ICategoryRepository categoryRepo)
+        public HomeController(IProductRepository productRepo, ICategoryRepository categoryRepo, IProductHelpers productHelpers)
         {
             this.productRepo = productRepo;
             this.categoryRepo = categoryRepo;
+            this.productHelpers = productHelpers;
         }
 
         public ViewResult Index(int? category)
         {
             // Retrieve user-defined order option; if it hasn't been set up yet, just set as name ascending by default
             HttpCookie productOrder = Request.Cookies["ProductOrder"];
-            string order = productOrder != null ? productOrder.Value : ProductHelpers.NameAsc;
+            string order = productOrder != null ? productOrder.Value : ProductOrderOptions.NameAsc;
 
             // Retrieve Category tree (a Category and its descendant Categories) for Category-filtered display
             TreeNode<Category> categoryTree = category.HasValue ? categoryRepo.GetCategoryTree(category.Value) : null;
 
             return View(new ProductsViewModel
             {
-                Products = ProductHelpers.ProductsByOrder(productRepo, order, categoryTree),
+                Products = productHelpers.ProductsByOrder(productRepo, order, categoryTree),
                 NumColumns = 3,
                 Heading = categoryTree != null ? categoryTree.Data.CategoryName : null,
-                OrderOptions = ProductHelpers.ProductOrderOptions(order)
+                OrderOptions = productHelpers.ProductOrderOptionsSelectList(order)
             });
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Bookland.Helpers
+﻿namespace Bookland.Helpers.Abstract
 {
     public interface IMailHelpers
     {
