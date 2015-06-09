@@ -26,9 +26,11 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Add items to a cart, set item quantities, or remove items
 * View basic cart details on any storefront page
 * Customer registration and log in for persistent cart (and eventual purchase)
+* Checkout process, including email of HTML invoice
 
 #### User accounts
 * Ability to change and reset (through email) your password
+* Ability to view past purchases
 
 ### Admin
 
