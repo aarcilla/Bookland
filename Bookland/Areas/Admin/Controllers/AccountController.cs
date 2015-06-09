@@ -1,6 +1,7 @@
 ﻿using Bookland.Areas.Admin.Models;
+using Bookland.Constants;
 using Bookland.DAL.Abstract;
-using Bookland.Helpers;
+using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,12 @@ namespace Bookland.Areas.Admin.Controllers
     public class AccountController : Controller
     {
         private IUserProfileRepository userProfileRepo;
+        private IAccountHelpers accountHelpers;
 
-        public AccountController(IUserProfileRepository userProfileRepo)
+        public AccountController(IUserProfileRepository userProfileRepo, IAccountHelpers accountHelpers)
         {
             this.userProfileRepo = userProfileRepo;
+            this.accountHelpers = accountHelpers;
         }
 
         public ViewResult Index(string role = "All", string order = null)
@@ -33,10 +36,10 @@ namespace Bookland.Areas.Admin.Controllers
             }
             else if (order == null) // I.e. cookie is null, but no order is specified (e.g. first-ever access of 'Index')
             {
-                order = AccountHelpers.IdAsc;   // ID ascending is assumed as default order
+                order = UserProfileOrderOptions.IdAsc;   // ID ascending is assumed as default order
             }
 
-            IEnumerable<UserProfile> userProfiles = AccountHelpers.UserProfilesByOrder(userProfileRepo, order);
+            IEnumerable<UserProfile> userProfiles = accountHelpers.UserProfilesByOrder(userProfileRepo, order);
 
             var userProfilesWithRoles = new List<UserProfileWithRole>();
             foreach (UserProfile userProfile in userProfiles)
@@ -92,7 +95,7 @@ namespace Bookland.Areas.Admin.Controllers
             {
                 UserProfiles = userProfilesWithRoles.Where(u => role == "All" || u.Role.ToUpper() == role.ToUpper()),
                 RoleFilterOptions = new SelectList(new string[] { "All" }.Concat(RoleOptions()), role),
-                OrderOptions = AccountHelpers.UserProfileOrderOptions(order)
+                OrderOptions = accountHelpers.UserProfileOrderOptionsSelectList(order)
             });
         }
 
@@ -142,7 +145,7 @@ namespace Bookland.Areas.Admin.Controllers
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    ModelState.AddModelError("", AccountHelpers.ErrorCodeToString(e.StatusCode));
+                    ModelState.AddModelError("", accountHelpers.ErrorCodeToString(e.StatusCode));
                 }
                 catch (DataException)
                 {

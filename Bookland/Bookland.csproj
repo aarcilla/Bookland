@@ -176,6 +176,7 @@
     <Compile Include="Areas\Admin\Models\UserEditorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
     <Compile Include="Binders\CartModelBinder.cs" />
+    <Compile Include="Constants\UserProfileOrderOptions.cs" />
     <Compile Include="Constants\ProductOrderOptions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Abstract\IAccountHelpers.cs" />
     <Compile Include="Helpers\AccountHelpers.cs" />
     <Compile Include="Helpers\CategoryHelpers.cs" />
     <Compile Include="Helpers\Abstract\IMailHelpers.cs" />

@@ -1,4 +1,5 @@
-﻿using Bookland.DAL.Abstract;
+﻿using Bookland.Constants;
+using Bookland.DAL.Abstract;
 using Bookland.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -6,21 +7,14 @@ using System.Web.Security;
 
 namespace Bookland.Helpers
 {
-    public static class AccountHelpers
+    public class AccountHelpers : Abstract.IAccountHelpers
     {
-        public const string IdAsc = "id_asc";
-        public const string IdDesc = "id_desc";
-        public const string UserNameAsc = "userName_asc";
-        public const string UserNameDesc = "userName_desc";
-        public const string LastNameAsc = "lastName_asc";
-        public const string LastNameDesc = "lastName_desc";
-
         /// <summary>
         /// Create an enumeration of items for drop-down list of user profile ordering.
         /// </summary>
         /// <param name="selected">The pre-selected/displayed item for the drop-down list.</param>
         /// <returns>An enumeration of drop-down list order options.</returns>
-        public static IEnumerable<SelectListItem> UserProfileOrderOptions(string selected)
+        public IEnumerable<SelectListItem> UserProfileOrderOptionsSelectList(string selected)
         {
             if (selected == null)
             {
@@ -28,12 +22,12 @@ namespace Bookland.Helpers
             }
 
             var list = new List<SelectListItem>() {
-                new SelectListItem { Text = "ID: 0 - 9", Value = IdAsc, Selected = (selected == IdAsc) },
-                new SelectListItem { Text = "ID: 9 - 0", Value = IdDesc, Selected = (selected == IdDesc) },
-                new SelectListItem { Text = "User name: A - Z", Value = UserNameAsc, Selected = (selected == UserNameAsc) },
-                new SelectListItem { Text = "User name: Z - A", Value = UserNameDesc, Selected = (selected == UserNameDesc) },
-                new SelectListItem { Text = "Last name: A - Z", Value = LastNameAsc, Selected = (selected == LastNameAsc) },
-                new SelectListItem { Text = "Last name: Z - A", Value = LastNameDesc, Selected = (selected == LastNameDesc) }
+                new SelectListItem { Text = "ID: 0 - 9", Value = UserProfileOrderOptions.IdAsc, Selected = (selected == UserProfileOrderOptions.IdAsc) },
+                new SelectListItem { Text = "ID: 9 - 0", Value = UserProfileOrderOptions.IdDesc, Selected = (selected == UserProfileOrderOptions.IdDesc) },
+                new SelectListItem { Text = "User name: A - Z", Value = UserProfileOrderOptions.UserNameAsc, Selected = (selected == UserProfileOrderOptions.UserNameAsc) },
+                new SelectListItem { Text = "User name: Z - A", Value = UserProfileOrderOptions.UserNameDesc, Selected = (selected == UserProfileOrderOptions.UserNameDesc) },
+                new SelectListItem { Text = "Last name: A - Z", Value = UserProfileOrderOptions.LastNameAsc, Selected = (selected == UserProfileOrderOptions.LastNameAsc) },
+                new SelectListItem { Text = "Last name: Z - A", Value = UserProfileOrderOptions.LastNameDesc, Selected = (selected == UserProfileOrderOptions.LastNameDesc) }
             };
 
             return list;
@@ -45,27 +39,27 @@ namespace Bookland.Helpers
         /// <param name="userProfileRepo">An existing instance of the User Profile repository.</param>
         /// <param name="order">The order identifier (e.g. 'id_desc' order by user ID descending).</param>
         /// <returns>An enumeration of user profiles in the desired order.</returns>
-        public static IEnumerable<UserProfile> UserProfilesByOrder(IUserProfileRepository userProfileRepo, string order)
+        public IEnumerable<UserProfile> UserProfilesByOrder(IUserProfileRepository userProfileRepo, string order)
         {
             IEnumerable<UserProfile> userProfiles;
             switch (order)
             {
-                case IdAsc:
+                case UserProfileOrderOptions.IdAsc:
                     userProfiles = userProfileRepo.GetUserProfiles(u => u.UserID);
                     break;
-                case IdDesc:
+                case UserProfileOrderOptions.IdDesc:
                     userProfiles = userProfileRepo.GetUserProfiles(u => u.UserID, true);
                     break;
-                case UserNameAsc:
+                case UserProfileOrderOptions.UserNameAsc:
                     userProfiles = userProfileRepo.GetUserProfiles(u => u.UserName);
                     break;
-                case UserNameDesc:
+                case UserProfileOrderOptions.UserNameDesc:
                     userProfiles = userProfileRepo.GetUserProfiles(u => u.UserName, true);
                     break;
-                case LastNameAsc:
+                case UserProfileOrderOptions.LastNameAsc:
                     userProfiles = userProfileRepo.GetUserProfiles(u => u.LastName);
                     break;
-                case LastNameDesc:
+                case UserProfileOrderOptions.LastNameDesc:
                     userProfiles = userProfileRepo.GetUserProfiles(u => u.LastName, true);
                     break;
                 case null:
@@ -78,7 +72,7 @@ namespace Bookland.Helpers
         }
 
 
-        public static string ErrorCodeToString(MembershipCreateStatus createStatus)
+        public string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.

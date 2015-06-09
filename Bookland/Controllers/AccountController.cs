@@ -1,6 +1,5 @@
 ﻿using Bookland.DAL.Abstract;
 using Bookland.Filters;
-using Bookland.Helpers;
 using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using System;
@@ -19,12 +18,15 @@ namespace Bookland.Controllers
         private IUserProfileRepository userProfileRepo;
         private ICartRepository cartRepo;
         private IMailHelpers mailHelpers;
+        private IAccountHelpers accountHelpers;
 
-        public AccountController(IUserProfileRepository userProfileRepo, ICartRepository cartRepo, IMailHelpers mailHelpers)
+        public AccountController(IUserProfileRepository userProfileRepo, ICartRepository cartRepo, 
+            IMailHelpers mailHelpers, IAccountHelpers accountHelpers)
         {
             this.userProfileRepo = userProfileRepo;
             this.cartRepo = cartRepo;
             this.mailHelpers = mailHelpers;
+            this.accountHelpers = accountHelpers;
         }
 
         //
@@ -126,7 +128,7 @@ namespace Bookland.Controllers
                 }
                 catch (MembershipCreateUserException e)
                 {
-                    ModelState.AddModelError("", AccountHelpers.ErrorCodeToString(e.StatusCode));
+                    ModelState.AddModelError("", accountHelpers.ErrorCodeToString(e.StatusCode));
                 }
                 catch (DataException)
                 {

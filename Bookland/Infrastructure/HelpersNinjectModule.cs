@@ -16,6 +16,8 @@ namespace Bookland.Infrastructure
             Bind<IMvcHelpers>().To<MvcHelpers>();
 
             Bind<IProductHelpers>().To<ProductHelpers>();
+
+            Bind<IAccountHelpers>().To<AccountHelpers>();
         }
     }
 }
