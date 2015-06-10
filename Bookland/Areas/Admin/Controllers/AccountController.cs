@@ -18,11 +18,13 @@ namespace Bookland.Areas.Admin.Controllers
     public class AccountController : Controller
     {
         private IUserProfileRepository userProfileRepo;
+        private ICartRepository cartRepo;
         private IAccountHelpers accountHelpers;
 
-        public AccountController(IUserProfileRepository userProfileRepo, IAccountHelpers accountHelpers)
+        public AccountController(IUserProfileRepository userProfileRepo, ICartRepository cartRepo, IAccountHelpers accountHelpers)
         {
             this.userProfileRepo = userProfileRepo;
+            this.cartRepo = cartRepo;
             this.accountHelpers = accountHelpers;
         }
 
@@ -138,6 +140,9 @@ namespace Bookland.Areas.Admin.Controllers
                         Postcode = model.Postcode
                     }, model.UserName);
                     userProfileRepo.Commit();
+
+                    cartRepo.CreateCart(model.UserName);
+                    cartRepo.Commit();
 
                     TempData["message"] = String.Format("'{0}' user account successfully added to the database.", model.UserName);
 
