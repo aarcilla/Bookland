@@ -226,11 +226,11 @@
     <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseTemplateViewModel.cs" />
+    <Compile Include="Models\ResetPasswordTemplateViewModel.cs" />
     <Compile Include="Models\UserLinksViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\EmailTemplates\ResetPasswordTemplate.html" />
     <Content Include="Content\Images\bookland-logo.gif" />
     <Content Include="Content\Images\bookland-logo.jpg" />
     <Content Include="Content\Images\placeholder.gif" />
@@ -358,6 +358,7 @@
     <Content Include="Views\Shared\_ViewCartSmall.cshtml" />
     <Content Include="Views\Shared\EmailTemplates\_PurchaseTemplate.cshtml" />
     <Content Include="Views\Purchases\Index.cshtml" />
+    <Content Include="Views\Shared\EmailTemplates\_ResetPasswordTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

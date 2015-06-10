@@ -18,14 +18,18 @@ namespace Bookland.Controllers
         private IUserProfileRepository userProfileRepo;
         private ICartRepository cartRepo;
         private IMailHelpers mailHelpers;
+        private IMvcHelpers mvcHelpers;
         private IAccountHelpers accountHelpers;
 
+        private const int ResetPasswordEmailExpiryMinutes = 60;
+
         public AccountController(IUserProfileRepository userProfileRepo, ICartRepository cartRepo, 
-            IMailHelpers mailHelpers, IAccountHelpers accountHelpers)
+            IMailHelpers mailHelpers, IMvcHelpers mvcHelpers, IAccountHelpers accountHelpers)
         {
             this.userProfileRepo = userProfileRepo;
             this.cartRepo = cartRepo;
             this.mailHelpers = mailHelpers;
+            this.mvcHelpers = mvcHelpers;
             this.accountHelpers = accountHelpers;
         }
 
@@ -268,19 +272,17 @@ namespace Bookland.Controllers
 
             if (userProfile != null)
             {
-                string passwordResetToken = WebSecurity.GeneratePasswordResetToken(userProfile.UserName, 60);
+                string passwordResetToken = WebSecurity.GeneratePasswordResetToken(userProfile.UserName, ResetPasswordEmailExpiryMinutes);
                 string passwordResetUrl = Url.Action("ResetPassword", "Account", new { resetToken = passwordResetToken }, Request.Url.Scheme);
 
-                string resetEmailTemplatePath = AppDomain.CurrentDomain.BaseDirectory + @"\Content\EmailTemplates\ResetPasswordTemplate.html";
-                string resetEmailTemplate = System.IO.File.ReadAllText(resetEmailTemplatePath);
-                string mailBody = string.Format(resetEmailTemplate, userName, passwordResetUrl);
+                string resetPasswordEmailString = mvcHelpers.RenderViewToString(ControllerContext, @"~\Views\Shared\EmailTemplates\_ResetPasswordTemplate.cshtml",
+                    new ResetPasswordTemplateViewModel { UserName = userName, ResetUrl = passwordResetUrl });
 
-                bool mailSuccess = mailHelpers.SendAdminEmail(userProfile.Email, "Bookland: Password Reset", mailBody);
+                bool mailSuccess = mailHelpers.SendAdminEmail(userProfile.Email, "Bookland: Password Reset", resetPasswordEmailString);
 
-                if (mailSuccess)
-                    TempData["message"] = "Password reset email sent. Please check your inbox and reset your password within 1 hour.";
-                else
-                    TempData["message"] = "Password reset email unsuccessfully sent. Please try again later.";
+                TempData["message"] = mailSuccess ? 
+                    string.Format("Password reset email sent. Please check your inbox and reset your password within {0} minute(s).", ResetPasswordEmailExpiryMinutes)
+                    : "Password reset email unsuccessfully sent. Please try again later.";
 
                 return RedirectToAction("Index", "Home");
             }
@@ -310,10 +312,8 @@ namespace Bookland.Controllers
             {
                 bool resetSuccess = WebSecurity.ResetPassword(model.ResetToken, model.NewPassword);
 
-                if (resetSuccess)
-                    TempData["message"] = "Password reset successful.";
-                else
-                    TempData["message"] = "Password reset unsuccessful. Make sure that you view the newest Bookland email or try resending the password reset request.";
+                TempData["message"] = resetSuccess ? "Password reset successful." 
+                    : "Password reset unsuccessful. Make sure that you view the newest Bookland email or try resending the password reset request.";
 
                 return RedirectToAction("LogIn");
             }
