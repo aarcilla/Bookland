@@ -63,6 +63,7 @@
     <Compile Include="AdminTests\ProductTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProductHelperTests.cs" />
+    <Compile Include="SearchHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bookland\Bookland.csproj">

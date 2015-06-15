@@ -184,6 +184,7 @@
     <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PurchasesController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DAL\Abstract\ICartRepository.cs" />
     <Compile Include="DAL\Abstract\IPurchaseRepository.cs" />
     <Compile Include="DAL\Abstract\IUserProfileRepository.cs" />
@@ -202,6 +203,7 @@
     </Compile>
     <Compile Include="Helpers\Abstract\IAccountHelpers.cs" />
     <Compile Include="Helpers\Abstract\ICategoryHelpers.cs" />
+    <Compile Include="Helpers\Abstract\ISearchHelpers.cs" />
     <Compile Include="Helpers\AccountHelpers.cs" />
     <Compile Include="Helpers\CategoryHelpers.cs" />
     <Compile Include="Helpers\CategoryHtmlHelpers.cs" />
@@ -212,6 +214,7 @@
     <Compile Include="Helpers\MailHelpers.cs" />
     <Compile Include="Helpers\MvcHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
+    <Compile Include="Helpers\SearchHelpers.cs" />
     <Compile Include="Infrastructure\HelpersNinjectModule.cs" />
     <Compile Include="Infrastructure\RepositoryNinjectModule.cs" />
     <Compile Include="Infrastructure\MergeSessionAndDbCartsAttribute.cs" />
@@ -227,6 +230,7 @@
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseTemplateViewModel.cs" />
     <Compile Include="Models\ResetPasswordTemplateViewModel.cs" />
+    <Compile Include="Models\SearchResult.cs" />
     <Compile Include="Models\UserLinksViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
