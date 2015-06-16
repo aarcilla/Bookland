@@ -115,35 +115,6 @@ namespace Bookland.Tests
             Assert.IsTrue(result[0].SimiliarityWeight == 9);
         }
 
-        [TestMethod]
-        public void Search_Success_ProductName_DeepSearch_MatchPartial()
-        {
-            // ARRANGE
-            // Test match with "jQuery"
-            string query = "query";
-
-            // ACT 
-            var result = searchHelperTests.Search(testProducts, query, true).ToArray<SearchResult>();
-
-            // ASSERT
-            Assert.IsTrue(result != null && result.Length > 0);
-            Assert.IsTrue(result[0].Product.ProductID == 3);
-            Assert.IsTrue(result[0].SimiliarityWeight == 1);
-        }
-
-        [TestMethod]
-        public void Search_Fail_ProductName_DeepSearchDisabled_MatchPartialIfEnabled()
-        {
-            // ARRANGE
-            string query = "query";
-
-            // ACT 
-            var result = searchHelperTests.Search(testProducts, query, false).ToArray<SearchResult>();
-
-            // ASSERT
-            Assert.IsTrue(result == null || result.Length <= 0);
-        }
-
         #endregion
 
         #region Product description tests
@@ -193,8 +164,41 @@ namespace Bookland.Tests
             Assert.IsTrue(result[0].SimiliarityWeight == 4);
         }
 
+        #endregion
+
+        #region Deep search tests
+
         [TestMethod]
-        public void Search_Success_ProductDescription_DeepSearch_MatchPartial()
+        public void Search_Success_DeepSearch_ProductName_MatchPartial()
+        {
+            // ARRANGE
+            // Test match with "jQuery"
+            string query = "query";
+
+            // ACT 
+            var result = searchHelperTests.Search(testProducts, query, true).ToArray<SearchResult>();
+
+            // ASSERT
+            Assert.IsTrue(result != null && result.Length > 0);
+            Assert.IsTrue(result[0].Product.ProductID == 3);
+            Assert.IsTrue(result[0].SimiliarityWeight == 1);
+        }
+
+        [TestMethod]
+        public void Search_Fail_DeepSearchDisabled_ProductName_MatchPartialIfEnabled()
+        {
+            // ARRANGE
+            string query = "query";
+
+            // ACT 
+            var result = searchHelperTests.Search(testProducts, query, false).ToArray<SearchResult>();
+
+            // ASSERT
+            Assert.IsTrue(result == null || result.Length <= 0);
+        }
+
+        [TestMethod]
+        public void Search_Success_DeepSearch_ProductDescription_MatchPartial()
         {
             // ARRANGE
             string query = "debu";
@@ -209,7 +213,7 @@ namespace Bookland.Tests
         }
 
         [TestMethod]
-        public void Search_Fail_ProductDescription_DeepSearchDisabled_MatchPartialIfEnabled()
+        public void Search_Fail_DeepSearchDisabled_ProductDescription_MatchPartialIfEnabled()
         {
             // ARRANGE
             string query = "debu";
@@ -219,6 +223,21 @@ namespace Bookland.Tests
 
             // ASSERT
             Assert.IsTrue(result == null || result.Length <= 0);
+        }
+
+        [TestMethod]
+        public void Search_Success_DeepSearch_SearchTermNotCheckedMoreThanOnce()
+        {
+            // ARRANGE
+            var query = "untrue";
+
+            // ACT
+            var result = searchHelperTests.Search(testProducts, query, true).ToArray<SearchResult>();
+
+            // ASSERT
+            Assert.IsTrue(result != null && result.Length > 0);
+            Assert.IsTrue(result[0].Product.ProductID == 4);
+            Assert.IsTrue(result[0].SimiliarityWeight == 3);    // i.e. not 4 (which would include deep search weight increment)
         }
 
         #endregion
