@@ -225,6 +225,19 @@ table#purchase-history-table {
     width: 15%;
 }
 
+table#search-table {
+    width: 100%;
+}
+
+#search-table th.prod-col {
+    width: 55%;
+}
+
+#search-table th.image-col, #search-table th.prc-col, #search-table th.addcart-col {
+    width: 15%;
+}
+
+
 /* Styles for messages
 -----------------------------------------------------------*/
 .message {
@@ -355,4 +368,10 @@ a:link.actions-link, a:visited.actions-link, input[type="submit"] {
 
 a.no-children {
     visibility: hidden;
+}
+
+form#search-bar {
+    display: inline; 
+    float: right; 
+    margin: 0.6em 0;
 }

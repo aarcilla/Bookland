@@ -1,0 +1,6 @@
+﻿@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { id = "search-bar" }))
+{
+    @Html.TextBox("searchQuery", null, new { placeholder = "Search..." });
+
+    <input type="submit" value="Go" />
+}

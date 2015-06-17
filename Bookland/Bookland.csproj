@@ -231,6 +231,7 @@
     <Compile Include="Models\PurchaseTemplateViewModel.cs" />
     <Compile Include="Models\ResetPasswordTemplateViewModel.cs" />
     <Compile Include="Models\SearchResult.cs" />
+    <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Models\UserLinksViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -363,6 +364,8 @@
     <Content Include="Views\Shared\EmailTemplates\_PurchaseTemplate.cshtml" />
     <Content Include="Views\Purchases\Index.cshtml" />
     <Content Include="Views\Shared\EmailTemplates\_ResetPasswordTemplate.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
+    <Content Include="Views\Search\_SearchForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

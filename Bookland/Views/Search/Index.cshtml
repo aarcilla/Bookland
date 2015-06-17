@@ -1,0 +1,59 @@
+﻿@model Bookland.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "Search Results: " + @Model.SearchQuery;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.SearchResults != null && Model.SearchResults.Count() > 0) 
+{ 
+    <table id="search-table">
+        <thead>
+            <tr>
+                <th class="image-col"></th>
+                <th class="prod-col"></th>
+                <th class="prc-col"></th>
+                <th class="addcart-col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var searchResult in Model.SearchResults)
+            {
+                <tr>
+                    <td class="image-col">
+                        @if (!searchResult.Product.IsImageInformationNullOrEmpty) {
+                            string getImageUrl = Url.Action("GetImage", "Home", new { area = "", productID = searchResult.Product.ProductID });
+                            <img src="@getImageUrl" alt="IMG" height="100" />
+                        } else {
+                            <img src="~/Content/Images/placeholder.gif" height="100" />
+                        }
+                    </td>
+                    <td>
+                        <strong>@searchResult.Product.Name</strong> <br />
+                        @searchResult.Product.Description <br />
+                        @searchResult.Product.Year <br />
+                    </td>
+                    <td>
+                        @string.Format("{0:c}", searchResult.Product.Price)
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("CartItemAdd", "Cart"))
+                        {
+                            @Html.AntiForgeryToken()
+                            
+                            @Html.Hidden("productID", searchResult.Product.ProductID)
+                            @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+                            
+                            <input type="submit" value="Add to cart" />
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else 
+{
+    <p>No products found.</p>
+}
