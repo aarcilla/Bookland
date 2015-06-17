@@ -80,7 +80,10 @@ namespace Bookland.Helpers
             }
 
             if (searchTerms.Contains(product.Year.ToString()))
+            {
                 currentSearchWeight += 1;
+                alreadyMatchedSearchTerms.Add(product.Year.ToString());
+            }
 
             return currentSearchWeight;
         }
