@@ -16,12 +16,13 @@ namespace Bookland.Helpers
 
             var searchResults = new Dictionary<string, SearchResult>();
 
-            Action<Dictionary<string, SearchResult>, Product, int> increaseProductWeight = 
-                (results, product, weight) => {
+            Action<Dictionary<string, SearchResult>, Product, int, bool> increaseProductWeight = 
+                (results, product, weight, incompleteMatch) => {
                     SearchResult result = results.ContainsKey(product.Name)
                         ? results[product.Name] : new SearchResult(product);
 
                     result.SimiliarityWeight += weight;
+                    result.IncompleteMatch = incompleteMatch;
                     results[product.Name] = result;
                 };
 
@@ -31,7 +32,7 @@ namespace Bookland.Helpers
 
                 int basicSearchWeight = BasicProductSearchResultWeight(searchTerms, product, out alreadyMatchedSearchTerms);
                 if (basicSearchWeight > 0)
-                    increaseProductWeight(searchResults, product, basicSearchWeight);
+                    increaseProductWeight(searchResults, product, basicSearchWeight, alreadyMatchedSearchTerms.Count < searchTerms.Count);
 
                 // If search on a term-to-term basis wasn't fulfilling enough, do a deeper search 
                 // (i.e. search across whole product name and description without regard to spaces)
@@ -42,15 +43,18 @@ namespace Bookland.Helpers
                         // Disregard search terms already found in basic product search (as they would come up as duplicates)
                         if (!alreadyMatchedSearchTerms.Contains(searchTerm))
                         {
+                            alreadyMatchedSearchTerms.Add(searchTerm);
                             int deepSearchWeight = DeepProductSearchResultWeight(searchTerm, product);
                             if (deepSearchWeight > 0)
-                                increaseProductWeight(searchResults, product, deepSearchWeight);
+                                increaseProductWeight(searchResults, product, deepSearchWeight, alreadyMatchedSearchTerms.Count < searchTerms.Count);
                         }
                     }
                 }
             }
 
-            return searchResults.Values.OrderByDescending(sr => sr.SimiliarityWeight).AsEnumerable<SearchResult>();
+            return searchResults.Values.OrderBy(sr => sr.IncompleteMatch)
+                                        .ThenByDescending(sr => sr.SimiliarityWeight)
+                                        .AsEnumerable<SearchResult>();
         }
 
         private int BasicProductSearchResultWeight(HashSet<string> searchTerms, Product product, out HashSet<string> alreadyMatchedSearchTerms)
