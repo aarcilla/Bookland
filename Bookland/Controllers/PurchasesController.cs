@@ -9,7 +9,7 @@ namespace Bookland.Controllers
     [Authorize]
     public class PurchasesController : Controller
     {
-        IPurchaseRepository purchaseRepo;
+        private IPurchaseRepository purchaseRepo;
 
         public PurchasesController(IPurchaseRepository purchaseRepo)
         {

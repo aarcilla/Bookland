@@ -11,7 +11,7 @@ namespace Bookland.Areas.Admin.Controllers
     [Authorize(Roles = "Administrator, Support, Staff")]
     public class PurchasesController : Controller
     {
-        IPurchaseRepository purchaseRepo;
+        private IPurchaseRepository purchaseRepo;
 
         public PurchasesController(IPurchaseRepository purchaseRepo)
         {
