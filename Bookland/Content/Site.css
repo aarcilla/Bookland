@@ -375,3 +375,13 @@ form#search-bar {
     float: right; 
     margin: 0.6em 0;
 }
+
+div#searchPageNavigation {
+    text-align: center;
+}
+
+.pageNavArrow {
+    font-weight: bolder;
+    color: #7F0101; 
+    text-decoration: none;
+}

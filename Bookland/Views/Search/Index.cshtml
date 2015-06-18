@@ -2,12 +2,14 @@
 
 @{
     ViewBag.Title = "Search Results: " + @Model.SearchQuery;
+    bool incompleteMatchesHeading = false;
 }
 
 <h2>@ViewBag.Title</h2>
 
 @if (Model.SearchResults != null && Model.SearchResults.Count() > 0) 
-{ 
+{
+    <p>Number of results: @Model.TotalNumResults</p>
     <table id="search-table">
         <thead>
             <tr>
@@ -18,8 +20,20 @@
             </tr>
         </thead>
         <tbody>
+            @if (Model.SearchResults.First().IncompleteMatch && Model.CurrentPage == 1)
+            {
+                <tr><td colspan="4">No complete matches found.</td></tr>
+            }
+
             @foreach (var searchResult in Model.SearchResults)
             {
+                if (searchResult.IncompleteMatch && !incompleteMatchesHeading)
+                {
+                    // All following search results in current iteration are incomplete matches (due to sort order), 
+                    // so include a sub-heading insinuating it
+                    @: <tr><td colspan="4"><strong>You might also be interested in...</strong></td></tr>
+                    incompleteMatchesHeading = true;
+                }
                 <tr>
                     <td class="image-col">
                         @if (!searchResult.Product.IsImageInformationNullOrEmpty) {
@@ -30,9 +44,8 @@
                         }
                     </td>
                     <td>
-                        <strong>@searchResult.Product.Name</strong> <br />
+                        <strong>@searchResult.Product.Name</strong> (@searchResult.Product.Year) <br />
                         @searchResult.Product.Description <br />
-                        @searchResult.Product.Year <br />
                     </td>
                     <td>
                         @string.Format("{0:c}", searchResult.Product.Price)
@@ -52,8 +65,36 @@
             }
         </tbody>
     </table>
+
+    <div id="searchPageNavigation">
+        @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+        {
+            @Html.Hidden("searchQuery", Model.SearchQuery)
+
+            if (Model.CurrentPage > 1)
+            {
+                <span>
+                    @Html.ActionLink("<", "Index", new { searchQuery = Model.SearchQuery, page = (Model.CurrentPage - 1) }, 
+                        new { @class = "pageNavArrow" })
+                </span>
+            }
+
+            @Html.DropDownList("page", Model.PagesSelectList, new { onchange = "submit()" })
+
+            <span> out of @Model.TotalNumPages</span>
+            <noscript><input type="submit" value="Go" /></noscript>
+
+            if (Model.CurrentPage < Model.TotalNumPages)
+            {
+                <span>
+                    @Html.ActionLink(">", "Index", new { searchQuery = Model.SearchQuery, page = (Model.CurrentPage + 1) },
+                         new { @class = "pageNavArrow" })
+                </span>
+            }
+        }
+    </div>
 }
-else 
+else
 {
     <p>No products found.</p>
 }
