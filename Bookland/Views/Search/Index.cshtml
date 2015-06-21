@@ -73,23 +73,19 @@
 
             if (Model.CurrentPage > 1)
             {
-                <span>
-                    @Html.ActionLink("<", "Index", new { searchQuery = Model.SearchQuery, page = (Model.CurrentPage - 1) }, 
-                        new { @class = "pageNavArrow" })
-                </span>
+                @Html.ActionLink("<", "Index", new { searchQuery = Model.SearchQuery, page = (Model.CurrentPage - 1) }, 
+                    new { @class = "pageNavArrow" })
             }
 
             @Html.DropDownList("page", Model.PagesSelectList, new { onchange = "submit()" })
 
-            <span> out of @Model.TotalNumPages</span>
+            @: out of @Model.TotalNumPages
             <noscript><input type="submit" value="Go" /></noscript>
 
             if (Model.CurrentPage < Model.TotalNumPages)
             {
-                <span>
-                    @Html.ActionLink(">", "Index", new { searchQuery = Model.SearchQuery, page = (Model.CurrentPage + 1) },
-                         new { @class = "pageNavArrow" })
-                </span>
+                @Html.ActionLink(">", "Index", new { searchQuery = Model.SearchQuery, page = (Model.CurrentPage + 1) },
+                        new { @class = "pageNavArrow" })
             }
         }
     </div>
