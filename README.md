@@ -21,6 +21,7 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Browse products available
 * Filter products by category (through the tree-based sidebar)
 * Order products by name, ID, price, or date added
+* Basic product search
 
 #### Cart and customers
 * Add items to a cart, set item quantities, or remove items
@@ -48,6 +49,13 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Four user roles (in order of highest clearance): administrator, support, staff, customer
 * Administrators can edit any other users; support can edit staff and customers; staff can only edit customers
 * Create and update user accounts
+* View their past purchases
+
+## Planned features
+* Author table and associated Product field: view products by author, different author types (e.g. artist, brand)
+* Stock management and processes (e.g. checkout reduces stock count of bought product)
+* Sale (price reduction) management for products: sale time interval, generate sales by category
+* Categorised, configurable front page (e.g. featured products, on sale, recently added)
 
 ## Developer setup (requires internet access)
 1. Clone source code using 'git clone' command, or download as ZIP from GitHub page
@@ -59,7 +67,9 @@ Bookland is separated into two sections: the storefront and the admin section.
 3. Configure administrator email settings (for sending password reset emails, etc.)
 	a) Open the 'Web.config' file in the main Bookland project
 	b) Under the 'appSettings' section, edit the value of each email-related setting (denoted as key, e.g. 'smtpHost') based on your nominated email provider and account
-	c) Example values (which are made up) are provided for a Gmail-based account
+	c) If you would rather not use or bother to configure email, set the 'emailEnabled' setting to 'false';
+	keep in mind email-reliant features, including password reset and checkout invoice, won't work
+	d) Example values (which are made up) are provided for a Gmail-based account
 4. Generate database based on project code (i.e. EF Code First)
 	a) Visual Studio > Tools menu > NuGet Package Manager > Package Manager Console
 	b) In the Package Manager Console, type 'add-migration Init' and wait until completion
