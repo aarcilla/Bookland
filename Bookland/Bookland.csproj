@@ -212,6 +212,7 @@
     <Compile Include="Helpers\Abstract\IProductHelpers.cs" />
     <Compile Include="Helpers\LinkHelpers.cs" />
     <Compile Include="Helpers\MailHelpers.cs" />
+    <Compile Include="Helpers\MockEmailHelpers.cs" />
     <Compile Include="Helpers\MvcHelpers.cs" />
     <Compile Include="Helpers\ProductHelpers.cs" />
     <Compile Include="Helpers\SearchHelpers.cs" />

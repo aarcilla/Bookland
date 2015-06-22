@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Bookland.Helpers;
+﻿using Bookland.Helpers;
 using Bookland.Helpers.Abstract;
+using System.Configuration;
 
 namespace Bookland.Infrastructure
 {
@@ -11,7 +8,14 @@ namespace Bookland.Infrastructure
     {
         public override void Load()
         {
-            Bind<IMailHelpers>().To<MailHelpers>();
+            bool emailEnabled = bool.Parse(ConfigurationManager.AppSettings["emailEnabled"]);
+
+            // If email functionality is disabled in configuration settings, bind email helper interface 
+            // to mock implementation that just returns expected successful values
+            if (emailEnabled)
+                Bind<IMailHelpers>().To<MailHelpers>();
+            else
+                Bind<IMailHelpers>().To<MockEmailHelpers>();
 
             Bind<IMvcHelpers>().To<MvcHelpers>();
 
