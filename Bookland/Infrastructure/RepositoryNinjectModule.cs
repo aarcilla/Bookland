@@ -33,6 +33,9 @@ namespace Bookland.Infrastructure
 
             Bind<IPurchaseRepository>().To<EfPurchaseRepository>()
                 .WithConstructorArgument("context", context);
+
+            Bind<IProductStatusRepository>().To<EfProductStatusRepository>()
+                .WithConstructorArgument("context", context);
         }
     }
 }

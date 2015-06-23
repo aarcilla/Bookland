@@ -41,11 +41,22 @@ namespace Bookland.Migrations
             rootCategory.ChildCategories.Add(bookCategory);
             context.Categories.AddOrUpdate(c => c.CategoryName, rootCategory);
 
+            
+            ProductStatus statusOnSale = new ProductStatus { ProductStatusName = "On sale" };
+            var productStatuses = new List<ProductStatus> 
+            {
+                new ProductStatus { ProductStatusName = "Pre-order" },
+                statusOnSale,
+                new ProductStatus { ProductStatusName = "Discontinued" },
+                new ProductStatus { ProductStatusName = "Not visible" }
+            };
+            productStatuses.ForEach(s => context.ProductStatuses.AddOrUpdate(pS => pS.ProductStatusName, s));
+            context.SaveChanges();
 
             var products = new List<Product>
             {
-                new Product { Name = "Pro ASP.NET MVC 4", Description = "AUTHOR(S): Freeman, Adam", Category = bookCategory, Price = 25.99M, Year = 2012, DateAdded = DateTime.Now },
-                new Product { Name = "Beginning jQuery", Description = "AUTHOR(S): Franklin, Jack", Category = bookCategory, Price = 24.95M, Year = 2013, DateAdded = DateTime.Now }
+                new Product { Name = "Pro ASP.NET MVC 4", Description = "AUTHOR(S): Freeman, Adam", Category = bookCategory, Price = 25.99M, Year = 2012, DateAdded = DateTime.Now, ProductStatus = statusOnSale },
+                new Product { Name = "Beginning jQuery", Description = "AUTHOR(S): Franklin, Jack", Category = bookCategory, Price = 24.95M, Year = 2013, DateAdded = DateTime.Now, ProductStatus = statusOnSale }
             };
             products.ForEach(s => context.Products.AddOrUpdate(p => p.Name, s));
             context.SaveChanges();

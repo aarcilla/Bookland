@@ -186,12 +186,14 @@
     <Compile Include="Controllers\PurchasesController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="DAL\Abstract\ICartRepository.cs" />
+    <Compile Include="DAL\Abstract\IProductStatusRepository.cs" />
     <Compile Include="DAL\Abstract\IPurchaseRepository.cs" />
     <Compile Include="DAL\Abstract\IUserProfileRepository.cs" />
     <Compile Include="DAL\Abstract\ICategoryRepository.cs" />
     <Compile Include="DAL\Abstract\IProductRepository.cs" />
     <Compile Include="DAL\BookshopContext.cs" />
     <Compile Include="DAL\Concrete\EfCartRepository.cs" />
+    <Compile Include="DAL\Concrete\EfProductStatusRepository.cs" />
     <Compile Include="DAL\Concrete\EfPurchaseRepository.cs" />
     <Compile Include="DAL\Concrete\EfUserProfileRepository.cs" />
     <Compile Include="DAL\Concrete\EfCategoryRepository.cs" />
@@ -227,6 +229,7 @@
     <Compile Include="Models\CheckoutViewModel.cs" />
     <Compile Include="Models\PaymentModel.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\ProductStatus.cs" />
     <Compile Include="Models\ProductsViewModel.cs" />
     <Compile Include="Models\Purchase.cs" />
     <Compile Include="Models\PurchaseTemplateViewModel.cs" />

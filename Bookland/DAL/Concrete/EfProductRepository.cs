@@ -1,16 +1,13 @@
-﻿using Bookland.DAL.Abstract;
-using Bookland.Data_Structures;
+﻿using Bookland.Data_Structures;
 using Bookland.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace Bookland.DAL.Concrete
 {
-    public class EfProductRepository : IProductRepository, IDisposable
+    public class EfProductRepository : Abstract.IProductRepository, IDisposable
     {
         private BookshopContext context;
 
@@ -88,6 +85,7 @@ namespace Bookland.DAL.Concrete
             dbProduct.Year = product.Year;
             dbProduct.Price = product.Price;
             dbProduct.Category = product.Category;
+            dbProduct.ProductStatus = product.ProductStatus;
 
             if (!product.IsImageInformationNullOrEmpty)
             {

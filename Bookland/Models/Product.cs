@@ -33,6 +33,7 @@ namespace Bookland.Models
 
         public string ImageMimeType { get; set; }
 
+        public virtual ProductStatus ProductStatus { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Purchase> Purchases { get; set; }
