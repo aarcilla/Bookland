@@ -93,6 +93,7 @@ namespace Bookland.Migrations
 
             // Assign the 'Administrator' role
             Roles.AddUserToRole("admin0", "Administrator");
+            UserProfile adminUserProfile = context.UserProfiles.FirstOrDefault(u => u.UserName == "admin0");
 
             // Add associated Address record for admin account
             context.Addresses.Add(new Address
@@ -103,8 +104,10 @@ namespace Bookland.Migrations
                 State = "New South Wales",
                 Country = "Australia",
                 Postcode = 2000,
-                UserProfile = context.UserProfiles.FirstOrDefault(u => u.UserName == "admin0")
+                UserProfile = adminUserProfile
             });
+
+            context.Carts.Add(new Cart { UserProfile = adminUserProfile });
 
             context.SaveChanges();
         }
