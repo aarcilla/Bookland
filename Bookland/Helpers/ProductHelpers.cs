@@ -118,5 +118,25 @@ namespace Bookland.Helpers
 
             return product;
         }
+
+        public IEnumerable<SelectListItem> ProductStatusOptions(IEnumerable<ProductStatus> productStatuses, int? selectedStatus)
+        {
+            var productStatusSelectList = new List<SelectListItem>();
+
+            if (!selectedStatus.HasValue)
+                selectedStatus = 1;
+
+            foreach (ProductStatus status in productStatuses)
+            {
+                productStatusSelectList.Add(new SelectListItem
+                {
+                    Text = status.ProductStatusName,
+                    Value = status.ProductStatusID.ToString(),
+                    Selected = selectedStatus.Value == status.ProductStatusID
+                });
+            }
+
+            return productStatusSelectList;
+        }
     }
 }

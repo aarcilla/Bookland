@@ -49,6 +49,11 @@
     </div>
     
     <div class="form-row">
+        @Html.LabelFor(p => p.Product.ProductStatus)
+        @Html.DropDownList("productStatusID", Model.ProductStatusOptions, new { @class = "editor-select" })
+    </div>
+    
+    <div class="form-row">
         @Html.LabelFor(p => p.Product.ImageData)
         <table>
             @if (action != "Create" && !Model.Product.IsImageInformationNullOrEmpty) {

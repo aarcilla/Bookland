@@ -14,5 +14,7 @@ namespace Bookland.Helpers.Abstract
         IEnumerable<Product> ProductsByOrder(IProductRepository productRepo, string order, TreeNode<Category> categoryTree = null);
 
         Product SetProductImage(Product product, HttpPostedFileBase productImage);
+
+        IEnumerable<SelectListItem> ProductStatusOptions(IEnumerable<ProductStatus> productStatuses, int? selectedStatus);
     }
 }

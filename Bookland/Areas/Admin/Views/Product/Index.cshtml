@@ -53,7 +53,6 @@
                     <td>@String.Format("{0:c}", product.Price)</td>
                     <td>
                         @Html.ActionLink("Update", "Update", "Product", new { productID = product.ProductID }, new { @class = "actions-link" })
-                        @Html.ActionLink("Delete", "Delete", "Product", new { productID = product.ProductID }, new { @class = "actions-link" })
                     </td>
                 </tr>
             }

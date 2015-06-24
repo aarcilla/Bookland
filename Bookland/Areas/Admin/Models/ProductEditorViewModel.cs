@@ -9,5 +9,6 @@ namespace Bookland.Areas.Admin.Models
         public Product Product { get; set; }
         public string Action { get; set; }
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
+        public IEnumerable<SelectListItem> ProductStatusOptions { get; set; }
     }
 }

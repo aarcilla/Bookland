@@ -15,7 +15,7 @@ namespace Bookland.Models
         [StringLength(150, ErrorMessage = "Maximum of {0} characters.")]
         public string Name { get; set; }
 
-        [StringLength(250, ErrorMessage = "Maximum of {0} characters.")]
+        [StringLength(1000, ErrorMessage = "Maximum of {0} characters.")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
@@ -33,7 +33,9 @@ namespace Bookland.Models
 
         public string ImageMimeType { get; set; }
 
+        [Display(Name = "Status")]
         public virtual ProductStatus ProductStatus { get; set; }
+
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Purchase> Purchases { get; set; }

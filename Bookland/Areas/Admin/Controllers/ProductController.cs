@@ -17,14 +17,16 @@ namespace Bookland.Areas.Admin.Controllers
     {
         private IProductRepository productRepo;
         private ICategoryRepository categoryRepo;
+        private IProductStatusRepository productStatusRepo;
         private IProductHelpers productHelpers;
         private ICategoryHelpers categoryHelpers;
 
-        public ProductController(IProductRepository productRepo, ICategoryRepository categoryRepo, 
+        public ProductController(IProductRepository productRepo, ICategoryRepository categoryRepo, IProductStatusRepository productStatusRepo,
             IProductHelpers productHelpers, ICategoryHelpers categoryHelpers)
         {
             this.productRepo = productRepo;
             this.categoryRepo = categoryRepo;
+            this.productStatusRepo = productStatusRepo;
             this.productHelpers = productHelpers;
             this.categoryHelpers = categoryHelpers;
         }
@@ -72,19 +74,21 @@ namespace Bookland.Areas.Admin.Controllers
         public ViewResult Create()
         {
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
+            IEnumerable<ProductStatus> productStatuses = productStatusRepo.GetProductStatuses();
 
             return View("Editor", new ProductEditorViewModel
             {
                 Product = null,
                 Action = "Create",
-                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 1)
+                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 1),
+                ProductStatusOptions = productHelpers.ProductStatusOptions(productStatuses, 1)
             });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name, Description, Year, Price")]Product product, 
-            int categoryID, HttpPostedFileBase productImage)
+            int categoryID, int productStatusID, HttpPostedFileBase productImage)
         {
             try
             {
@@ -96,6 +100,7 @@ namespace Bookland.Areas.Admin.Controllers
                     }
 
                     product.Category = categoryRepo.GetCategory(categoryID);
+                    product.ProductStatus = productStatusRepo.GetProductStatus(productStatusID);
                     product.DateAdded = DateTime.Now;
 
                     productRepo.CreateProduct(product);
@@ -111,12 +116,14 @@ namespace Bookland.Areas.Admin.Controllers
             }
             
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
+            IEnumerable<ProductStatus> productStatuses = productStatusRepo.GetProductStatuses();
 
             return View("Editor", new ProductEditorViewModel
             {
                 Product = product,
                 Action = "Create",
-                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 1)
+                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, categoryID),
+                ProductStatusOptions = productHelpers.ProductStatusOptions(productStatuses, productStatusID)
             });
         }
                  
@@ -128,12 +135,16 @@ namespace Bookland.Areas.Admin.Controllers
             if (product != null)
             {
                 TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
+                IEnumerable<ProductStatus> productStatuses = productStatusRepo.GetProductStatuses();
 
                 return View("Editor", new ProductEditorViewModel
                 {
                     Product = product,
                     Action = "Update",
-                    CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, product.Category != null ? product.Category.CategoryID : 1)
+                    CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 
+                                        product.Category != null ? product.Category.CategoryID : 1),
+                    ProductStatusOptions = productHelpers.ProductStatusOptions(productStatuses, 
+                                            product.ProductStatus != null ? product.ProductStatus.ProductStatusID : (int?)null)
                 });
             }
             else
@@ -146,7 +157,7 @@ namespace Bookland.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Update([Bind(Include = "ProductID, Name, Description, Year, Price")]Product product,
-            int categoryID, HttpPostedFileBase productImage)
+            int categoryID, int productStatusID, HttpPostedFileBase productImage)
         {
             try
             {
@@ -158,6 +169,7 @@ namespace Bookland.Areas.Admin.Controllers
                     }
 
                     product.Category = categoryRepo.GetCategory(categoryID);
+                    product.ProductStatus = productStatusRepo.GetProductStatus(productStatusID);
 
                     productRepo.UpdateProduct(product);
                     productRepo.Commit();
@@ -172,16 +184,18 @@ namespace Bookland.Areas.Admin.Controllers
             }
 
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
+            IEnumerable<ProductStatus> productStatuses = productStatusRepo.GetProductStatuses();
 
             return View("Editor", new ProductEditorViewModel
             {
                 Product = product,
                 Action = "Update",
-                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, 1)
+                CategoryOptions = categoryHelpers.ParentCategoryOptions(categoryTree, categoryID),
+                ProductStatusOptions = productHelpers.ProductStatusOptions(productStatuses, productStatusID)
             });
         }
 
-
+        /*
         public ActionResult Delete(int productID)
         {
             Product product = productRepo.GetProduct(productID);
@@ -217,5 +231,6 @@ namespace Bookland.Areas.Admin.Controllers
 
             return RedirectToAction("Delete", new { productID = productID });
         }
+        */
     }
 }
