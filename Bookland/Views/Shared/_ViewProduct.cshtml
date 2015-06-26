@@ -1,12 +1,21 @@
-﻿@model Bookland.Models.Product
+﻿@using Bookland.Constants
+@model Bookland.Models.Product
+<a href="@Url.Action("ProductDetails", "Home", new { productID = Model.ProductID })">
+    @if (!Model.IsImageInformationNullOrEmpty) {
+        <img src="@Url.Action("GetImage", "Home", new { productID = Model.ProductID })" height="200" title="@Model.Description" alt="@Model.ProductID" />
+    } else {
+        <img src="/Content/Images/placeholder.gif" height="200" title="@Model.Description" alt="@Model.ProductID" /> <br />
+    }
+</a>
 
-@if (!Model.IsImageInformationNullOrEmpty) {
-    <img src="@Url.Action("GetImage", "Home", new { productID = Model.ProductID })" height="200" title="@Model.Description" alt="@Model.ProductID"/>
-    <br />
-} else {
-    <img src="/Content/Images/placeholder.gif" height="200" title="@Model.Description" alt="@Model.ProductID"/> <br />
-}
-<b>@Model.Name</b> <br />
+<div class="title-link">
+    <strong>
+        <a href="@Url.Action("ProductDetails", "Home", new { productID = Model.ProductID })">@Model.Name</a>
+    </strong> 
+    @if (!Model.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)) { 
+        @: (@Model.ProductStatus.ProductStatusName)
+    }
+</div>
 @String.Format("{0:c}", Model.Price) <br />
 @using(Html.BeginForm("CartItemAdd", "Cart")) {
     @Html.AntiForgeryToken()

@@ -36,16 +36,27 @@
                 }
                 <tr>
                     <td class="image-col">
-                        @if (!searchResult.Product.IsImageInformationNullOrEmpty) {
-                            string getImageUrl = Url.Action("GetImage", "Home", new { area = "", productID = searchResult.Product.ProductID });
-                            <img src="@getImageUrl" alt="IMG" height="100" />
-                        } else {
-                            <img src="~/Content/Images/placeholder.gif" height="100" />
-                        }
+                        <a href="@Url.Action("ProductDetails", "Home", new { productID = searchResult.Product.ProductID })">
+                            @if (!searchResult.Product.IsImageInformationNullOrEmpty)
+                            {
+                                string getImageUrl = Url.Action("GetImage", "Home", new { area = "", productID = searchResult.Product.ProductID });
+                                <img src="@getImageUrl" alt="IMG" height="100" />
+                            }
+                            else
+                            {
+                                <img src="~/Content/Images/placeholder.gif" height="100" />
+                            }
+                        </a>
                     </td>
                     <td>
-                        <strong>@searchResult.Product.Name</strong> (@searchResult.Product.Year) <br />
-                        @searchResult.Product.Description <br />
+                        <a href="@Url.Action("ProductDetails", "Home", new { productID = searchResult.Product.ProductID })">
+                            <strong>@searchResult.Product.Name</strong> (@searchResult.Product.Year)</a> <br />
+                        @if (searchResult.Product.Description.Length > 250) {
+                            @: @searchResult.Product.Description.Substring(0, 250)...
+                        }
+                        else {
+                            @: @searchResult.Product.Description <br />
+                        }    
                     </td>
                     <td>
                         @string.Format("{0:c}", searchResult.Product.Price)

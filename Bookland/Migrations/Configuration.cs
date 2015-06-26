@@ -1,5 +1,6 @@
 namespace Bookland.Migrations
 {
+    using Bookland.Constants;
     using Bookland.DAL;
     using Bookland.Helpers;
     using Bookland.Models;
@@ -42,13 +43,13 @@ namespace Bookland.Migrations
             context.Categories.AddOrUpdate(c => c.CategoryName, rootCategory);
 
             
-            ProductStatus statusOnSale = new ProductStatus { ProductStatusName = "On sale" };
+            ProductStatus statusOnSale = new ProductStatus { ProductStatusName = ProductStatusOptions.OnSale };
             var productStatuses = new List<ProductStatus> 
             {
-                new ProductStatus { ProductStatusName = "Pre-order" },
+                new ProductStatus { ProductStatusName = ProductStatusOptions.PreOrder },
                 statusOnSale,
-                new ProductStatus { ProductStatusName = "Discontinued" },
-                new ProductStatus { ProductStatusName = "Not visible" }
+                new ProductStatus { ProductStatusName = ProductStatusOptions.Discontinued },
+                new ProductStatus { ProductStatusName = ProductStatusOptions.NotVisible }
             };
             productStatuses.ForEach(s => context.ProductStatuses.AddOrUpdate(pS => pS.ProductStatusName, s));
             context.SaveChanges();
@@ -80,7 +81,7 @@ namespace Bookland.Migrations
             if (!Roles.RoleExists("Customer")) Roles.CreateRole("Customer");
 
             // Skip admin account creation if it's already in the database
-            if (context.UserProfiles.Count(c => c.UserName == "admin0") > 0)
+            if (context.UserProfiles.Any(c => c.UserName == "admin0"))
                 return;
 
             // Create admin account

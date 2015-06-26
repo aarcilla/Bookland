@@ -1,4 +1,5 @@
-﻿@model IEnumerable<Bookland.Models.CartItem>
+﻿@using Bookland.Constants
+@model IEnumerable<Bookland.Models.CartItem>
 
 @{
     ViewBag.Title = "Cart";
@@ -39,9 +40,20 @@
                     }
                 </td>
                 <td>
-                    <b>@item.Product.Name</b> <br />
-                    @item.Product.Description <br />
+                    <a href="@Url.Action("ProductDetails", "Home", new { productID = item.Product.ProductID })">
+                        <strong>@item.Product.Name</strong> (@item.Product.Year)</a> <br />
+                    @if (!item.Product.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)) {
+                        @: (@item.Product.ProductStatus.ProductStatusName)
+                    }
+                    <br />
+                    @if (item.Product.Description.Length > 250) {
+                        @: @item.Product.Description.Substring(0, 250)...
+                    } else {
+                        @item.Product.Description
+                    }
+                    <br />
                     @item.Product.Year
+                    
                 </td>
                 <td>
                     @using(Html.BeginForm("CartItemQuantity", "Cart")) {

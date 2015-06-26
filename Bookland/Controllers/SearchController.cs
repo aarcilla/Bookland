@@ -1,10 +1,12 @@
-﻿using Bookland.DAL.Abstract;
+﻿using Bookland.Constants;
+using Bookland.DAL.Abstract;
 using Bookland.Helpers.Abstract;
 using Bookland.Models;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+
 namespace Bookland.Controllers
 {
     public class SearchController : Controller
@@ -20,7 +22,7 @@ namespace Bookland.Controllers
             this.searchHelpers = searchHelpers;
         }
 
-        public ActionResult Index(string searchQuery, int page = 1)
+        public ActionResult Index(string searchQuery, int page = 1, bool includeDiscontinued = false)
         {
             if (string.IsNullOrEmpty(searchQuery))
             {
@@ -28,7 +30,12 @@ namespace Bookland.Controllers
                 return RedirectToAction("Index", "Home");
             }
             
-            IEnumerable<SearchResult> searchResults = searchHelpers.Search(productRepo.GetProducts(p => p.ProductID), searchQuery);
+            IEnumerable<Product> searchableProducts = productRepo.GetProducts(p => p.ProductID)
+                                                        .Where(p => p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.PreOrder)
+                                                            || p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)
+                                                            || (includeDiscontinued && p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.Discontinued)));
+
+            IEnumerable<SearchResult> searchResults = searchHelpers.Search(searchableProducts, searchQuery);
 
             int searchResultsCount = searchResults.Count();
             int totalNumPages = (int)Math.Ceiling((decimal)searchResultsCount / (decimal)ItemsPerPage);

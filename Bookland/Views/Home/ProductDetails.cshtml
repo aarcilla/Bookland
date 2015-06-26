@@ -1,0 +1,59 @@
+﻿@using Bookland.Constants
+@model Bookland.Models.Product
+
+@{    
+    ViewBag.Title = Model.Name;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div id="details-image">
+    @if (!Model.IsImageInformationNullOrEmpty) { 
+        <img src="@Url.Action("GetImage", "Home", new { productID = Model.ProductID })" height="250" alt="@Model.ProductID" />
+    } else {
+        <img src="/Content/Images/placeholder.gif" height="250" alt="@Model.ProductID" />
+    }
+    <br />
+</div>
+
+@using (Html.BeginForm("CartItemAdd", "Cart"))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.ProductID)
+    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+
+    <input type="submit" value="Add to cart" />
+}
+
+<div class="form-row">
+    @Html.LabelFor(m => m.ProductID)
+    @Html.DisplayFor(m => m.ProductID)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(m => m.Price)
+    @string.Format("{0:c}", Model.Price)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(m => m.ProductStatus)
+    @Model.ProductStatus.ProductStatusName
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(m => m.Year)
+    @Html.DisplayFor(m => m.Year)
+</div>
+
+<div class="form-row">
+    @Html.LabelFor(m => m.DateAdded)
+    @Model.DateAdded.ToShortDateString()
+</div>
+
+<div>
+    <strong>@Html.DisplayNameFor(m => m.Description)</strong>
+</div>
+<div>
+    @Html.DisplayFor(m => m.Description)
+</div>

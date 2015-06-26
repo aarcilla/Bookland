@@ -4,6 +4,7 @@ using Bookland.Data_Structures;
 using Bookland.Helpers.Abstract;
 using Bookland.Models;
 using System;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -33,11 +34,31 @@ namespace Bookland.Controllers
 
             return View(new ProductsViewModel
             {
-                Products = productHelpers.ProductsByOrder(productRepo, order, categoryTree),
+                Products = productHelpers.ProductsByOrder(productRepo, order, categoryTree)
+                                .Where(p => p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.PreOrder) 
+                                        || p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)),
                 NumColumns = 3,
                 Heading = categoryTree != null ? categoryTree.Data.CategoryName : null,
                 OrderOptions = productHelpers.ProductOrderOptionsSelectList(order)
             });
+        }
+
+        public ActionResult ProductDetails(int? productID)
+        {
+            if (!productID.HasValue)
+            {
+                TempData["message"] = "Product ID not specified";
+                return RedirectToAction("Index");
+            }
+
+            Product product = productRepo.GetProduct(productID.Value);
+
+            if (product != null && !product.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.NotVisible))
+            {
+                return View(product);
+            }
+
+            return HttpNotFound(string.Format("No product exists with the an ID of {0}.", productID.Value));
         }
 
         /// <summary>

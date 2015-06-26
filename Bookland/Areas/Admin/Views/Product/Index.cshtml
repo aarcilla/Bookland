@@ -13,8 +13,9 @@
         <col span="1" style="width: 5%" />
         <col span="1" style="width: 15%" />
         <col span="1" style="width: 40%" />
+        <col span="1" style="width: 5%" />
         <col span="1" style="width: 10%" />
-        <col span="1" style="width: 30%" />
+        <col span="1" style="width: 25%" />
     </colgroup>
     @using(Html.BeginForm("Index", "Product", FormMethod.Get)) {
         <tr>
@@ -23,7 +24,7 @@
                 @Html.DropDownList("CategoryID", Model.CategoryFilterOptions, new { onchange = "submit()" })
                 <noscript><input type="submit" value="Go" /></noscript>
             </th>
-            <th colspan="2" style="text-align: right">
+            <th colspan="3" style="text-align: right">
                 Order:
                 @Html.DropDownList("Order", Model.OrderOptions, new { onchange = "submit()" })
                 <noscript><input type="submit" value="Go" /></noscript>
@@ -36,6 +37,7 @@
             <th>Name</th>
             <th><!-- Product name column --></th>
             <th>Price</th>
+            <th>Status</th>
             <th><!-- Actions column --></th>
         </tr>
         <tbody>
@@ -51,6 +53,7 @@
                     </td>
                     <td>@product.Name</td>
                     <td>@String.Format("{0:c}", product.Price)</td>
+                    <td>@product.ProductStatus.ProductStatusName</td>
                     <td>
                         @Html.ActionLink("Update", "Update", "Product", new { productID = product.ProductID }, new { @class = "actions-link" })
                     </td>

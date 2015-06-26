@@ -176,6 +176,7 @@
     <Compile Include="Areas\Admin\Models\UserEditorViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
     <Compile Include="Binders\CartModelBinder.cs" />
+    <Compile Include="Constants\ProductStatusOptions.cs" />
     <Compile Include="Constants\UserProfileOrderOptions.cs" />
     <Compile Include="Constants\ProductOrderOptions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -370,6 +371,7 @@
     <Content Include="Views\Shared\EmailTemplates\_ResetPasswordTemplate.cshtml" />
     <Content Include="Views\Search\Index.cshtml" />
     <Content Include="Views\Search\_SearchForm.cshtml" />
+    <Content Include="Views\Home\ProductDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

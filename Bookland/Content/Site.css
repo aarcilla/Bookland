@@ -12,6 +12,9 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+a {
+    color: #7F0101;
+}
 
 /* Styles for basic forms
 -----------------------------------------------------------*/
@@ -53,7 +56,7 @@ label {
 
 .form-row {
     height: auto;
-    padding-bottom: 5px;
+    padding-bottom: 0.5em;
 }
 
 .two-em {
@@ -384,4 +387,14 @@ div#searchPageNavigation {
     font-weight: bolder;
     color: #7F0101; 
     text-decoration: none;
+}
+
+.title-link a {
+    color: black;
+    text-decoration: none;
+}
+
+div#details-image {
+    text-align: center;
+    margin: 1em;
 }
