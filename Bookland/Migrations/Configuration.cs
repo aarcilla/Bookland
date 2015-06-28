@@ -42,14 +42,14 @@ namespace Bookland.Migrations
             rootCategory.ChildCategories.Add(bookCategory);
             context.Categories.AddOrUpdate(c => c.CategoryName, rootCategory);
 
-            
-            ProductStatus statusOnSale = new ProductStatus { ProductStatusName = ProductStatusOptions.OnSale };
+
+            ProductStatus statusOnSale = new ProductStatus { ProductStatusName = ProductStatusOptions.OnSale, ProductStatusAvailable = true };
             var productStatuses = new List<ProductStatus> 
             {
-                new ProductStatus { ProductStatusName = ProductStatusOptions.PreOrder },
+                new ProductStatus { ProductStatusName = ProductStatusOptions.PreOrder, ProductStatusAvailable = true },
                 statusOnSale,
-                new ProductStatus { ProductStatusName = ProductStatusOptions.Discontinued },
-                new ProductStatus { ProductStatusName = ProductStatusOptions.NotVisible }
+                new ProductStatus { ProductStatusName = ProductStatusOptions.Discontinued, ProductStatusAvailable = false },
+                new ProductStatus { ProductStatusName = ProductStatusOptions.NotVisible, ProductStatusAvailable = false }
             };
             productStatuses.ForEach(s => context.ProductStatuses.AddOrUpdate(pS => pS.ProductStatusName, s));
             context.SaveChanges();

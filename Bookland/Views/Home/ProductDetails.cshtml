@@ -16,14 +16,16 @@
     <br />
 </div>
 
-@using (Html.BeginForm("CartItemAdd", "Cart"))
-{
-    @Html.AntiForgeryToken()
+@if (Model.ProductStatus.ProductStatusAvailable) { 
+    using (Html.BeginForm("CartItemAdd", "Cart"))
+    {
+        @Html.AntiForgeryToken()
 
-    @Html.HiddenFor(m => m.ProductID)
-    @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
+        @Html.HiddenFor(m => m.ProductID)
+        @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
 
-    <input type="submit" value="Add to cart" />
+        <input type="submit" value="Add to cart" />
+    }
 }
 
 <div class="form-row">

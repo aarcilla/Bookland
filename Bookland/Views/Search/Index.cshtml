@@ -36,7 +36,7 @@
                 }
                 <tr>
                     <td class="image-col">
-                        <a href="@Url.Action("ProductDetails", "Home", new { productID = searchResult.Product.ProductID })">
+                        <a href="@Url.Action("ProductDetails", "Home", new { productID = searchResult.Product.ProductID })" class="image-link">
                             @if (!searchResult.Product.IsImageInformationNullOrEmpty)
                             {
                                 string getImageUrl = Url.Action("GetImage", "Home", new { area = "", productID = searchResult.Product.ProductID });

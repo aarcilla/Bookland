@@ -398,3 +398,7 @@ div#details-image {
     text-align: center;
     margin: 1em;
 }
+
+a.image-link {
+    text-decoration: none;
+}

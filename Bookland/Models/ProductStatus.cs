@@ -13,6 +13,8 @@ namespace Bookland.Models
         [StringLength(30)]
         public string ProductStatusName { get; set; }
 
+        public bool ProductStatusAvailable { get; set; }
+
         public virtual ICollection<Product> Products { get; set; }
     }
 }

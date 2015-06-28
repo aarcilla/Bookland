@@ -31,8 +31,7 @@ namespace Bookland.Controllers
             }
             
             IEnumerable<Product> searchableProducts = productRepo.GetProducts(p => p.ProductID)
-                                                        .Where(p => p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.PreOrder)
-                                                            || p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)
+                                                        .Where(p => p.ProductStatus.ProductStatusAvailable
                                                             || (includeDiscontinued && p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.Discontinued)));
 
             IEnumerable<SearchResult> searchResults = searchHelpers.Search(searchableProducts, searchQuery);
