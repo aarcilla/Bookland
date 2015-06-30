@@ -41,19 +41,20 @@
                 </td>
                 <td>
                     <a href="@Url.Action("ProductDetails", "Home", new { productID = item.Product.ProductID })">
-                        <strong>@item.Product.Name</strong> (@item.Product.Year)</a> <br />
+                        <strong>@item.Product.Name</strong> (@item.Product.Year)</a>
                     @if (!item.Product.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)) {
-                        @: (@item.Product.ProductStatus.ProductStatusName)
+                        @: [@item.Product.ProductStatus.ProductStatusName]
                     }
                     <br />
+                    @if (item.Product.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.PreOrder)) {
+                        @:<strong>Expected release date:</strong> @item.Product.ReleaseDate.ToString("D") <br />
+                    }
                     @if (item.Product.Description.Length > 250) {
                         @: @item.Product.Description.Substring(0, 250)...
                     } else {
                         @item.Product.Description
                     }
                     <br />
-                    @item.Product.Year
-                    
                 </td>
                 <td>
                     @using(Html.BeginForm("CartItemQuantity", "Cart")) {

@@ -24,6 +24,11 @@ namespace Bookland.Models
         [DataType(DataType.Currency)]
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
+
+        [Required]
+        [Display(Name = "Release date")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime ReleaseDate { get; set; }
         
         [Display(Name = "Date added")]
         public DateTime DateAdded { get; set; }

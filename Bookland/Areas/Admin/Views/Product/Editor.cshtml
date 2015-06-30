@@ -38,6 +38,13 @@
     </div>
     
     <div class="form-row">
+        @Html.LabelFor(p => p.Product.ReleaseDate)
+        @Html.TextBoxFor(p => p.Product.ReleaseDate,
+             new { @Value = Model.Product != null ? Model.Product.ReleaseDate.ToString("yyyy-MM-dd") : string.Empty, placeholder = "YYYY-MM-DD", @class = "text-box single-line" })
+        @Html.ValidationMessageFor(p => p.Product.ReleaseDate)
+    </div>
+    
+    <div class="form-row">
         @Html.LabelFor(p => p.Product.Price)
         @Html.EditorFor(p => p.Product.Price)
         @Html.ValidationMessageFor(p => p.Product.Price)

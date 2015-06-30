@@ -83,6 +83,7 @@ namespace Bookland.DAL.Concrete
             dbProduct.Name = product.Name;
             dbProduct.Description = product.Description;
             dbProduct.Year = product.Year;
+            dbProduct.ReleaseDate = product.ReleaseDate;
             dbProduct.Price = product.Price;
             dbProduct.Category = product.Category;
             dbProduct.ProductStatus = product.ProductStatus;

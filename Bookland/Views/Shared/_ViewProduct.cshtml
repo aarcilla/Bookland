@@ -13,7 +13,7 @@
         <a href="@Url.Action("ProductDetails", "Home", new { productID = Model.ProductID })">@Model.Name</a>
     </strong> 
     @if (!Model.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)) { 
-        @: (@Model.ProductStatus.ProductStatusName)
+        @: [@Model.ProductStatus.ProductStatusName]
     }
 </div>
 @String.Format("{0:c}", Model.Price) <br />

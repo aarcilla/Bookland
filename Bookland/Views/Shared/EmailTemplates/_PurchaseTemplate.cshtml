@@ -1,4 +1,5 @@
-﻿@model Bookland.Models.PurchaseTemplateViewModel
+﻿@using Bookland.Constants
+@model Bookland.Models.PurchaseTemplateViewModel
 
 Hi @User.Identity.Name,
 
@@ -18,7 +19,16 @@ Hi @User.Identity.Name,
             @foreach (var cartItem in Model.UserCart.CartItems)
             {
                 <tr>
-                    <td>@cartItem.Product.Name</td>
+                    <td>
+                        <strong>@cartItem.Product.Name</strong>
+                        @if (!cartItem.Product.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.OnSale)) {
+                            string eta = string.Empty;
+                            if (cartItem.Product.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.PreOrder)) {
+                                eta = string.Format(", ETA: {0}", cartItem.Product.ReleaseDate.ToString("yyyy-MM-dd"));
+                            }
+                            @: [@cartItem.Product.ProductStatus.ProductStatusName@eta]
+                        }
+                    </td>
                     <td>@string.Format("{0:c}", cartItem.Product.Price)</td>
                     <td>@string.Format("x{0}", cartItem.Quantity)</td>
                     <td><strong>@string.Format("{0:c}", cartItem.GetCartItemPrice())</strong></td>

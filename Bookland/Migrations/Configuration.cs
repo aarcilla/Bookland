@@ -2,13 +2,11 @@ namespace Bookland.Migrations
 {
     using Bookland.Constants;
     using Bookland.DAL;
-    using Bookland.Helpers;
     using Bookland.Models;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Migrations;
     using System.Linq;
     using System.Web.Security;
@@ -56,8 +54,8 @@ namespace Bookland.Migrations
 
             var products = new List<Product>
             {
-                new Product { Name = "Pro ASP.NET MVC 4", Description = "AUTHOR(S): Freeman, Adam", Category = bookCategory, Price = 25.99M, Year = 2012, DateAdded = DateTime.Now, ProductStatus = statusOnSale },
-                new Product { Name = "Beginning jQuery", Description = "AUTHOR(S): Franklin, Jack", Category = bookCategory, Price = 24.95M, Year = 2013, DateAdded = DateTime.Now, ProductStatus = statusOnSale }
+                new Product { Name = "Pro ASP.NET MVC 4", Description = "AUTHOR(S): Freeman, Adam", Category = bookCategory, Price = 25.99M, Year = 2012, ReleaseDate = new DateTime(2012, 12, 27), DateAdded = DateTime.Now, ProductStatus = statusOnSale },
+                new Product { Name = "Beginning jQuery", Description = "AUTHOR(S): Franklin, Jack", Category = bookCategory, Price = 24.95M, Year = 2013, ReleaseDate = new DateTime(2013, 2, 2), DateAdded = DateTime.Now, ProductStatus = statusOnSale }
             };
             products.ForEach(s => context.Products.AddOrUpdate(p => p.Name, s));
             context.SaveChanges();

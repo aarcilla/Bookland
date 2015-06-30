@@ -87,7 +87,7 @@ namespace Bookland.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name, Description, Year, Price")]Product product, 
+        public ActionResult Create([Bind(Include = "Name, Description, Year, ReleaseDate, Price")]Product product, 
             int categoryID, int productStatusID, HttpPostedFileBase productImage)
         {
             try
@@ -156,7 +156,7 @@ namespace Bookland.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update([Bind(Include = "ProductID, Name, Description, Year, Price")]Product product,
+        public ActionResult Update([Bind(Include = "ProductID, Name, Description, ReleaseDate, Year, Price")]Product product,
             int categoryID, int productStatusID, HttpPostedFileBase productImage)
         {
             try
