@@ -96,7 +96,7 @@ namespace Bookland.Areas.Admin.Controllers
             return View(new UsersViewModel
             {
                 UserProfiles = userProfilesWithRoles
-                                    .Where(u => role == "All" || u.Role.ToUpper() == role.ToUpper()).ToList<UserProfileWithRole>(),
+                                    .Where(u => role.Equals("All") || role.Equals(u.Role, StringComparison.OrdinalIgnoreCase)).ToList<UserProfileWithRole>(),
                 RoleFilterOptions = new SelectList(new string[] { "All" }.Concat(RoleOptions()), role),
                 OrderOptions = accountHelpers.UserProfileOrderOptionsSelectList(order)
             });
