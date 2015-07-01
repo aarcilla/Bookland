@@ -37,26 +37,26 @@ namespace Bookland.DAL.Concrete
 
         public IEnumerable<Product> GetProducts(Expression<Func<Product, string>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
         {
-            List<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.ToList();
+            IEnumerable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.AsEnumerable();
 
             return !descending ? products.OrderBy(order.Compile()) : products.OrderByDescending(order.Compile());
         }
 
         public IEnumerable<Product> GetProducts(Expression<Func<Product, int>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
         {
-            List<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.ToList();
+            IEnumerable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.AsEnumerable();
 
             return !descending ? products.OrderBy(order.Compile()) : products.OrderByDescending(order.Compile());
         }
         public IEnumerable<Product> GetProducts(Expression<Func<Product, decimal>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
         {
-            List<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.ToList();
+            IEnumerable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.AsEnumerable();
 
             return !descending ? products.OrderBy(order.Compile()) : products.OrderByDescending(order.Compile());
         }
         public IEnumerable<Product> GetProducts(Expression<Func<Product, DateTime>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
         {
-            List<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.ToList();
+            IEnumerable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products.AsEnumerable();
 
             return !descending ? products.OrderBy(order.Compile()) : products.OrderByDescending(order.Compile());
         }
@@ -68,7 +68,7 @@ namespace Bookland.DAL.Concrete
 
         public Product GetProduct(string productName)
         {
-            return context.Products.FirstOrDefault(p => p.Name.ToUpper() == productName.ToUpper());
+            return context.Products.FirstOrDefault(p => productName.Equals(p.Name, StringComparison.OrdinalIgnoreCase));
         }
 
         public void CreateProduct(Product product)

@@ -18,7 +18,7 @@ namespace Bookland.DAL.Concrete
 
         public IEnumerable<Category> GetCategories()
         {
-            return context.Categories.OrderBy(c => c.CategoryName).ToList();
+            return context.Categories.OrderBy(c => c.CategoryName).AsEnumerable();
         }
 
         public Category GetCategory(int categoryID)
@@ -28,7 +28,7 @@ namespace Bookland.DAL.Concrete
 
         public Category GetCategory(string categoryName)
         {
-            return context.Categories.FirstOrDefault(c => c.CategoryName.ToUpper() == categoryName.ToUpper());
+            return context.Categories.FirstOrDefault(c => categoryName.Equals(c.CategoryName, StringComparison.OrdinalIgnoreCase));
         }
 
         public Category GetParentCategory(int categoryID)
