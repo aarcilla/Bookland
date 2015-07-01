@@ -49,6 +49,11 @@
 </div>
 
 <div class="form-row">
+    @Html.LabelFor(m => m.ReleaseDate)
+    @Model.ReleaseDate.ToShortDateString()
+</div>
+
+<div class="form-row">
     @Html.LabelFor(m => m.DateAdded)
     @Model.DateAdded.ToShortDateString()
 </div>
