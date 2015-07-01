@@ -27,7 +27,7 @@ namespace Bookland.Areas.Admin.Controllers
 
             return View(new PurchasesViewModel 
             {
-                Purchases = userPurchases,
+                Purchases = userPurchases.ToList<Purchase>(),
                 UserName = userName
             });
         }

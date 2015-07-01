@@ -23,7 +23,7 @@ namespace Bookland.Controllers
             if (userPurchases != null)
                 userPurchases = userPurchases.OrderByDescending(p => p.PurchaseDate);
 
-            return View(userPurchases);
+            return View(userPurchases.ToList<Purchase>());
         }
     }
 }

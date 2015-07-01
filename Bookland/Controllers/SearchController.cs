@@ -54,7 +54,7 @@ namespace Bookland.Controllers
 
             return View(new SearchViewModel
             {
-                SearchResults = searchResults.Skip(ItemsPerPage * (page - 1)).Take(ItemsPerPage),
+                SearchResults = searchResults.Skip(ItemsPerPage * (page - 1)).Take(ItemsPerPage).ToList<SearchResult>(),
                 SearchQuery = searchQuery,
                 CurrentPage = page,
                 TotalNumPages = totalNumPages,

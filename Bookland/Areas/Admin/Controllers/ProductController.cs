@@ -7,6 +7,7 @@ using Bookland.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -47,7 +48,7 @@ namespace Bookland.Areas.Admin.Controllers
             // Retrieve category tree of category to be filtered
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree(categoryID);
             
-            IEnumerable<Product> products = productHelpers.ProductsByOrder(productRepo, order, categoryTree);
+            var products = productHelpers.ProductsByOrder(productRepo, order, categoryTree).ToList<Product>();
 
             if (productOrder == null)
             {

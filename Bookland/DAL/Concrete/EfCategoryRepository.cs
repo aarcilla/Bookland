@@ -179,7 +179,7 @@ namespace Bookland.DAL.Concrete
         {
             var categories = context.Categories;
 
-            return (categories == null || categories.Count() <= 0);
+            return (categories == null || !categories.Any());
         }
 
         public void Commit()

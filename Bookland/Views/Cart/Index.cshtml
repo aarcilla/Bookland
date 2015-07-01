@@ -1,5 +1,5 @@
 ﻿@using Bookland.Constants
-@model IEnumerable<Bookland.Models.CartItem>
+@model List<Bookland.Models.CartItem>
 
 @{
     ViewBag.Title = "Cart";
@@ -7,7 +7,7 @@
 
 <h2>Your Cart</h2>
 
-@if (Model != null && Model.Count() > 0) {
+@if (Model != null && Model.Count > 0) {
     if (!User.Identity.IsAuthenticated)
     {
         <p>Please log in if you would like to proceed to checkout.</p>

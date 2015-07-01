@@ -22,7 +22,7 @@ namespace Bookland.Controllers
         {
             IEnumerable<CartItem> cartItems = User.Identity.IsAuthenticated ? cartRepo.GetCartItems(User.Identity.Name) : cart.CartItems;
 
-            return View(cartItems);
+            return View(cartItems.ToList<CartItem>());
         }
 
         [HttpPost]

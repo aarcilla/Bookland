@@ -35,7 +35,7 @@ namespace Bookland.Controllers
             return View(new ProductsViewModel
             {
                 Products = productHelpers.ProductsByOrder(productRepo, order, categoryTree)
-                                            .Where(p => p.ProductStatus.ProductStatusAvailable),
+                                            .Where(p => p.ProductStatus.ProductStatusAvailable).ToList<Product>(),
                 NumColumns = 3,
                 Heading = categoryTree != null ? categoryTree.Data.CategoryName : null,
                 OrderOptions = productHelpers.ProductOrderOptionsSelectList(order)
