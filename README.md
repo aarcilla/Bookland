@@ -15,6 +15,7 @@ Solidifying and practice of ASP.NET MVC, database design & development (Entity F
 
 ## Features (so far)
 Bookland is separated into two sections: the storefront and the admin section.
+
 ### Storefront
 
 #### Items
@@ -41,7 +42,7 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Update or delete categories (which also deletes descendant categories and resets categories for products under that category)
 
 #### Products
-* Create, update, or delete products
+* Create and update products
 * Set category for products
 * Add image file to associate with a product
 
@@ -57,28 +58,37 @@ Bookland is separated into two sections: the storefront and the admin section.
 * Sale (price reduction) management for products: sale time interval, generate sales by category
 * Categorised, configurable front page (e.g. featured products, on sale, recently added)
 
-## Developer setup (requires internet access)
+## Developer setup
+N.B. Requires internet access
+
+### 1. Retrieve source code
 1. Clone source code using 'git clone' command, or download as ZIP from GitHub page
-2. Open 'Bookland.sln' with at least Visual Studio 2012 Express For Web
-3. Download external NuGet packages
-	a) Visual Studio > Tools menu > NuGet Package Manager > Package Manager Settings
-	b) Under 'Package Restore' heading, ensure the 'Allow NuGet to download missing packages' check box is checked
-	c) Visual Studio > Build menu > Build Solution
-3. Configure administrator email settings (for sending password reset emails, etc.)
-	a) Open the 'Web.config' file in the main Bookland project
-	b) Under the 'appSettings' section, edit the value of each email-related setting (denoted as key, e.g. 'smtpHost') based on your nominated email provider and account
-	c) If you would rather not use or bother to configure email, set the 'emailEnabled' setting to 'false';
-	keep in mind email-reliant features, including password reset and checkout invoice, won't work
-	d) Example values (which are made up) are provided for a Gmail-based account
-4. Generate database based on project code (i.e. EF Code First)
-	a) Visual Studio > Tools menu > NuGet Package Manager > Package Manager Console
-	b) In the Package Manager Console, type 'add-migration Init' and wait until completion
-	c) Type 'update-database'
-	d) You can view the database through Visual Studio's Server Explorer > Data Connections
-5. Click on play icon in the main Visual Studio toolbar to interact with Bookland in a web browser
-	a) The initial administrator login credentials are:
-		User name: admin0
-		Password: overlord
+
+### 2. Open project
+1. Open 'Bookland.sln' with at least Visual Studio 2012 Express For Web
+
+### 3. Download external NuGet packages
+1. Visual Studio > Tools menu > NuGet Package Manager > Package Manager Settings
+2. Under 'Package Restore' heading, ensure the 'Allow NuGet to download missing packages' check box is checked
+3. Visual Studio > Build menu > Build Solution
+
+### 3. Configure administrator email settings (for sending password reset emails, etc.)
+1. Open the 'Web.config' file in the main Bookland project
+2. Under the 'appSettings' section, edit the value of each email-related setting (denoted as key, e.g. 'smtpHost') based on your nominated email provider and account
+3. If you would rather not use or bother to configure email, set the 'emailEnabled' setting to 'false'; keep in mind email-reliant features, including password reset and checkout invoice, won't work
+4. Example values (which are made up) are provided for a Gmail-based account
+
+### 4. Generate database based on project code (i.e. EF Code First)
+1. Visual Studio > Tools menu > NuGet Package Manager > Package Manager Console
+2. In the Package Manager Console, type 'add-migration Init' and wait until completion
+3. Type 'update-database'
+4. You can view the database through Visual Studio's Server Explorer > Data Connections
+
+### 5. Click on play icon in the main Visual Studio toolbar to interact with Bookland in a web browser
+The initial administrator login credentials are:
+
+* User name: admin0
+* Password: overlord
 
 ## Screenshots
 See [screens][0] folder.
