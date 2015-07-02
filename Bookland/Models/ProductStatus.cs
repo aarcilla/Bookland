@@ -9,6 +9,7 @@ namespace Bookland.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductStatusID { get; set; }
 
+        [Required]
         [Display(Name = "Status name")]
         [StringLength(30)]
         public string ProductStatusName { get; set; }
