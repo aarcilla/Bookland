@@ -50,9 +50,9 @@
                         @:<strong>Expected release date:</strong> @item.Product.ReleaseDate.ToString("D") <br />
                     }
                     @if (item.Product.Description.Length > 250) {
-                        @: @item.Product.Description.Substring(0, 250)...
+                        @:@Html.Raw(item.Product.Description.Substring(0, 250))...
                     } else {
-                        @item.Product.Description
+                        @Html.Raw(item.Product.Description)
                     }
                     <br />
                 </td>

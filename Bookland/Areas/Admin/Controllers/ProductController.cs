@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -87,12 +88,21 @@ namespace Bookland.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Name, Description, Year, ReleaseDate, Price")]Product product, 
             int categoryID, int productStatusID, HttpPostedFileBase productImage)
         {
             try
             {
+                product.Name = HttpUtility.HtmlEncode(product.Name);
+                if (product.Name.Length > product.NameMaxLength)
+                    ModelState.AddModelError("", "Name in HTML-encoded format exceeds maximum character length.");
+
+                product.Description = EncodeAndAllowSafeHtmlTags(product.Description);
+                if (product.Description.Length > product.DescriptionMaxLength)
+                    ModelState.AddModelError("", "Description in HTML-encoded format exceeds maximum character length.");
+
                 if (ModelState.IsValid)
                 {
                     if (productImage != null)
@@ -113,7 +123,7 @@ namespace Bookland.Areas.Admin.Controllers
             }
             catch (DataException)
             {
-                ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problem persists.");
+                ModelState.AddModelError("", "Unable to save changes. Please contact your system admin if problem persists.");
             }
             
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
@@ -156,12 +166,21 @@ namespace Bookland.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Update([Bind(Include = "ProductID, Name, Description, ReleaseDate, Year, Price")]Product product,
             int categoryID, int productStatusID, HttpPostedFileBase productImage)
         {
             try
             {
+                product.Name = HttpUtility.HtmlEncode(product.Name);
+                if (product.Name.Length > product.NameMaxLength)
+                    ModelState.AddModelError("", "Name in HTML-encoded format exceeds maximum character length.");
+
+                product.Description = EncodeAndAllowSafeHtmlTags(product.Description);
+                if (product.Description.Length > product.DescriptionMaxLength)
+                    ModelState.AddModelError("", "Description in HTML-encoded format exceeds maximum character length.");
+
                 if (ModelState.IsValid)
                 {
                     if (productImage != null)
@@ -181,7 +200,7 @@ namespace Bookland.Areas.Admin.Controllers
             }
             catch (DataException)
             {
-                ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problems persist.");
+                ModelState.AddModelError("", "Unable to save changes. Please contact your system admin if problems persist.");
             }
 
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
@@ -233,5 +252,19 @@ namespace Bookland.Areas.Admin.Controllers
             return RedirectToAction("Delete", new { productID = productID });
         }
         */
+
+        private string EncodeAndAllowSafeHtmlTags(string inputHtml)
+        {
+            StringBuilder inputHtmlEncoded = new StringBuilder(HttpUtility.HtmlEncode(inputHtml));
+            string[] safeTags = { "p", "b", "i", "ul", "ol", "li" };
+
+            foreach (string safeTag in safeTags)
+            {
+                inputHtmlEncoded.Replace(string.Format("&lt;{0}&gt;", safeTag), string.Format("<{0}>", safeTag));
+                inputHtmlEncoded.Replace(string.Format("&lt;/{0}&gt;", safeTag), string.Format("</{0}>", safeTag));
+            }
+
+            return inputHtmlEncoded.ToString();
+        }
     }
 }

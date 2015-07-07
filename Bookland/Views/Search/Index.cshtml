@@ -52,11 +52,12 @@
                         <a href="@Url.Action("ProductDetails", "Home", new { productID = searchResult.Product.ProductID })">
                             <strong>@searchResult.Product.Name</strong> (@searchResult.Product.Year)</a> <br />
                         @if (searchResult.Product.Description.Length > 250) {
-                            @: @searchResult.Product.Description.Substring(0, 250)...
+                            @: @Html.Raw(searchResult.Product.Description.Substring(0, 250))...
                         }
                         else {
-                            @: @searchResult.Product.Description <br />
-                        }    
+                            @: @Html.Raw(searchResult.Product.Description)
+                        }
+                        <br />
                     </td>
                     <td>
                         @string.Format("{0:c}", searchResult.Product.Price)

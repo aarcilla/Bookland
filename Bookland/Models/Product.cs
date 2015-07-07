@@ -7,15 +7,24 @@ namespace Bookland.Models
 {
     public class Product
     {
+        private const int nameMaxLength = 150;
+        private const int descriptionMaxLength = 1000;
+
+        [NotMapped]
+        public int NameMaxLength { get { return nameMaxLength; } }
+
+        [NotMapped]
+        public int DescriptionMaxLength { get { return descriptionMaxLength; } }
+
         [Display(Name = "ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductID { get; set; }
 
         [Required]
-        [StringLength(150, ErrorMessage = "Maximum of {0} characters.")]
+        [StringLength(nameMaxLength, ErrorMessage = "Maximum of {0} characters.")]
         public string Name { get; set; }
 
-        [StringLength(1000, ErrorMessage = "Maximum of {0} characters.")]
+        [StringLength(descriptionMaxLength, ErrorMessage = "Maximum of {0} characters.")]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 

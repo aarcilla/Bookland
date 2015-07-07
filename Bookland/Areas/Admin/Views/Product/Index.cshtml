@@ -34,7 +34,7 @@
     @if (Model.Products != null && Model.Products.Count > 0) {
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Product</th>
             <th><!-- Product name column --></th>
             <th>Price</th>
             <th>Status</th>
@@ -51,7 +51,10 @@
                             <img src="/Content/Images/placeholder.gif" alt="book-img" height="75" />
                         }
                     </td>
-                    <td>@product.Name</td>
+                    <td>
+                        <strong>@product.Name (@product.Year)</strong> <br />
+                        @product.Category.CategoryName
+                    </td>
                     <td>@String.Format("{0:c}", product.Price)</td>
                     <td>@product.ProductStatus.ProductStatusName</td>
                     <td>

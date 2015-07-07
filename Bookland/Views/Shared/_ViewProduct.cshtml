@@ -2,9 +2,9 @@
 @model Bookland.Models.Product
 <a href="@Url.Action("ProductDetails", "Home", new { productID = Model.ProductID })" class="image-link">
     @if (!Model.IsImageInformationNullOrEmpty) {
-        <img src="@Url.Action("GetImage", "Home", new { productID = Model.ProductID })" height="200" title="@Model.Description" alt="@Model.ProductID" />
+        <img src="@Url.Action("GetImage", "Home", new { productID = Model.ProductID })" height="200" alt="@Model.ProductID" />
     } else {
-        <img src="/Content/Images/placeholder.gif" height="200" title="@Model.Description" alt="@Model.ProductID" />
+        <img src="/Content/Images/placeholder.gif" height="200" alt="@Model.ProductID" />
     }
 </a>
 
