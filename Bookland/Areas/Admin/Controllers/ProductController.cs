@@ -17,6 +17,9 @@ namespace Bookland.Areas.Admin.Controllers
     [Authorize(Roles = "Administrator, Support, Staff")]
     public class ProductController : Controller
     {
+        private readonly string[] safeTags = { "p", "b", "i", "ul", "ol", "li" };
+        private readonly string[] safeSingleTags = { "br" };
+
         private IProductRepository productRepo;
         private ICategoryRepository categoryRepo;
         private IProductStatusRepository productStatusRepo;
@@ -148,6 +151,8 @@ namespace Bookland.Areas.Admin.Controllers
                 TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
                 IEnumerable<ProductStatus> productStatuses = productStatusRepo.GetProductStatuses();
 
+                product.Description = HttpUtility.HtmlDecode(product.Description);
+
                 return View("Editor", new ProductEditorViewModel
                 {
                     Product = product,
@@ -256,12 +261,16 @@ namespace Bookland.Areas.Admin.Controllers
         private string EncodeAndAllowSafeHtmlTags(string inputHtml)
         {
             StringBuilder inputHtmlEncoded = new StringBuilder(HttpUtility.HtmlEncode(inputHtml));
-            string[] safeTags = { "p", "b", "i", "ul", "ol", "li" };
 
             foreach (string safeTag in safeTags)
             {
                 inputHtmlEncoded.Replace(string.Format("&lt;{0}&gt;", safeTag), string.Format("<{0}>", safeTag));
                 inputHtmlEncoded.Replace(string.Format("&lt;/{0}&gt;", safeTag), string.Format("</{0}>", safeTag));
+            }
+
+            foreach (string safeSingleTag in safeSingleTags)
+            {
+                inputHtmlEncoded.Replace(string.Format("&lt;{0} /&gt;", safeSingleTag), string.Format("<{0} />", safeSingleTag));
             }
 
             return inputHtmlEncoded.ToString();
