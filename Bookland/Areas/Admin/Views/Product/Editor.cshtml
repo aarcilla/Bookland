@@ -27,7 +27,7 @@
     
     <div class="form-row">
         @Html.LabelFor(p => p.Product.Description)
-        @Html.EditorFor(p => p.Product.Description)
+        @Html.TextAreaFor(p => p.Product.Description, new { @class = "text-box multi-line", placeholder = "Supported HTML tags: p, <br />, b, i, ul, ol, li" })
         @Html.ValidationMessageFor(p => p.Product.Description)
     </div>
     
