@@ -54,9 +54,12 @@ Bookland is separated into two sections: the storefront and the admin section.
 
 ## Planned features
 * Author table and associated Product field: view products by author, different author types (e.g. artist, brand)
+* Format table and associated Product field (e.g. DVD, Blu-ray, Paperback, XBox One)
 * Stock management and processes (e.g. checkout reduces stock count of bought product)
-* Sale (price reduction) management for products: sale time interval, generate sales by category
+* Sale (price reduction) management for products: sale time interval, generate sales by category, discount type (e.g. x% off, $x off)
 * Categorised, configurable front page (e.g. featured products, on sale, recently added)
+* "Infinite scroll" pagination (utilising JS and AJAX) for Home page and admin Product page
+* Edit multiple Products at once with same field values (e.g. Status, Category)
 
 ## Developer setup
 N.B. Requires internet access
