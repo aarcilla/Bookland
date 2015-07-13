@@ -50,12 +50,12 @@
 
 <div class="form-row">
     @Html.LabelFor(m => m.ReleaseDate)
-    @Model.ReleaseDate.ToShortDateString()
+    @Model.ReleaseDate.ToString("d MMM yyyy")
 </div>
 
 <div class="form-row">
     @Html.LabelFor(m => m.DateAdded)
-    @Model.DateAdded.ToShortDateString()
+    @Model.DateAdded.ToString("d MMM yyyy")
 </div>
 
 <div>
