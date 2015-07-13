@@ -8,7 +8,7 @@ namespace Bookland.Models
     public class Product
     {
         private const int nameMaxLength = 150;
-        private const int descriptionMaxLength = 1000;
+        private const int descriptionMaxLength = 2000;
 
         [NotMapped]
         public int NameMaxLength { get { return nameMaxLength; } }
