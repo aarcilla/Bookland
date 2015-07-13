@@ -28,26 +28,7 @@ namespace Bookland.DAL.Concrete
             return products;
         }
 
-        public IEnumerable<Product> GetProducts(Expression<Func<Product, string>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
-        {
-            IQueryable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products;
-
-            return !descending ? products.OrderBy(order).ToList() : products.OrderByDescending(order).ToList();
-        }
-
-        public IEnumerable<Product> GetProducts(Expression<Func<Product, int>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
-        {
-            IQueryable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products;
-
-            return !descending ? products.OrderBy(order).ToList() : products.OrderByDescending(order).ToList();
-        }
-        public IEnumerable<Product> GetProducts(Expression<Func<Product, decimal>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
-        {
-            IQueryable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products;
-
-            return !descending ? products.OrderBy(order).ToList() : products.OrderByDescending(order).ToList();
-        }
-        public IEnumerable<Product> GetProducts(Expression<Func<Product, DateTime>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
+        public IEnumerable<Product> GetProducts<T>(Expression<Func<Product, T>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
         {
             IQueryable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products;
 

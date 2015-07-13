@@ -11,38 +11,11 @@ namespace Bookland.DAL.Abstract
         /// <summary>
         /// Retrieve all stored products, based on specified order.
         /// </summary>
-        /// <param name="order">A function specifying the property to order the products by. For string-type properties.</param>
+        /// <param name="order">A function specifying the property to order the products by.</param>
         /// <param name="descending">A Boolean specifying whether the order is descending (e.g. Z-A) or ascending (e.g. A-Z).</param>
         /// <param name="categoryFilter">Filter products by category (with its ID).</param>
         /// <returns>An enumeration of stored products, in its desired order.</returns>
-        IEnumerable<Product> GetProducts(Expression<Func<Product, string>> order, bool descending = false, TreeNode<Category> categoryFilter = null);
-
-        /// <summary>
-        /// Retrieve all stored products, based on specified order. Overloaded for integer-type properties.
-        /// </summary>
-        /// <param name="order">A function specifying the property to order the products by. For integer-type properties.</param>
-        /// <param name="descending">A Boolean specifying whether the order is descending (e.g. Z-A) or ascending (e.g. A-Z).</param>
-        /// <param name="categoryFilter">Filter products by category (with its ID).</param>
-        /// <returns>An enumeration of stored products, in its desired order.</returns>
-        IEnumerable<Product> GetProducts(Expression<Func<Product, int>> order, bool descending = false, TreeNode<Category> categoryFilter = null);
-
-        /// <summary>
-        /// Retrieve all stored products, based on specified order. Overloaded for decimal-type properties.
-        /// </summary>
-        /// <param name="order">A function specifying the property to order the products by. For decimal-type properties.</param>
-        /// <param name="descending">A Boolean specifying whether the order is descending (e.g. Z-A) or ascending (e.g. A-Z).</param>
-        /// <param name="categoryFilter">Filter products by category (with its ID).</param>
-        /// <returns>An enumeration of stored products, in its desired order.</returns>
-        IEnumerable<Product> GetProducts(Expression<Func<Product, decimal>> order, bool descending = false, TreeNode<Category> categoryFilter = null);
-
-        /// <summary>
-        /// Retrieve all stored products, based on specified order. Overloaded for DateTime-type properties.
-        /// </summary>
-        /// <param name="order">A function specifying the property to order the products by. For DateTime-type properties.</param>
-        /// <param name="descending">A Boolean specifying whether the order is descending (e.g. Z-A) or ascending (e.g. A-Z).</param>
-        /// <param name="categoryFilter">Filter products by category (with its ID).</param>
-        /// <returns>An enumeration of stored products, in its desired order.</returns>
-        IEnumerable<Product> GetProducts(Expression<Func<Product, DateTime>> order, bool descending = false, TreeNode<Category> categoryFilter = null);
+        IEnumerable<Product> GetProducts<T>(Expression<Func<Product, T>> order, bool descending = false, TreeNode<Category> categoryFilter = null);
 
         /// <summary>
         /// Retrieve a specific product, based on ID.
