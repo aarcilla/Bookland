@@ -15,7 +15,7 @@ namespace Bookland.Infrastructure
             if (emailEnabled)
                 Bind<IMailHelpers>().To<MailHelpers>();
             else
-                Bind<IMailHelpers>().To<MockEmailHelpers>();
+                Bind<IMailHelpers>().To<DisabledEmailHelpers>();
 
             Bind<IMvcHelpers>().To<MvcHelpers>();
 
