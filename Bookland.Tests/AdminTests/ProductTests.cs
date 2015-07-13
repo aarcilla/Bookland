@@ -411,7 +411,7 @@ namespace Bookland.Tests.AdminTests
 
             // ASSERT
             // Ensure that the model error was successfully added and that the the model state is invalid
-            Assert.IsNotNull(controller.ModelState["DbError"]);
+            Assert.IsTrue(controller.ModelState.Count > 0);
             Assert.IsFalse(controller.ModelState.IsValid);
         }
 
