@@ -147,6 +147,7 @@ namespace Bookland.DAL.Concrete
         {
             Category category = GetCategory(categoryID);
             Category parent = GetParentCategory(category.CategoryID);
+            Category rootCategory = GetCategory(1);
 
             // Remove the the specified category's child listing from its parent
             parent.ChildCategories.Remove(category);
@@ -160,16 +161,18 @@ namespace Bookland.DAL.Concrete
                 foreach (Category cat in childCategories)
                 {
                     // For each Product associated with this to-be-removed child Category, set its Category to the root node (i.e. unspecified)
-                    List<Product> childCategoryProducts = context.Products.Where(p => p.Category.CategoryID == cat.CategoryID).ToList();
-                    childCategoryProducts.ForEach(p => p.Category = GetCategory(1));
+                    IEnumerable<Product> childCategoryProducts = context.Products.Where(p => p.Category.CategoryID == cat.CategoryID);
+                    foreach (Product product in childCategoryProducts)
+                        product.Category = rootCategory;
 
                     context.Categories.Remove(cat);
                 }
             }
 
             // For each Product associated with this to-be-removed Category, set its Category to the root node (i.e. unspecified)
-            List<Product> categoryProducts = context.Products.Where(p => p.Category.CategoryID == category.CategoryID).ToList();
-            categoryProducts.ForEach(p => p.Category = GetCategory(1));
+            IEnumerable<Product> categoryProducts = context.Products.Where(p => p.Category.CategoryID == category.CategoryID);
+            foreach (Product product in categoryProducts)
+                product.Category = rootCategory;
 
             // Delete the specified category
             context.Categories.Remove(category);
