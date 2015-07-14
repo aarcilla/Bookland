@@ -2,7 +2,9 @@
 using Bookland.DAL.Abstract;
 using Bookland.Data_Structures;
 using Bookland.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 
@@ -46,39 +48,39 @@ namespace Bookland.Helpers
         /// <param name="order">The order identifier (e.g. 'name_desc' = order by product names descending).</param>
         /// <param name="categoryTree">A category tree, where the root node is the category to be filtered, along with its descendants.</param>
         /// <returns>An enumeration of products in the desired order.</returns>
-        public IEnumerable<Product> ProductsByOrder(IProductRepository productRepo, string order, TreeNode<Category> categoryTree = null)
+        public IEnumerable<Product> ProductsByOrder(IProductRepository productRepo, string order, TreeNode<Category> categoryTree = null, Expression<Func<Product, bool>> where = null)
         {
             IEnumerable<Product> products;
             switch (order)
             {
                 case ProductOrderOptions.NameAsc:
-                    products = productRepo.GetProducts(p => p.Name, categoryFilter: categoryTree);
+                    products = productRepo.GetProducts(p => p.Name, categoryFilter: categoryTree, where: where);
                     break;
                 case ProductOrderOptions.NameDesc:
-                    products = productRepo.GetProducts(p => p.Name, true, categoryTree);
+                    products = productRepo.GetProducts(p => p.Name, true, categoryTree, where);
                     break;
                 case ProductOrderOptions.IdAsc:
-                    products = productRepo.GetProducts(p => p.ProductID, categoryFilter: categoryTree);
+                    products = productRepo.GetProducts(p => p.ProductID, categoryFilter: categoryTree, where: where);
                     break;
                 case ProductOrderOptions.IdDesc:
-                    products = productRepo.GetProducts(p => p.ProductID, true, categoryTree);
+                    products = productRepo.GetProducts(p => p.ProductID, true, categoryTree, where);
                     break;
                 case ProductOrderOptions.PriceAsc:
-                    products = productRepo.GetProducts(p => p.Price, categoryFilter: categoryTree);
+                    products = productRepo.GetProducts(p => p.Price, categoryFilter: categoryTree, where: where);
                     break;
                 case ProductOrderOptions.PriceDesc:
-                    products = productRepo.GetProducts(p => p.Price, true, categoryTree);
+                    products = productRepo.GetProducts(p => p.Price, true, categoryTree, where);
                     break;
                 case ProductOrderOptions.DateAddedAsc:
-                    products = productRepo.GetProducts(p => p.DateAdded, categoryFilter: categoryTree);
+                    products = productRepo.GetProducts(p => p.DateAdded, categoryFilter: categoryTree, where: where);
                     break;
                 case ProductOrderOptions.DateAddedDesc:
-                    products = productRepo.GetProducts(p => p.DateAdded, true, categoryTree);
+                    products = productRepo.GetProducts(p => p.DateAdded, true, categoryTree, where);
                     break;
                 case null:
                     throw new System.ArgumentNullException("order", "order cannot be null.");
                 default:
-                    products = productRepo.GetProducts(p => p.Name, categoryFilter: categoryTree);
+                    products = productRepo.GetProducts(p => p.Name, categoryFilter: categoryTree, where: where);
                     break;
             }
 

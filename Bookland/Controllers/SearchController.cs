@@ -30,8 +30,7 @@ namespace Bookland.Controllers
                 return RedirectToAction("Index", "Home");
             }
             
-            IEnumerable<Product> searchableProducts = productRepo.GetProducts(p => p.ProductID)
-                                                        .Where(p => p.ProductStatus.ProductStatusAvailable
+            IEnumerable<Product> searchableProducts = productRepo.GetProducts<object>(where: p => p.ProductStatus.ProductStatusAvailable
                                                             || (includeDiscontinued && p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.Discontinued)));
 
             IEnumerable<SearchResult> searchResults = searchHelpers.Search(searchableProducts, searchQuery);

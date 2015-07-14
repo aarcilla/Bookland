@@ -28,11 +28,18 @@ namespace Bookland.DAL.Concrete
             return products;
         }
 
-        public IEnumerable<Product> GetProducts<T>(Expression<Func<Product, T>> order, bool descending = false, TreeNode<Category> categoryFilter = null)
+        public IEnumerable<Product> GetProducts<T>(Expression<Func<Product, T>> order = null, bool descending = false,
+                                                            TreeNode<Category> categoryFilter = null, Expression<Func<Product, bool>> where = null)
         {
             IQueryable<Product> products = categoryFilter != null ? GetProductsByCategory(categoryFilter) : context.Products;
+            
+            if (where != null)
+                products = products.Where(where);
 
-            return !descending ? products.OrderBy(order).ToList() : products.OrderByDescending(order).ToList();
+            if (order != null)
+                return !descending ? products.OrderBy(order).ToList() : products.OrderByDescending(order).ToList();
+            else
+                return products.ToList();
         }
 
         public Product GetProduct(int productID)

@@ -27,7 +27,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.NameAsc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.Name, false, null));
+            mockProductRepository.Verify(m => m.GetProducts(p => p.Name, false, null, null));
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.NameDesc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.Name, true, null));
+            mockProductRepository.Verify(m => m.GetProducts(p => p.Name, true, null, null));
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.IdAsc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.ProductID, false, null));
+            mockProductRepository.Verify(m => m.GetProducts(p => p.ProductID, false, null, null));
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.IdDesc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.ProductID, true, null));
+            mockProductRepository.Verify(m => m.GetProducts(p => p.ProductID, true, null, null));
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.PriceAsc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.Price, false, null));
+            mockProductRepository.Verify(m => m.GetProducts(p => p.Price, false, null, null));
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.PriceDesc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.Price, true, null));
+            mockProductRepository.Verify(m => m.GetProducts(p => p.Price, true, null, null));
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.DateAddedAsc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.DateAdded, false, null));
+            mockProductRepository.Verify(m => m.GetProducts<DateTime>(p => p.DateAdded, false, null, null));
         }
 
         [TestMethod]
@@ -118,7 +118,7 @@ namespace Bookland.Tests
             productHelpers.ProductsByOrder(mockProductRepository.Object, ProductOrderOptions.DateAddedDesc);
 
             // ASSERT
-            mockProductRepository.Verify(m => m.GetProducts(p => p.DateAdded, true, null));
+            mockProductRepository.Verify(m => m.GetProducts(p => p.DateAdded, true, null, null));
         }
 
         [TestMethod]

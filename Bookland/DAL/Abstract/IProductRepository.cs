@@ -9,13 +9,15 @@ namespace Bookland.DAL.Abstract
     public interface IProductRepository : IDisposable
     {
         /// <summary>
-        /// Retrieve all stored products, based on specified order.
+        /// Retrieve all stored products, optionally based on specified order, category filter and/or specified criteria.
         /// </summary>
-        /// <param name="order">A function specifying the property to order the products by.</param>
-        /// <param name="descending">A Boolean specifying whether the order is descending (e.g. Z-A) or ascending (e.g. A-Z).</param>
-        /// <param name="categoryFilter">Filter products by category (with its ID).</param>
+        /// <param name="order">An optional expression of a function specifying the property to order the products by.</param>
+        /// <param name="descending">An optional Boolean specifying whether the order is descending (e.g. Z-A) or ascending (e.g. A-Z).</param>
+        /// <param name="categoryFilter">Optionally filter products by category (with its ID).</param>
+        /// <param name="where">An optional expression of a function specifying the Product-associated criteria that must be met.</param>
         /// <returns>An enumeration of stored products, in its desired order.</returns>
-        IEnumerable<Product> GetProducts<T>(Expression<Func<Product, T>> order, bool descending = false, TreeNode<Category> categoryFilter = null);
+        IEnumerable<Product> GetProducts<T>(Expression<Func<Product, T>> order = null, bool descending = false,
+                                                TreeNode<Category> categoryFilter = null, Expression<Func<Product, bool>> where = null);
 
         /// <summary>
         /// Retrieve a specific product, based on ID.
