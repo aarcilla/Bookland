@@ -136,7 +136,7 @@ namespace Bookland.Controllers
                 }
                 catch (DataException)
                 {
-                    ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problem persists.");
+                    ModelState.AddModelError("", "Unable to save changes. Please contact your system admin if problem persists.");
                 }
             }
 
@@ -247,7 +247,7 @@ namespace Bookland.Controllers
                 }
                 catch (DataException)
                 {
-                    ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problems persist.");
+                    ModelState.AddModelError("", "Unable to save changes. Please contact your system admin if problems persist.");
                 }
             }
 

@@ -78,7 +78,7 @@ namespace Bookland.Areas.Admin.Controllers
             }
             catch (DataException)
             {
-                ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problems persist.");
+                ModelState.AddModelError("", "Unable to save changes. Please contact your system admin if problems persist.");
             }
 
             TreeNode<Category> categoryTree = categoryRepo.GetCategoryTree();
@@ -131,7 +131,7 @@ namespace Bookland.Areas.Admin.Controllers
             }
             catch (DataException)
             {
-                ModelState.AddModelError("DbError", "Unable to save changes. Please contact your system admin if problems persist.");
+                ModelState.AddModelError("", "Unable to save changes. Please contact your system admin if problems persist.");
             }
 
             TreeNode<Category> categoryTreeNode = categoryRepo.GetCategoryTree();
