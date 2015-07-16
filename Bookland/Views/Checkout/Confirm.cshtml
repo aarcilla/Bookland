@@ -16,7 +16,7 @@
                 <th class="prod-col">Product</th>
                 <th class="prc-col">Price</th>
                 <th class="quant-col">Quantity</th>
-                <th class="prc-quant-col">Combined</th>
+                <th class="prc-quant-col">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +34,7 @@
                     <td>@string.Format("{0:c}", cartItem.GetCartItemPrice())</td>
                 </tr>
             }
+            <tr><td colspan="3"></td><td><strong>@string.Format("{0:c}", Model.UserCart.GetTotalPrice())</strong></td></tr>
         </tbody>
     </table>
 </p>
@@ -60,6 +61,7 @@
     @Model.DeliveryAddress.Country <br />
     @Model.DeliveryAddress.Postcode <br />
 </p>
+<p>An invoice will be sent to your email inbox upon successful checkout.</p>
 <span style="float: left">
     @using (Html.BeginForm("ConfirmCheckout", "Checkout"))
     {

@@ -40,7 +40,8 @@
 
 <div class="form-row">
     @Html.LabelFor(m => m.ProductStatus)
-    @Model.ProductStatus.ProductStatusName
+    @{ string prodStatusClass = Model.ProductStatus.ProductStatusAvailable ? "prodstatus-available" : "prodstatus-unavailable"; }
+    <span class="@prodStatusClass">@Model.ProductStatus.ProductStatusName</span>
 </div>
 
 <div class="form-row">

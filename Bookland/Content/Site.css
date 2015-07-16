@@ -208,15 +208,15 @@ td.image-col, td.actions-col {
 }
 
 table#checkout-confirm-table {
-    width: 70%;
+    width: 85%;
 }
 
 th.prod-col {
-    width: 40%;
+    width: 55%;
 }
 
 th.prc-col, th.quant-col, th.prc-quant-col {
-    width: 20%;
+    width: 15%;
 }
 
 table#purchase-history-table {
@@ -401,4 +401,12 @@ div#details-image {
 
 a.image-link {
     text-decoration: none;
+}
+
+.prodstatus-available {
+    color: green;
+}
+
+.prodstatus-unavailable {
+    color: red;
 }
