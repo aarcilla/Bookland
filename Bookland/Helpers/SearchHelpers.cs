@@ -9,20 +9,20 @@ namespace Bookland.Helpers
     {
         private static readonly char[] Separators = { ' ', ',', '.', ';', ':', '#', '+', '/', '(', ')', '[', ']', '{', '}', '|' };
 
-        public IEnumerable<SearchResult> Search(IEnumerable<Product> products, string searchQuery, bool deepSearchAllowed = false)
+        public IEnumerable<SearchResult> Search(IEnumerable<Product> products, string searchQuery, decimal? termMatchRatioMinimum = null, bool deepSearchAllowed = false)
         {
             var searchTerms = new HashSet<string>(searchQuery.Split(Separators), StringComparer.OrdinalIgnoreCase);
             RemoveArbitraryTerms(searchTerms);
 
             var searchResults = new Dictionary<string, SearchResult>();
 
-            Action<Dictionary<string, SearchResult>, Product, int, bool> increaseProductWeight = 
-                (results, product, weight, incompleteMatch) => {
+            Action<Dictionary<string, SearchResult>, Product, int, decimal> increaseProductWeight = 
+                (results, product, weight, matchRatio) => {
                     SearchResult result = results.ContainsKey(product.Name)
                         ? results[product.Name] : new SearchResult(product);
 
                     result.SimiliarityWeight += weight;
-                    result.IncompleteMatch = incompleteMatch;
+                    result.TermMatchRatio = matchRatio;
                     results[product.Name] = result;
                 };
 
@@ -32,7 +32,8 @@ namespace Bookland.Helpers
 
                 int basicSearchWeight = BasicProductSearchResultWeight(searchTerms, product, out alreadyMatchedSearchTerms);
                 if (basicSearchWeight > 0)
-                    increaseProductWeight(searchResults, product, basicSearchWeight, alreadyMatchedSearchTerms.Count < searchTerms.Count);
+                    increaseProductWeight(searchResults, product, basicSearchWeight, 
+                                            (decimal)alreadyMatchedSearchTerms.Count/(decimal)searchTerms.Count);
 
                 // If search on a term-to-term basis wasn't fulfilling enough, do a deeper search 
                 // (i.e. search across whole product name and description without regard to spaces)
@@ -46,13 +47,27 @@ namespace Bookland.Helpers
                             alreadyMatchedSearchTerms.Add(searchTerm);
                             int deepSearchWeight = DeepProductSearchResultWeight(searchTerm, product);
                             if (deepSearchWeight > 0)
-                                increaseProductWeight(searchResults, product, deepSearchWeight, alreadyMatchedSearchTerms.Count < searchTerms.Count);
+                                increaseProductWeight(searchResults, product, deepSearchWeight, 
+                                                        (decimal)alreadyMatchedSearchTerms.Count / (decimal)searchTerms.Count);
                         }
                     }
                 }
             }
 
-            return searchResults.Values.OrderBy(sr => sr.IncompleteMatch)
+            if (termMatchRatioMinimum.HasValue)
+            {
+                var resultsBelowTermMatchRatioMinimum = new List<string>();
+                foreach (var result in searchResults)
+                {
+                    if (result.Value.TermMatchRatio < termMatchRatioMinimum.Value)
+                        resultsBelowTermMatchRatioMinimum.Add(result.Key);
+                }
+
+                foreach (string failedResultKey in resultsBelowTermMatchRatioMinimum)
+                    searchResults.Remove(failedResultKey);
+            }
+
+            return searchResults.Values.OrderByDescending(sr => sr.TermMatchRatio)
                                         .ThenByDescending(sr => sr.SimiliarityWeight)
                                         .AsEnumerable<SearchResult>();
         }

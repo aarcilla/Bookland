@@ -20,14 +20,14 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.SearchResults[0].IncompleteMatch && Model.CurrentPage == 1)
+            @if (Model.SearchResults[0].TermMatchRatio < 1.0M && Model.CurrentPage == 1)
             {
                 <tr><td colspan="4">No complete matches found.</td></tr>
             }
 
             @foreach (var searchResult in Model.SearchResults)
             {
-                if (searchResult.IncompleteMatch && !incompleteMatchesHeading)
+                if (searchResult.TermMatchRatio < 1.0M && !incompleteMatchesHeading)
                 {
                     // All following search results in current iteration are incomplete matches (due to sort order), 
                     // so include a sub-heading insinuating it

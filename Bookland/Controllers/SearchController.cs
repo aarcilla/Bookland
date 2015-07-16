@@ -15,6 +15,7 @@ namespace Bookland.Controllers
         private ISearchHelpers searchHelpers;
 
         private const int ItemsPerPage = 5;
+        private const decimal TermMatchRatioMinimum = 0.5M;
 
         public SearchController(IProductRepository productRepo, ISearchHelpers searchHelpers)
         {
@@ -33,7 +34,7 @@ namespace Bookland.Controllers
             IEnumerable<Product> searchableProducts = productRepo.GetProducts<object>(where: p => p.ProductStatus.ProductStatusAvailable
                                                             || (includeDiscontinued && p.ProductStatus.ProductStatusName.Equals(ProductStatusOptions.Discontinued)));
 
-            IEnumerable<SearchResult> searchResults = searchHelpers.Search(searchableProducts, searchQuery);
+            IEnumerable<SearchResult> searchResults = searchHelpers.Search(searchableProducts, searchQuery, TermMatchRatioMinimum);
 
             int searchResultsCount = searchResults.Count();
             int totalNumPages = (int)Math.Ceiling((decimal)searchResultsCount / (decimal)ItemsPerPage);

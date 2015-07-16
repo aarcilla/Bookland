@@ -176,7 +176,7 @@ namespace Bookland.Tests
             string query = "query";
 
             // ACT 
-            var result = searchHelperTests.Search(testProducts, query, true).ToArray<SearchResult>();
+            var result = searchHelperTests.Search(testProducts, query, null, true).ToArray<SearchResult>();
 
             // ASSERT
             Assert.IsTrue(result != null && result.Length > 0);
@@ -191,7 +191,7 @@ namespace Bookland.Tests
             string query = "query";
 
             // ACT 
-            var result = searchHelperTests.Search(testProducts, query, false).ToArray<SearchResult>();
+            var result = searchHelperTests.Search(testProducts, query, null, false).ToArray<SearchResult>();
 
             // ASSERT
             Assert.IsTrue(result == null || result.Length <= 0);
@@ -204,7 +204,7 @@ namespace Bookland.Tests
             string query = "debu";
 
             // ACT
-            var result = searchHelperTests.Search(testProducts, query, true).ToArray<SearchResult>();
+            var result = searchHelperTests.Search(testProducts, query, null, true).ToArray<SearchResult>();
 
             // ASSERT
             Assert.IsTrue(result != null && result.Length > 0);
@@ -219,7 +219,7 @@ namespace Bookland.Tests
             string query = "debu";
 
             // ACT
-            var result = searchHelperTests.Search(testProducts, query, false).ToArray<SearchResult>();
+            var result = searchHelperTests.Search(testProducts, query, null, false).ToArray<SearchResult>();
 
             // ASSERT
             Assert.IsTrue(result == null || result.Length <= 0);
@@ -232,7 +232,7 @@ namespace Bookland.Tests
             var query = "untrue";
 
             // ACT
-            var result = searchHelperTests.Search(testProducts, query, true).ToArray<SearchResult>();
+            var result = searchHelperTests.Search(testProducts, query, null, true).ToArray<SearchResult>();
 
             // ASSERT
             Assert.IsTrue(result != null && result.Length > 0);

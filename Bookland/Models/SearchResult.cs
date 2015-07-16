@@ -6,12 +6,13 @@
         {
             Product = product;
             SimiliarityWeight = 0;
+            TermMatchRatio = 0.0M;
         }
 
         public Product Product { get; set; }
 
         public int SimiliarityWeight { get; set; }
 
-        public bool IncompleteMatch { get; set; }
+        public decimal TermMatchRatio { get; set; }
     }
 }
