@@ -97,6 +97,6 @@ The initial administrator login credentials are:
 * Password: overlord
 
 ## Screenshots
-See [screens][0] folder.
+Available for view and download at [this][0] gallery.
 
- [0]: https://github.com/aarcilla/Bookland/tree/master/screens
+ [0]: https://www.dropbox.com/sh/dj3iqw0dpl13h5h/AAArf0o7dFAFYSMeBzXHebvza?dl=0
