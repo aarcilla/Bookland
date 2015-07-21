@@ -15,6 +15,8 @@ namespace Bookland.Tests
         private Category computingCategory = new Category { CategoryName = "Books", CategoryDescription = "Books about computers.", CategoryLevel = 3 };
         private Category electronicCategory = new Category { CategoryName = "Electronic", CategoryDescription = "Electronic music CDs.", CategoryLevel = 3 };
         private Category medicalScienceCategory = new Category { CategoryName = "Medical Science", CategoryDescription = "Medical science books.", CategoryLevel = 3 };
+        private Category rpgCategory = new Category { CategoryName = "Role-playing game (RPG)", CategoryDescription = "Role-playing video games", CategoryLevel = 3 };
+        private Category scifiBookCategory = new Category { CategoryName = "Sci-fi", CategoryDescription = "Sci-fi books.", CategoryLevel = 3 };
         private List<Product> testProducts = new List<Product>();
 
         public SearchHelperTests()
@@ -25,6 +27,12 @@ namespace Bookland.Tests
             testProducts.Add(new Product { ProductID = 4, Name = "Burial - Untrue", Description = "ARTIST(S): Burial; Burial's 2007 sophomore album", Category = electronicCategory, Price = 7.99M, Year = 2007, DateAdded = DateTime.Now });
             testProducts.Add(new Product { ProductID = 5, Name = "Burial - Burial", Description = "ARTIST(S): Burial; Burial's 2006 debut album", Category = electronicCategory, Price = 7.99M, Year = 2006, DateAdded = DateTime.Now });
             testProducts.Add(new Product { ProductID = 6, Name = "X-Ray Technology", Description = "A comprehensive look into the history and wonders of x-ray tech.", Category = medicalScienceCategory, Price = 15.99M, Year = 2012, DateAdded = DateTime.Now });
+            testProducts.Add(new Product { ProductID = 7, Name = "Fallout 4 (PC)", Description = "2015 open-world RPG set in post-apocalyptic Boston.", Category = rpgCategory, Price = 79.99M, Year = 2015, DateAdded = DateTime.Now });
+            testProducts.Add(new Product { ProductID = 8, Name = "The Witcher 2: Assassins of Kings (PC)", Description = "2012 fantasy RPG.", Category = rpgCategory, Price = 19.99M, Year = 2012, DateAdded = DateTime.Now });
+            testProducts.Add(new Product { ProductID = 9, Name = "The Witcher 3: Wild Hunt (PC)", Description = "2015 fantasy RPG.", Category = rpgCategory, Price = 59.99M, Year = 2015, DateAdded = DateTime.Now });
+            testProducts.Add(new Product { ProductID = 10, Name = "Mass Effect 2 (PC)", Description = "2010 action sci-fi RPG.", Category = rpgCategory, Price = 19.99M, Year = 2010, DateAdded = DateTime.Now });
+            testProducts.Add(new Product { ProductID = 11, Name = "Mass Effect 3 (PC)", Description = "2012 action sci-fi RPG.", Category = rpgCategory, Price = 24.99M, Year = 2012, DateAdded = DateTime.Now });
+            testProducts.Add(new Product { ProductID = 12, Name = "Mass Effect: Ascension", Description = "2008 sci-fi novel.", Category = scifiBookCategory, Price = 9.99M, Year = 2008, DateAdded = DateTime.Now });
         }
 
         [TestMethod]
@@ -260,20 +268,59 @@ namespace Bookland.Tests
         }
 
         [TestMethod]
-        public void Search_Success_MultipleMatches_DescendingOrder()
+        public void Search_Success_MultipleMatches_DescendingSimilarityWeightOrder()
         {
             // ARRANGE
-            string query = "ASP.NET";
+            string query = "mass effect 2";
 
             // ACT
             var result = searchHelperTests.Search(testProducts, query).ToArray<SearchResult>();
 
             // ASSERT
             Assert.IsTrue(result != null && result.Length > 0);
-            Assert.IsTrue(result[0].Product.ProductID == 1);
-            Assert.IsTrue(result[0].SimiliarityWeight == 6);    // "ASP" and "NET" term matches
-            Assert.IsTrue(result[1].Product.ProductID == 2);
-            Assert.IsTrue(result[1].SimiliarityWeight == 3);    // "NET" term matches
+            Assert.IsTrue(result[0].Product.ProductID == 10);
+            Assert.IsTrue(result[0].SimiliarityWeight == 9);    // "ass", "effect" and "2" term matches
+            Assert.IsTrue(result[1].Product.ProductID == 11);
+            Assert.IsTrue(result[1].SimiliarityWeight == 6);    // "mass" and "effect" term matches
+        }
+
+        #endregion
+
+        #region Term match ratio minimum tests
+
+        public void Search_Success_TwoSearchTerms_CompleteMatchesOnly()
+        {
+            // ARRANGE
+            string query = "witcher pc";
+
+            // ACT
+            var result = searchHelperTests.Search(testProducts, query, 0.5M).ToArray<SearchResult>();
+
+            // ASSERT
+            // Results don't consist of any non-"Witcher" products with "PC" in their name
+            Assert.IsTrue(result != null && result.Length == 2);
+            Assert.IsTrue(result.Any(s => s.Product.ProductID == 8));
+            Assert.IsTrue(result.Any(s => s.Product.ProductID == 9));
+        }
+
+        public void Search_Success_ThreeSearchTerms_HalfTermMatchRatioMinimum()
+        {
+            // ARRANGE
+            string query = "mass effect pc";
+            decimal termMatchRatioMinimum = 0.5M;
+
+            // ACT
+            var result = searchHelperTests.Search(testProducts, query, termMatchRatioMinimum).ToArray<SearchResult>();
+
+            // ASSERT
+            // All results have at least 2 out of 3 term matches (i.e. over the 0.5 term match ratio)
+            Assert.IsTrue(result != null && result.Length == 3);
+            Assert.IsTrue(result[0].Product.ProductID == 10 || result[0].Product.ProductID == 11);
+            Assert.IsTrue(result[0].TermMatchRatio == 1.0M);
+            Assert.IsTrue(result[1].Product.ProductID == 10 || result[1].Product.ProductID == 11);
+            Assert.IsTrue(result[1].TermMatchRatio == 1.0M);
+            Assert.IsTrue(result[2].Product.ProductID == 12);
+            Assert.IsTrue(result[2].TermMatchRatio == (2.0M / 3.0M));
         }
 
         #endregion

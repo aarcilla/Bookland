@@ -54,6 +54,11 @@ namespace Bookland.Helpers
                 }
             }
 
+            // Term match ratio minimum threshold only applies if there are 3 or more search terms;
+            // otherwise all terms should match
+            if (searchTerms.Count == 2)
+                termMatchRatioMinimum = 1.0M;
+
             if (termMatchRatioMinimum.HasValue)
             {
                 var resultsBelowTermMatchRatioMinimum = new List<string>();
@@ -98,10 +103,11 @@ namespace Bookland.Helpers
                 }
             }
 
-            if (searchTerms.Contains(product.Year.ToString()))
+            string yearString = product.Year.ToString();
+            if (searchTerms.Contains(yearString))
             {
                 currentSearchWeight += 1;
-                alreadyMatchedSearchTerms.Add(product.Year.ToString());
+                alreadyMatchedSearchTerms.Add(yearString);
             }
 
             return currentSearchWeight;
